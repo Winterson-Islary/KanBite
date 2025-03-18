@@ -27,6 +27,6 @@
 		"typescript": "^5"
 	},
 	"lint-staged": {
-		"*.ts,*.tsx": ["bun run format:fix"]
+		"**/*.{ts,tsx}": ["bun run format:fix"]
 	}
 }
