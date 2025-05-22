@@ -1,6 +1,10 @@
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "@/src/styles/globals.css";
 import Navbar from "@/src/components/ui/navbar";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Kanbite",
@@ -14,8 +18,8 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body>
-				<main className="min-h-screen grid [grid-template-rows:auto_1fr_auto] px-[2rem] md:px-[5rem] lg:px-[10rem]">
+			<body className={cn(inter.className, "antialiased")}>
+				<main className="min-h-screen  max-w-screen-2xl mx-auto grid [grid-template-rows:auto_1fr_auto] px-[2rem] md:px-[5rem] lg:px-[10rem]">
 					<header>
 						<Navbar />
 					</header>
