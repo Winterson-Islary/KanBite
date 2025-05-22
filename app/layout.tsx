@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "@/src/styles/globals.css";
-
-const geistSans = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
-});
+import Navbar from "@/src/components/ui/navbar";
 
 export const metadata: Metadata = {
 	title: "Kanbite",
@@ -24,10 +14,14 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-			>
-				{children}
+			<body>
+				<main className="min-h-screen grid [grid-template-rows:auto_1fr_auto] px-[2rem] md:px-[5rem] lg:px-[10rem]">
+					<header>
+						<Navbar />
+					</header>
+					<article>{children}</article>
+					<footer>Footer</footer>
+				</main>
 			</body>
 		</html>
 	);
