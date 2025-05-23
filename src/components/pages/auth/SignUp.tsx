@@ -9,13 +9,43 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/src/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormMessage,
+} from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { z } from "zod";
 
+const signUpSchema = z.object({
+	username: z.string().nonempty("Required"),
+	email: z.string().email().nonempty(),
+	password: z
+		.string()
+		.nonempty("Required")
+		.min(8, "Minimum 8 characters")
+		.max(256, "Maximum 256 characters"),
+});
 function SignUp() {
+	const form = useForm<z.infer<typeof signUpSchema>>({
+		resolver: zodResolver(signUpSchema),
+		defaultValues: {
+			username: "",
+			email: "",
+			password: "",
+		},
+	});
+	const onSubmit = (values: z.infer<typeof signUpSchema>) => {
+		console.log({ values });
+	};
 	return (
 		<main>
 			<section className="min-h-[90vh] grid place-items-center">
@@ -24,43 +54,84 @@ function SignUp() {
 						<CardTitle className="text-3xl">Sign Up</CardTitle>
 						<CardDescription>
 							By signing up, you agree to our{" "}
-							<Link href={"/privacy"}>
+							<Link href={"/privacy"} className="hover:underline">
 								<span className="text-blue-700">Privacy Policy</span>
 							</Link>
 							and{" "}
-							<Link href={"/terms"}>
+							<Link href={"/terms"} className="hover:underline">
 								<span className="text-blue-700">Terms of Service</span>
 							</Link>
 						</CardDescription>
 					</CardHeader>
 					<Separator />
-					<CardContent className="flex flex-col gap-4">
-						<Input
-							required
-							type="text"
-							value={""}
-							placeholder="Enter username"
-							onChange={() => {}}
-						/>
-						<Input
-							required
-							type="email"
-							value={""}
-							placeholder="Enter email address"
-							onChange={() => {}}
-						/>
-						<Input
-							required
-							type="password"
-							value={""}
-							placeholder="Enter password"
-							onChange={() => {}}
-							min={8}
-							max={256}
-						/>
-						<Button className="w-full mt-2 hover:cursor-pointer">
-							Sign up
-						</Button>
+					<CardContent className="flex flex-col gap-3">
+						<Form {...form}>
+							<form
+								action="submit"
+								onSubmit={form.handleSubmit(onSubmit)}
+								className="flex flex-col gap-4"
+							>
+								<FormField
+									name="username"
+									render={({ field }) => (
+										<FormItem>
+											<FormControl>
+												<Input
+													type="text"
+													placeholder="Enter username"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									name="email"
+									render={({ field }) => (
+										<FormItem>
+											<FormControl>
+												<Input
+													type="email"
+													placeholder="Enter email address"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									name="password"
+									render={({ field }) => (
+										<FormItem>
+											<FormControl>
+												<Input
+													type="password"
+													placeholder="Enter password"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<Button className="w-full mt-2 hover:cursor-pointer">
+									Sign up
+								</Button>
+							</form>
+						</Form>
+						<footer className="text-sm flex justify-center items-center">
+							<span>
+								Already signed up?{" "}
+								<Link
+									href={"/sign-in"}
+									className="text-blue-700 hover:underline"
+								>
+									Login
+								</Link>
+							</span>
+						</footer>
 					</CardContent>
 					<Separator />
 					<CardFooter className="flex flex-col gap-2 max-w-[250px] mx-auto">
@@ -71,7 +142,7 @@ function SignUp() {
 							size="lg"
 						>
 							<FcGoogle />
-							Login with Google
+							Sign up with Google
 						</Button>
 						<Button
 							disabled={false}
@@ -80,7 +151,7 @@ function SignUp() {
 							size="lg"
 						>
 							<FaGithub />
-							Login with Github
+							Sign up with Github
 						</Button>
 					</CardFooter>
 				</Card>
