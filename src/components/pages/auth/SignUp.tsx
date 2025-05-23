@@ -26,7 +26,7 @@ import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
 
 const signUpSchema = z.object({
-	username: z.string().nonempty("Required"),
+	username: z.string().trim().nonempty("Required"),
 	email: z.string().email().nonempty(),
 	password: z
 		.string()

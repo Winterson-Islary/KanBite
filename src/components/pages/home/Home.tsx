@@ -6,9 +6,9 @@ function Home() {
 		<main>
 			<h1>This is the Home Page</h1>
 			<div>
-				<Link href={"/sign-in"}>
-					<Button className="hover:cursor-pointer">Sign In</Button>
-				</Link>
+				<Button asChild className="hover:cursor-pointer">
+					<Link href={"/sign-in"}>Sign In</Link>
+				</Button>
 			</div>
 		</main>
 	);
