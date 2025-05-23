@@ -1,4 +1,5 @@
 "use client";
+import { z } from "zod";
 
 import { Button } from "@/src/components/ui/button";
 import {
@@ -9,13 +10,38 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/src/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormMessage,
+} from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
-import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
+/* Zod Schema for sign-in input form */
+const signInSchema = z.object({
+	email: z.string().email(),
+	password: z.string().min(8).max(256),
+});
+/*END*/
+
 function SignIn() {
+	const form = useForm<z.infer<typeof signInSchema>>({
+		resolver: zodResolver(signInSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+		},
+	});
+	const onSubmit = (values: z.infer<typeof signInSchema>) => {
+		console.log({ values });
+	};
 	return (
 		<main className="h-auto">
 			<section className="grid place-items-center min-h-[90vh]">
@@ -27,31 +53,51 @@ function SignIn() {
 						</CardDescription>
 					</CardHeader>
 					<Separator />
-					<CardContent className="flex flex-col gap-4">
-						<Input
-							required
-							type="text"
-							value={""}
-							placeholder="Enter username"
-							onChange={() => {}}
-						/>
-						<Input
-							required
-							type="email"
-							value={""}
-							placeholder="Enter email address"
-							onChange={() => {}}
-						/>
-						<Input
-							required
-							type="password"
-							value={""}
-							placeholder="Enter password"
-							onChange={() => {}}
-							min={8}
-							max={256}
-						/>
-						<Button className="w-full mt-2 hover:cursor-pointer">Login</Button>
+					<CardContent className="">
+						<Form {...form}>
+							<form
+								action="submit"
+								onSubmit={form.handleSubmit(onSubmit)}
+								className="flex flex-col gap-4"
+							>
+								<FormField
+									name="email"
+									control={form.control}
+									render={({ field }) => (
+										<FormItem>
+											<FormControl>
+												<Input
+													type="email"
+													placeholder="Enter email address"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									name="password"
+									control={form.control}
+									render={({ field }) => (
+										<FormItem>
+											<FormControl>
+												<Input
+													type="password"
+													placeholder="Enter password"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								<Button className="w-full mt-2 hover:cursor-pointer">
+									Login
+								</Button>
+							</form>
+						</Form>
 					</CardContent>
 					<Separator />
 					<CardFooter className="flex flex-col gap-2 max-w-[250px] mx-auto">
