@@ -1,5 +1,4 @@
 "use client";
-import { z } from "zod";
 
 import { Button } from "@/src/components/ui/button";
 import {
@@ -20,14 +19,16 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { z } from "zod";
 
 /* Zod Schema for sign-in input form */
 const signInSchema = z.object({
 	email: z.string().email(),
-	password: z.string().min(8).max(256),
+	password: z.string().min(1, "Required").max(256, "Maximum 256 characters"),
 });
 /*END*/
 
@@ -53,7 +54,7 @@ function SignIn() {
 						</CardDescription>
 					</CardHeader>
 					<Separator />
-					<CardContent className="">
+					<CardContent className="flex flex-col gap-2">
 						<Form {...form}>
 							<form
 								action="submit"
@@ -98,6 +99,12 @@ function SignIn() {
 								</Button>
 							</form>
 						</Form>
+						<footer className="flex flex-col text-sm items-center">
+							<span>Or</span>
+							<Link href={"/sign-up"} className="text-blue-700 hover:underline">
+								Sign up
+							</Link>
+						</footer>
 					</CardContent>
 					<Separator />
 					<CardFooter className="flex flex-col gap-2 max-w-[250px] mx-auto">
