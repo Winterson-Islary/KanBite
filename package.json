@@ -12,6 +12,7 @@
 		"format:fix": "biome check --write ./app"
 	},
 	"dependencies": {
+		"@hono/zod-validator": "^0.5.0",
 		"@hookform/resolvers": "^5.0.1",
 		"@radix-ui/react-label": "^2.1.7",
 		"@radix-ui/react-separator": "^1.1.7",
