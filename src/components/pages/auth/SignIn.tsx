@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/src/components/ui/button";
 import {
 	Card,
@@ -24,9 +22,12 @@ import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import type { z } from "zod";
+import { useLogin } from "../../features/api/auth/useLogin";
 import { signInSchema } from "../../features/schemas/sign-in-schema";
 
 function SignIn() {
+	const { mutate } = useLogin();
+
 	const form = useForm<z.infer<typeof signInSchema>>({
 		resolver: zodResolver(signInSchema),
 		defaultValues: {
@@ -36,6 +37,7 @@ function SignIn() {
 	});
 	const onSubmit = (values: z.infer<typeof signInSchema>) => {
 		console.log({ values });
+		mutate({ json: values });
 	};
 	return (
 		<main className="h-auto">
