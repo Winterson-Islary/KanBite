@@ -23,14 +23,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { z } from "zod";
-
-/* Zod Schema for sign-in input form */
-const signInSchema = z.object({
-	email: z.string().email(),
-	password: z.string().min(1, "Required").max(256, "Maximum 256 characters"),
-});
-/*END*/
+import type { z } from "zod";
+import { signInSchema } from "../../features/schemas/sign-in-schema";
 
 function SignIn() {
 	const form = useForm<z.infer<typeof signInSchema>>({
