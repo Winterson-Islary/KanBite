@@ -1,3 +1,4 @@
+"use client";
 import SignUp from "@/src/components/pages/auth/SignUp";
 
 function SignUpPage() {
