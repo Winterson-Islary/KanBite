@@ -7,7 +7,9 @@ const app = new Hono()
 		const { message } = c.req.param();
 		return c.json({ message: message });
 	})
-	.post("/login", zValidator("json", signInSchema), (c) => {
+	.post("/login", zValidator("json", signInSchema), async (c) => {
+		const { email, password } = c.req.valid("json");
+		console.log(`Logged in with ${email} and ${password}`); //! Development Specific Log
 		return c.json({ success: "ok" });
 	});
 
