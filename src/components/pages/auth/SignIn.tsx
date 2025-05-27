@@ -36,7 +36,6 @@ function SignIn() {
 		},
 	});
 	const onSubmit = (values: z.infer<typeof signInSchema>) => {
-		console.log({ values });
 		mutate({ json: values });
 	};
 	return (
