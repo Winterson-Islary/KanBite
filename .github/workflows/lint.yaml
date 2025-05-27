@@ -1,0 +1,21 @@
+name: Lint
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs_on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2 
+        with:
+          bun-version: 1.2.14
+      
+      - name: Install Dependencies
+        run: bun install
+      
+      - name: Run Lint
+        run: bun format:fix
