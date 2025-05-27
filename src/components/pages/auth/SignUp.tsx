@@ -21,18 +21,13 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { z } from "zod";
+import type { z } from "zod";
+import { useRegister } from "../../features/api/auth/useRegister";
+import { signUpSchema } from "../../features/schemas/sign-up-schema";
 
-const signUpSchema = z.object({
-	username: z.string().trim().nonempty("Required"),
-	email: z.string().email().nonempty(),
-	password: z
-		.string()
-		.nonempty("Required")
-		.min(8, "Minimum 8 characters")
-		.max(256, "Maximum 256 characters"),
-});
 function SignUp() {
+	const { mutate } = useRegister();
+
 	const form = useForm<z.infer<typeof signUpSchema>>({
 		resolver: zodResolver(signUpSchema),
 		defaultValues: {
@@ -42,7 +37,7 @@ function SignUp() {
 		},
 	});
 	const onSubmit = (values: z.infer<typeof signUpSchema>) => {
-		console.log({ values });
+		mutate({ json: values });
 	};
 	return (
 		<main>
