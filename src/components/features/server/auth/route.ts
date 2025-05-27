@@ -9,7 +9,6 @@ const app = new Hono()
 	})
 	.post("/login", zValidator("json", signInSchema), async (c) => {
 		const { email, password } = c.req.valid("json");
-		console.log(`Logged in with ${email} and ${password}`); //! Development Specific Log
 		return c.json({ success: "ok" });
 	});
 
