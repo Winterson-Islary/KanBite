@@ -1,10 +1,20 @@
 interface EnvConfig {
 	NEXT_PUBLIC_API_URL: string;
+	NEXT_PUBLIC_APPWRITE_ENDPOINT: string;
+	NEXT_PUBLIC_APPWRITE_PROJECT: string;
+	NEXT_APPWRITE_KEY: string;
+	NEXT_PUBLIC_APPWRITE_DATABASE_ID: string;
 }
 
 export const ENV: Readonly<EnvConfig> = {
 	NEXT_PUBLIC_API_URL:
 		process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001",
+	NEXT_PUBLIC_APPWRITE_ENDPOINT:
+		process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ?? "",
+	NEXT_PUBLIC_APPWRITE_PROJECT: process.env.NEXT_PUBLIC_APPWRITE_PROJECT ?? "",
+	NEXT_APPWRITE_KEY: process.env.NEXT_APPWRITE_KEY ?? "",
+	NEXT_PUBLIC_APPWRITE_DATABASE_ID:
+		process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID ?? "",
 } as const;
 
 type EnvKeys = keyof typeof ENV;
