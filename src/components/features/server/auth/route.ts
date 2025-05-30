@@ -9,9 +9,9 @@ import { signUpSchema } from "../../schemas/sign-up-schema";
 import { AUTH_COOKIE, SESSION_DURATION } from "./constants";
 
 const app = new Hono()
-	.get("/echo/:message", (c) => {
-		const { message } = c.req.param();
-		return c.json({ message: message });
+	.get("/current", sessionMiddleware, (c) => {
+		const user = c.get("user");
+		return c.json({ data: user });
 	})
 	.post("/login", zValidator("json", signInSchema), async (c) => {
 		const { email, password } = c.req.valid("json");
