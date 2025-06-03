@@ -1,7 +1,11 @@
-"use client";
+import { getCurrentUser } from "@/src/components/features/server/auth/actions";
 import SignUp from "@/src/components/pages/auth/SignUp";
+import { redirect } from "next/navigation";
 
-function SignUpPage() {
+async function SignUpPage() {
+	const user = await getCurrentUser();
+	console.log(user);
+	if (user) redirect("/");
 	return (
 		<main>
 			<SignUp />
@@ -9,4 +13,4 @@ function SignUpPage() {
 	);
 }
 
-export default SignUp;
+export default SignUpPage;
