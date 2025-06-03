@@ -1,7 +1,10 @@
-"use client";
+import { getCurrentUser } from "@/src/components/features/server/auth/actions";
 import SignIn from "@/src/components/pages/auth/SignIn";
+import { redirect } from "next/navigation";
 
-function SignInPage() {
+async function SignInPage() {
+	const user = await getCurrentUser();
+	if (user) redirect("/");
 	return (
 		<main>
 			<SignIn />
