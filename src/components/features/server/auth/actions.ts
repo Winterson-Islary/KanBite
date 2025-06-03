@@ -12,8 +12,8 @@ export const getCurrentUser = async () => {
 		const cookie = await cookies();
 		const session = cookie.get(AUTH_COOKIE);
 		if (!session) return null;
+		client.setSession(session.value);
 		const account = new Account(client);
-
 		return await account.get();
 	} catch {
 		return null;
