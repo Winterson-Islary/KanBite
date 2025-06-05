@@ -10,11 +10,13 @@ export default function Dashboardlayout({
 				<header>
 					<Navbar />
 				</header>
-				<main className="lg:grid lg:[grid-template-columns:300px_1fr]">
-					<aside className="hidden lg:block">
+				<main className="lg:grid lg:[grid-template-columns:300px_1fr] h-full">
+					<aside className="hidden lg:block h-full">
 						<Sidebar />
 					</aside>
-					<section id="content">{children}</section>
+					<section id="content" className="h-full">
+						{children}
+					</section>
 				</main>
 			</div>
 			<footer className="bg-black min-h-[200px]">
