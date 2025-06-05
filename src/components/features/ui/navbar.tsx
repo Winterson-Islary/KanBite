@@ -23,7 +23,7 @@ function Navbar() {
 					KanBite
 				</Link>
 			</section>
-			<section>{GetNavLinks(NavbarLinks)}</section>
+			{/* <section>{GetNavLinks(NavbarLinks)}</section> */}
 			<section>
 				<UserButton />
 			</section>
