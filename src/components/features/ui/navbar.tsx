@@ -20,9 +20,6 @@ function Navbar() {
 	return (
 		<main className="py-2 flex items-center justify-between">
 			<section>
-				<Link href={"/"} className="text-3xl font-light">
-					KanBite
-				</Link>
 				<MobileSidebar />
 			</section>
 			{/* <section>{GetNavLinks(NavbarLinks)}</section> */}

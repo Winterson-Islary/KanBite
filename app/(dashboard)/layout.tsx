@@ -7,15 +7,15 @@ export default function Dashboardlayout({
 	return (
 		<article className="min-h-screen w-full grid [grid-template-rows:1fr_auto] ">
 			<div className="max-w-screen-2xl min-h-screen w-full mx-auto  px-[2rem] md:px-[5rem] lg:px-[10rem]">
-				<header>
-					<Navbar />
-				</header>
 				<main className="lg:grid lg:[grid-template-columns:300px_1fr] h-full">
 					<aside className="hidden lg:block h-full">
 						<Sidebar />
 					</aside>
 					<section id="content" className="h-full">
-						{children}
+						<nav>
+							<Navbar />
+						</nav>
+						<main>{children}</main>
 					</section>
 				</main>
 			</div>
