@@ -1,11 +1,21 @@
 import { MenuIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../../ui/sheet";
 import Sidebar from "./sidebar";
 
 export default function MobileSidebar() {
+	const pathname = usePathname();
+
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+	// biome-ignore lint/correctness/useExhaustiveDependencies:
+	useEffect(() => {
+		setIsOpen(false);
+	}, [pathname]);
+
 	return (
-		<Sheet modal={false}>
+		<Sheet modal={false} open={isOpen} onOpenChange={setIsOpen}>
 			<SheetTrigger asChild>
 				<Button variant="secondary" className="lg:hidden">
 					<MenuIcon className="size-4 text-neutral-500" />
