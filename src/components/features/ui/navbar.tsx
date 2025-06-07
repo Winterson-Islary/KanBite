@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import MobileSidebar from "./mobile-sidebar";
 import UserButton from "./user-button";
 
 const NavbarLinks = ["dashboard", "settings"];
@@ -22,6 +23,7 @@ function Navbar() {
 				<Link href={"/"} className="text-3xl font-light">
 					KanBite
 				</Link>
+				<MobileSidebar />
 			</section>
 			{/* <section>{GetNavLinks(NavbarLinks)}</section> */}
 			<section>
