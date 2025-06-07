@@ -19,7 +19,6 @@ import { useLogout } from "../api/auth/useLogout";
 export default function UserButton() {
 	const { mutate: logout } = useLogout();
 	const { data: user, isLoading } = useCurrent();
-	console.log("User: ", user);
 	if (!user) {
 		return null;
 	}
