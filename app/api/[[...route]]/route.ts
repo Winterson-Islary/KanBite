@@ -1,5 +1,6 @@
 import { ENV } from "@/lib/config";
 import auth from "@/src/components/features/server/auth/route";
+import workspaces from "@/src/components/features/server/workspaces/route";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
@@ -21,7 +22,7 @@ app.use(
 	}),
 );
 
-const routes = app.route("/auth", auth);
+const routes = app.route("/auth", auth).route("/workspaces", workspaces);
 
 export const GET = handle(app);
 export const POST = handle(app);

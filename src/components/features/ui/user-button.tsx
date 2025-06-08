@@ -13,8 +13,8 @@ import {
 } from "@/src/components/ui/dropdown-menu";
 import { Loader, LogOut } from "lucide-react";
 import { Separator } from "../../ui/separator";
-import { useCurrent } from "../api/auth/useCurrent";
-import { useLogout } from "../api/auth/useLogout";
+import { useCurrent } from "../server/auth/api/auth/useCurrent";
+import { useLogout } from "../server/auth/api/auth/useLogout";
 
 export default function UserButton() {
 	const { mutate: logout } = useLogout();

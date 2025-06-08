@@ -23,8 +23,8 @@ import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import type { z } from "zod";
-import { useLogin } from "../../features/api/auth/useLogin";
-import { signInSchema } from "../../features/schemas/sign-in-schema";
+import { useLogin } from "../../features/server/auth/api/auth/useLogin";
+import { signInSchema } from "../../features/server/auth/schemas/sign-in-schema";
 
 function SignIn() {
 	const { mutate } = useLogin();

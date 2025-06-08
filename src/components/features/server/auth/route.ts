@@ -4,9 +4,9 @@ import { Hono } from "hono";
 import { deleteCookie, setCookie } from "hono/cookie";
 import { ID } from "node-appwrite";
 import { sessionMiddleware } from "../../middlewares/session-middleware";
-import { signInSchema } from "../../schemas/sign-in-schema";
-import { signUpSchema } from "../../schemas/sign-up-schema";
 import { AUTH_COOKIE, SESSION_DURATION } from "./constants";
+import { signInSchema } from "./schemas/sign-in-schema";
+import { signUpSchema } from "./schemas/sign-up-schema";
 
 const app = new Hono()
 	.get("/current", sessionMiddleware, (c) => {
