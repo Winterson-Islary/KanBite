@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "../../features/server/auth/actions";
+import CreateWorkspaceForm from "../../features/server/workspaces/components/create-workspaces-form";
 import UserButton from "../../features/ui/user-button";
 
 async function Home() {
@@ -8,6 +9,7 @@ async function Home() {
 	return (
 		<main>
 			<h1>This is the Home Page</h1>
+			<CreateWorkspaceForm />
 		</main>
 	);
 }
