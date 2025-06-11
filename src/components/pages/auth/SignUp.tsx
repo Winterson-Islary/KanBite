@@ -27,7 +27,7 @@ import { useRegister } from "../../features/server/auth/api/auth/useRegister";
 import { signUpSchema } from "../../features/server/auth/schemas/sign-up-schema";
 
 function SignUp() {
-	const { mutate } = useRegister();
+	const { mutate, isPending } = useRegister();
 
 	const form = useForm<z.infer<typeof signUpSchema>>({
 		resolver: zodResolver(signUpSchema),
@@ -110,7 +110,10 @@ function SignUp() {
 										</FormItem>
 									)}
 								/>
-								<Button className="w-full mt-2 hover:cursor-pointer">
+								<Button
+									className="w-full mt-2 hover:cursor-pointer"
+									disabled={isPending}
+								>
 									Sign up
 								</Button>
 							</form>
@@ -130,7 +133,7 @@ function SignUp() {
 					<Separator />
 					<CardFooter className="flex flex-col gap-2 max-w-[250px] mx-auto">
 						<Button
-							disabled={false}
+							disabled={isPending}
 							variant="secondary"
 							className="w-full border-slate-300 border-[1px] hover:cursor-pointer"
 							size="lg"
@@ -139,7 +142,7 @@ function SignUp() {
 							Sign up with Google
 						</Button>
 						<Button
-							disabled={false}
+							disabled={isPending}
 							variant="secondary"
 							className="w-full border-slate-300 border-[1px] hover:cursor-pointer"
 							size="lg"
