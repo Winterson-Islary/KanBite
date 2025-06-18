@@ -42,7 +42,11 @@ export default function CreateWorkspaceForm({
 		},
 	});
 	const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
-		mutate({ json: values });
+		const finalValues = {
+			...values,
+			image: values.image instanceof File ? values.image : "",
+		};
+		mutate({ form: finalValues }, { onSuccess: () => form.reset() });
 	};
 	const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -129,7 +133,7 @@ export default function CreateWorkspaceForm({
 													variant="outline"
 													size="sm"
 													onClick={() => inputRef.current?.click()}
-													className="hover:cursor-pointer"
+													className="hover:cursor-pointer w-fit mt-2"
 												>
 													Upload Image
 												</Button>
