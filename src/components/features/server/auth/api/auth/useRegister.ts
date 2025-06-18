@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { InferRequestType, InferResponseType } from "hono";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { UserRegisterError } from "../../errors/UserRegisterError";
 
 type ResponseType = InferResponseType<
 	(typeof client.api.auth.register)["$post"]
@@ -16,7 +17,7 @@ export const useRegister = () => {
 		mutationFn: async ({ json }) => {
 			const response = await client.api.auth.register.$post({ json });
 			if (!response.ok) {
-				throw new Error("Failed to register user");
+				throw new UserRegisterError();
 			}
 			return await response.json();
 		},
