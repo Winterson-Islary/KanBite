@@ -1,4 +1,5 @@
 "use client";
+import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
 import { Button } from "@/src/components/ui/button";
 import {
 	Card,
@@ -17,6 +18,9 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ImageIcon } from "lucide-react";
+import Image from "next/image";
+import { type ChangeEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { useCreateWorkspace } from "../api/useCreateWorkspace";
@@ -29,6 +33,8 @@ export default function CreateWorkspaceForm({
 	onCancel,
 }: TCreateWorkspaceFormProps) {
 	const { mutate, isPending } = useCreateWorkspace();
+	const inputRef = useRef<HTMLInputElement>(null);
+
 	const form = useForm<z.infer<typeof createWorkspaceSchema>>({
 		resolver: zodResolver(createWorkspaceSchema),
 		defaultValues: {
@@ -36,7 +42,17 @@ export default function CreateWorkspaceForm({
 		},
 	});
 	const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
-		mutate({ json: values });
+		const finalValues = {
+			...values,
+			image: values.image instanceof File ? values.image : "",
+		};
+		mutate({ form: finalValues }, { onSuccess: () => form.reset() });
+	};
+	const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			form.setValue("image", file);
+		}
 	};
 
 	return (
@@ -53,7 +69,7 @@ export default function CreateWorkspaceForm({
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="flex flex-col gap-2"
 					>
-						<section id="form-field-container" className="flex-col">
+						<section id="form-field-container" className=" flex flex-col gap-5">
 							<FormField
 								name="name"
 								control={form.control}
@@ -69,6 +85,61 @@ export default function CreateWorkspaceForm({
 										</FormControl>
 										<FormMessage />
 									</FormItem>
+								)}
+							/>
+							<FormField
+								name="image"
+								control={form.control}
+								render={({ field }) => (
+									<div className="flex flex-col gap-y-2">
+										<div className="flex items-center gap-x-5">
+											{field.value ? (
+												<div className="size-[72px] rounded-md relative overflow-hidden">
+													<Image
+														alt="workspace image"
+														fill
+														className="object-cover"
+														src={
+															field.value instanceof File
+																? URL.createObjectURL(field.value)
+																: field.value
+														}
+													/>
+												</div>
+											) : (
+												<Avatar className="size-[72px]">
+													<AvatarFallback className="size-[72px] text-neutral-300">
+														<ImageIcon />
+													</AvatarFallback>
+												</Avatar>
+											)}
+											<div className="flex flex-col gap-2">
+												<article>
+													<p className="text-sm">Workspace Icon</p>
+													<p className="text-sm text-muted-foreground">
+														JPG, PNG, JPEG or SVG, max 1MB
+													</p>
+												</article>
+												<input
+													type="file"
+													accept=".jpg, .jpeg, .svg, .png"
+													ref={inputRef}
+													onChange={handleImageInputChange}
+													disabled={isPending}
+													className="hidden"
+												/>
+												<Button
+													type="button"
+													variant="outline"
+													size="sm"
+													onClick={() => inputRef.current?.click()}
+													className="hover:cursor-pointer w-fit mt-2"
+												>
+													Upload Image
+												</Button>
+											</div>
+										</div>
+									</div>
 								)}
 							/>
 						</section>
