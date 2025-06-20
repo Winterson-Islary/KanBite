@@ -7,14 +7,21 @@ import {
 	GoHome,
 	GoHomeFill,
 } from "react-icons/go";
+import { Separator } from "../../ui/separator";
+import WorkspaceSwitcher from "./workspace-switcher";
 
 export default function Sidebar() {
 	return (
 		<article className="h-full">
-			<main className="h-full p-2.5 flex-col gap-2 bg-neutral-100">
+			<main className="h-full p-2.5 flex flex-col gap-3 bg-neutral-100">
 				<header className="pb-3">
-					<h1 className="text-4xl font-extralight">KANBITE</h1>
+					<h1 className="text-4xl font-extralight">KanBite</h1>
 				</header>
+				<section className="flex flex-col gap-3">
+					<Separator />
+					<WorkspaceSwitcher />
+					<Separator />
+				</section>
 				<Navigation />
 			</main>
 		</article>
