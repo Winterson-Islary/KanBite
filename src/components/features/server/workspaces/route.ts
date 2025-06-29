@@ -1,4 +1,5 @@
 import { ENV } from "@/lib/config";
+import { generateInviteCode } from "@/lib/inviteCodeGen";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ID, Query } from "node-appwrite";
@@ -59,6 +60,7 @@ const app = new Hono()
 					name,
 					userId: user.$id,
 					imageUrl: uploadedImageUrl,
+					inviteCode: generateInviteCode(10),
 				},
 			);
 			await database.createDocument(
