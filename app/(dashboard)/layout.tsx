@@ -1,12 +1,16 @@
+import { getCurrentUser } from "@/src/components/features/server/auth/actions";
 import Navbar from "@/src/components/features/ui/navbar";
 import Sidebar from "@/src/components/features/ui/sidebar";
+import { redirect } from "next/navigation";
 
-export default function Dashboardlayout({
+export default async function Dashboardlayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
+	const user = await getCurrentUser();
+	if (!user) redirect("/sign-in");
 	return (
-		<article className="min-h-screen w-full grid [grid-template-rows:1fr_auto] ">
-			<div className=" min-h-screen w-full mx-auto">
+		<article className="min-h-screen overflow-hidden w-full grid [grid-template-rows:1fr_auto] ">
+			<div className=" min-h-full w-full mx-auto">
 				<main className="lg:grid lg:[grid-template-columns:300px_1fr] h-full">
 					<aside className="hidden lg:block h-full">
 						<Sidebar />
@@ -18,15 +22,15 @@ export default function Dashboardlayout({
 						<nav>
 							<Navbar />
 						</nav>
-						<main>{children}</main>
+						<main className="h-full">{children}</main>
 					</section>
 				</main>
 			</div>
-			<footer className="bg-black min-h-[200px]">
+			{/* <footer className="bg-black min-h-[200px]">
 				<main className="max-w-screen-2xl w-full mx-auto px-[2rem] md:px[5rem] lg:px-[10rem] text-white">
 					<h1>FOOTER</h1>
 				</main>
-			</footer>
+			</footer> */}
 		</article>
 	);
 }
