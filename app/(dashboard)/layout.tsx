@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/src/components/features/server/auth/actions";
+import CreateWorkspaceModal from "@/src/components/features/server/workspaces/components/create-workspace-modal";
 import Navbar from "@/src/components/features/ui/navbar";
 import Sidebar from "@/src/components/features/ui/sidebar";
 import { redirect } from "next/navigation";
@@ -10,6 +11,7 @@ export default async function Dashboardlayout({
 	if (!user) redirect("/sign-in");
 	return (
 		<article className="min-h-screen overflow-hidden w-full grid [grid-template-rows:1fr_auto] ">
+			<CreateWorkspaceModal />
 			<div className=" min-h-full w-full mx-auto">
 				<main className="lg:grid lg:[grid-template-columns:300px_1fr] h-full">
 					<aside className="hidden lg:block h-full">

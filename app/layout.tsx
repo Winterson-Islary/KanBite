@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/src/styles/globals.css";
 import { QueryProvider } from "@/src/components/providers/queryProvider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,7 +23,9 @@ export default function RootLayout({
 			<body className={cn(inter.className, "antialiased")}>
 				<main>
 					<Toaster />
-					<QueryProvider>{children}</QueryProvider>
+					<QueryProvider>
+						<NuqsAdapter>{children}</NuqsAdapter>
+					</QueryProvider>
 				</main>
 			</body>
 		</html>
