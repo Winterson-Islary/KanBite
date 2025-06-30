@@ -21,7 +21,7 @@ export default async function Dashboardlayout({
 						id="content"
 						className="max-w-screen-2xl mx-auto w-full h-full p-2.5"
 					>
-						<nav>
+						<nav className="h-[73px]">
 							<Navbar />
 						</nav>
 						<main className="h-full">{children}</main>
