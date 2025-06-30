@@ -20,6 +20,7 @@ import { Separator } from "@/src/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { type ChangeEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
@@ -27,11 +28,12 @@ import { useCreateWorkspace } from "../api/useCreateWorkspace";
 import { createWorkspaceSchema } from "../schemas/workspaces-schema";
 
 type TCreateWorkspaceFormProps = {
-	onCancel?: () => void;
+	onCancel: () => void;
 };
 export default function CreateWorkspaceForm({
 	onCancel,
 }: TCreateWorkspaceFormProps) {
+	const router = useRouter();
 	const { mutate, isPending } = useCreateWorkspace();
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -46,7 +48,15 @@ export default function CreateWorkspaceForm({
 			...values,
 			image: values.image instanceof File ? values.image : "",
 		};
-		mutate({ form: finalValues }, { onSuccess: () => form.reset() });
+		mutate(
+			{ form: finalValues },
+			{
+				onSuccess: ({ data }) => {
+					form.reset();
+					router.push(`/workspaces/${data.$id}`);
+				},
+			},
+		);
 	};
 	const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
