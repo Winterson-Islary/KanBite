@@ -25,6 +25,7 @@ import { FcGoogle } from "react-icons/fc";
 import type { z } from "zod";
 import { useRegister } from "../../features/server/auth/api/auth/useRegister";
 import { signUpSchema } from "../../features/server/auth/schemas/sign-up-schema";
+import Spinner from "../../features/ui/spinner";
 
 function SignUp() {
 	const { mutate, isPending } = useRegister();
@@ -114,7 +115,7 @@ function SignUp() {
 									className="w-full mt-2 hover:cursor-pointer"
 									disabled={isPending}
 								>
-									Sign up
+									{isPending ? <Spinner /> : "Sign up"}
 								</Button>
 							</form>
 						</Form>

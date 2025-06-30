@@ -1,0 +1,15 @@
+import { getCurrentUser } from "@/src/components/features/server/auth/actions";
+import CreateWorkspaceForm from "@/src/components/features/server/workspaces/components/create-workspaces-form";
+import { redirect } from "next/navigation";
+
+async function WorkspaceCreatePage() {
+	const user = await getCurrentUser();
+	if (!user) redirect("/sign-in");
+	return (
+		<main className="w-full lg:max-w-xl">
+			<CreateWorkspaceForm />
+		</main>
+	);
+}
+
+export default WorkspaceCreatePage;

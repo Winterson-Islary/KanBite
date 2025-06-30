@@ -6,6 +6,7 @@ interface EnvConfig {
 	NEXT_PUBLIC_APPWRITE_DATABASE_ID: string;
 	NEXT_PUBLIC_APPWRITE_WORKSPACES_ID: string;
 	NEXT_PUBLIC_APPWRITE_BUCKET_ID: string;
+	NEXT_PUBLIC_APPWRITE_MEMBERS_ID: string;
 }
 
 export const ENV: Readonly<EnvConfig> = {
@@ -21,6 +22,8 @@ export const ENV: Readonly<EnvConfig> = {
 		process.env.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID ?? "",
 	NEXT_PUBLIC_APPWRITE_BUCKET_ID:
 		process.env.NEXT_PUBLIC_APPWRITE_BUCKET_ID ?? "",
+	NEXT_PUBLIC_APPWRITE_MEMBERS_ID:
+		process.env.NEXT_PUBLIC_APPWRITE_MEMBERS_ID ?? "",
 } as const;
 
 type EnvKeys = keyof typeof ENV;

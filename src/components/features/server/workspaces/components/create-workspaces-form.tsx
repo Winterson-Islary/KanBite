@@ -1,4 +1,5 @@
 "use client";
+import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -20,6 +21,7 @@ import { Separator } from "@/src/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { type ChangeEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
@@ -32,6 +34,7 @@ type TCreateWorkspaceFormProps = {
 export default function CreateWorkspaceForm({
 	onCancel,
 }: TCreateWorkspaceFormProps) {
+	const router = useRouter();
 	const { mutate, isPending } = useCreateWorkspace();
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -46,7 +49,15 @@ export default function CreateWorkspaceForm({
 			...values,
 			image: values.image instanceof File ? values.image : "",
 		};
-		mutate({ form: finalValues }, { onSuccess: () => form.reset() });
+		mutate(
+			{ form: finalValues },
+			{
+				onSuccess: ({ data }) => {
+					form.reset();
+					router.push(`/workspaces/${data.$id}`);
+				},
+			},
+		);
 	};
 	const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -62,7 +73,7 @@ export default function CreateWorkspaceForm({
 					Create a new workspace
 				</CardTitle>
 			</CardHeader>
-			<CardContent className="p-2 lg:p-0 lg:w-[500px]">
+			<CardContent className="p-2 lg:p-0 lg:w-full">
 				<Form {...form}>
 					<form
 						action="submit"
@@ -149,7 +160,7 @@ export default function CreateWorkspaceForm({
 								type="button"
 								variant="outline"
 								onClick={onCancel}
-								className="hover:cursor-pointer"
+								className={cn(onCancel ?? "invisible hover:cursor-pointer")}
 								disabled={isPending}
 							>
 								Cancel
