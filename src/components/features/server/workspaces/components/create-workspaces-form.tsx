@@ -1,4 +1,5 @@
 "use client";
+import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -28,7 +29,7 @@ import { useCreateWorkspace } from "../api/useCreateWorkspace";
 import { createWorkspaceSchema } from "../schemas/workspaces-schema";
 
 type TCreateWorkspaceFormProps = {
-	onCancel: () => void;
+	onCancel?: () => void;
 };
 export default function CreateWorkspaceForm({
 	onCancel,
@@ -72,7 +73,7 @@ export default function CreateWorkspaceForm({
 					Create a new workspace
 				</CardTitle>
 			</CardHeader>
-			<CardContent className="p-2 lg:p-0 lg:w-[500px]">
+			<CardContent className="p-2 lg:p-0 lg:w-full">
 				<Form {...form}>
 					<form
 						action="submit"
@@ -159,7 +160,7 @@ export default function CreateWorkspaceForm({
 								type="button"
 								variant="outline"
 								onClick={onCancel}
-								className="hover:cursor-pointer"
+								className={cn(onCancel ?? "invisible hover:cursor-pointer")}
 								disabled={isPending}
 							>
 								Cancel
