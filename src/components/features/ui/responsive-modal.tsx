@@ -1,7 +1,6 @@
 "use client";
 import { Dialog, DialogContent, DialogTitle } from "@/src/components/ui/dialog";
-import { Drawer, DrawerContent } from "@/src/components/ui/drawer";
-import { DialogTitle as RadixDialog } from "@radix-ui/react-dialog";
+import { Drawer, DrawerContent, DrawerTitle } from "@/src/components/ui/drawer";
 import { useMedia } from "react-use";
 
 type ResponsiveModalProps = {
@@ -20,11 +19,7 @@ export default function ResponsiveModal({
 		return (
 			<Dialog open={open} onOpenChange={onOpenChange}>
 				<DialogContent className="w-full sm:max-w-xl border-none overflow-y-auto hide-scrollbar max-h-[85vh]">
-					<RadixDialog className="sr-only">
-						<DialogTitle className="sr-only">
-							Workspace Creator Modal
-						</DialogTitle>
-					</RadixDialog>
+					<DialogTitle className="sr-only">Workspace Creator Modal</DialogTitle>
 					{children}
 				</DialogContent>
 			</Dialog>
@@ -33,6 +28,7 @@ export default function ResponsiveModal({
 	return (
 		<Drawer open={open} onOpenChange={onOpenChange}>
 			<DrawerContent>
+				<DrawerTitle className="sr-only">Workspace Creator Drawer</DrawerTitle>
 				<div className="overflow-y-auto hide-scrollbar max-h-[85vh]">
 					{children}
 				</div>
