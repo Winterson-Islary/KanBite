@@ -1,6 +1,8 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { SettingsIcon, UsersIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
 	GoCheckCircle,
 	GoCheckCircleFill,
@@ -8,6 +10,7 @@ import {
 	GoHomeFill,
 } from "react-icons/go";
 import { Separator } from "../../ui/separator";
+import { useWorkspaceId } from "../server/workspaces/hooks/useWorkspaceId";
 import WorkspaceSwitcher from "./workspace-switcher";
 
 export default function Sidebar() {
@@ -31,7 +34,7 @@ export default function Sidebar() {
 export const NavigationRoutes = [
 	{
 		label: "Home",
-		href: "/",
+		href: "",
 		icon: GoHome,
 		activeIcon: GoHomeFill,
 		desc: "Monitor all of your projects and tasks here",
@@ -60,17 +63,20 @@ export const NavigationRoutes = [
 ];
 
 function Navigation() {
+	const workspaceId = useWorkspaceId();
+	const pathname = usePathname();
 	return (
 		<ul>
 			{NavigationRoutes.map((route) => {
-				const isActive = false;
+				const fullHref = `/workspaces/${workspaceId}${route.href}`;
+				const isActive = pathname === fullHref;
 				const Icon = isActive ? route.activeIcon : route.icon;
 				return (
-					<Link key={route.href} href={route.href}>
+					<Link key={route.href} href={fullHref}>
 						<main
 							className={cn(
-								"flex items-center gap-2.5 py-2.5 rounded-md font-normal hover:text-primary transition text-neutral-500",
-								isActive && "bg-white shadow-sm hover:opacity-100 text-primary",
+								"flex items-center gap-2.5 p-2 rounded-md font-normal hover:text-primary transition text-neutral-500",
+								isActive && "bg-white shadow-xs hover:opacity-100 text-primary",
 							)}
 						>
 							<Icon className="size-5 text-neutral-500" />
