@@ -139,15 +139,30 @@ export default function CreateWorkspaceForm({
 													disabled={isPending}
 													className="hidden"
 												/>
-												<Button
-													type="button"
-													variant="outline"
-													size="sm"
-													onClick={() => inputRef.current?.click()}
-													className="hover:cursor-pointer w-fit mt-2"
-												>
-													Upload Image
-												</Button>
+												{field.value ? (
+													<Button
+														type="button"
+														variant="outline"
+														size="sm"
+														onClick={() => {
+															field.onChange("");
+															if (inputRef.current) inputRef.current.value = "";
+														}}
+														className="hover:cursor-pointer max-w-[9rem] mt-2 "
+													>
+														Remove Image
+													</Button>
+												) : (
+													<Button
+														type="button"
+														variant="outline"
+														size="sm"
+														onClick={() => inputRef.current?.click()}
+														className="hover:cursor-pointer max-w-[9rem] mt-2"
+													>
+														Upload Image
+													</Button>
+												)}
 											</div>
 										</div>
 									</div>
