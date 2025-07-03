@@ -1,3 +1,4 @@
+"use client";
 import { MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";

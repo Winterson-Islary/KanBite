@@ -6,18 +6,6 @@ import MobileSidebar from "./mobile-sidebar";
 import { NavigationRoutes } from "./sidebar";
 import UserButton from "./user-button";
 
-const NavbarLinks = ["dashboard", "settings"];
-function GetNavLinks(links: string[]) {
-	return (
-		<ul className="flex justify-around md:gap-5 lg:gap-10 font-light">
-			{links.map((link) => (
-				<li key={link}>
-					<Link href={link}>{link}</Link>
-				</li>
-			))}
-		</ul>
-	);
-}
 function Navbar() {
 	const pathname = usePathname();
 	const pageDescription = NavigationRoutes.find(
