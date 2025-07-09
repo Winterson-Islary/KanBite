@@ -1,4 +1,4 @@
-import { getUserWorkspaces } from "@/src/components/features/server/workspaces/actions";
+import { getUserWorkspaces } from "@/src/components/features/server/workspaces/queries";
 import { redirect } from "next/navigation";
 
 export default async function HomePage() {

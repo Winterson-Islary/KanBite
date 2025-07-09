@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/src/components/features/server/auth/actions";
+import { getCurrentUser } from "@/src/components/features/server/auth/queries";
 import CreateWorkspaceForm from "@/src/components/features/server/workspaces/components/create-workspaces-form";
 import { redirect } from "next/navigation";
 

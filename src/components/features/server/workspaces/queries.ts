@@ -1,24 +1,15 @@
 "use server";
+import { createSessionClient } from "@/lib/appwrite";
 import { ENV } from "@/lib/config";
-import { AUTH_COOKIE } from "@/src/components/features/server/auth/constants";
-import { cookies } from "next/headers";
-import { Account, Client, Databases, Query } from "node-appwrite";
+import { Query } from "node-appwrite";
 import { getMember } from "../members/utils/getMember";
 import type { Workspace } from "./types/update-workspace-form";
 
 export const getUserWorkspaces = async () => {
 	try {
-		const client = new Client()
-			.setEndpoint(ENV.NEXT_PUBLIC_APPWRITE_ENDPOINT)
-			.setProject(ENV.NEXT_PUBLIC_APPWRITE_PROJECT);
-		const cookie = await cookies();
-		const session = cookie.get(AUTH_COOKIE);
-		if (!session) return { documents: [], total: 0 };
-		client.setSession(session.value);
-		const account = new Account(client);
+		const { account, databases } = await createSessionClient();
 		const current_user = await account.get();
-		const database = new Databases(client);
-		const memberOfWorkspaces = await database.listDocuments(
+		const memberOfWorkspaces = await databases.listDocuments(
 			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
 			ENV.NEXT_PUBLIC_APPWRITE_MEMBERS_ID,
 			[Query.equal("userId", current_user.$id)],
@@ -30,7 +21,7 @@ export const getUserWorkspaces = async () => {
 			(member) => member.workspaceId,
 		);
 
-		const workspaces = await database.listDocuments(
+		const workspaces = await databases.listDocuments(
 			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
 			ENV.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID,
 			[Query.orderDesc("$createdAt"), Query.contains("$id", workspaceIds)],
@@ -46,25 +37,17 @@ type GetWorkspaceProps = {
 };
 export const getWorkspaceById = async ({ workspaceId }: GetWorkspaceProps) => {
 	try {
-		const client = new Client()
-			.setEndpoint(ENV.NEXT_PUBLIC_APPWRITE_ENDPOINT)
-			.setProject(ENV.NEXT_PUBLIC_APPWRITE_PROJECT);
-		const cookie = await cookies();
-		const session = cookie.get(AUTH_COOKIE);
-		if (!session) return null;
-		client.setSession(session.value);
-		const account = new Account(client);
+		const { account, databases } = await createSessionClient();
 		const current_user = await account.get();
-		const database = new Databases(client);
 
 		const member = getMember({
-			databases: database,
+			databases: databases,
 			userId: current_user.$id,
 			workspaceId,
 		});
 		if (!member) return null;
 
-		const workspace = await database.getDocument<Workspace>(
+		const workspace = await databases.getDocument<Workspace>(
 			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
 			ENV.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID,
 			workspaceId,
