@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/src/components/features/server/auth/actions";
+import { getCurrentUser } from "@/src/components/features/server/auth/queries";
 import CreateWorkspaceModal from "@/src/components/features/server/workspaces/components/create-workspace-modal";
 import Navbar from "@/src/components/features/ui/navbar";
 import Sidebar from "@/src/components/features/ui/sidebar";

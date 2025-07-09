@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/src/components/features/server/auth/actions";
+import { getCurrentUser } from "@/src/components/features/server/auth/queries";
 import SignUp from "@/src/components/pages/auth/SignUp";
 import { redirect } from "next/navigation";
 
