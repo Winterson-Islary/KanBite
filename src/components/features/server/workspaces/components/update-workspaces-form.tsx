@@ -18,6 +18,7 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
+import { useConfirm } from "@/src/hooks/useConfirm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, ImageIcon } from "lucide-react";
 import Image from "next/image";
@@ -25,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import { useDeleteWorkspace } from "../api/useDeleteWorkspace";
 import { useUpdateWorkspace } from "../api/useUpdateWorkspace";
 import { updateWorkspaceSchema } from "../schemas/workspaces-schema";
 import type { Workspace } from "../types/update-workspace-form";
@@ -39,6 +41,24 @@ export default function UpdateWorkspaceForm({
 }: TUpdateWorkspaceFormProps) {
 	const router = useRouter();
 	const { mutate, isPending } = useUpdateWorkspace();
+	const { mutate: deleteWorkspace, isPending: isDeletingWorkspace } =
+		useDeleteWorkspace();
+	const [DeleteDialog, confirmDelete] = useConfirm(
+		"Delete Workspace",
+		"This action is irreversible.",
+	);
+	const handleDelete = async () => {
+		const ok = await confirmDelete();
+		if (!ok) return;
+		deleteWorkspace(
+			{ param: { workspaceId: initialValues.$id } },
+			{
+				onSuccess: () => {
+					window.location.href = "/";
+				},
+			},
+		);
+	};
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const form = useForm<z.infer<typeof updateWorkspaceSchema>>({
@@ -71,145 +91,175 @@ export default function UpdateWorkspaceForm({
 	};
 
 	return (
-		<Card className="h-full w-full border-none shadow-none">
-			<CardHeader className="flex flex-row gap-x-4 items-center p-0">
-				<Button
-					variant="secondary"
-					size="sm"
-					onClick={
-						onCancel
-							? onCancel
-							: () => router.push(`/workspaces/${initialValues.$id}`)
-					}
-					className="hover:cursor-pointer"
-				>
-					<ArrowLeftIcon />
-					Back
-				</Button>
-				<CardTitle className="text-2xl font-bold">
-					{initialValues.name}
-				</CardTitle>
-			</CardHeader>
-			<CardContent className="p-2 lg:p-0 lg:w-full">
-				<Form {...form}>
-					<form
-						action="submit"
-						onSubmit={form.handleSubmit(onSubmit)}
-						className="flex flex-col gap-2"
+		<div className="flex flex-col gap-y-4">
+			<DeleteDialog />
+			<Card className="h-full w-full border-none shadow-none">
+				<CardHeader className="flex flex-row gap-x-4 items-center p-0">
+					<Button
+						variant="secondary"
+						size="sm"
+						onClick={
+							onCancel
+								? onCancel
+								: () => router.push(`/workspaces/${initialValues.$id}`)
+						}
+						className="hover:cursor-pointer"
 					>
-						<section id="form-field-container" className=" flex flex-col gap-5">
-							<FormField
-								name="name"
-								control={form.control}
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel className="text-lg">Workspace Name</FormLabel>
-										<FormControl>
-											<Input
-												type="text"
-												placeholder="Enter workspace name"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								name="image"
-								control={form.control}
-								render={({ field }) => (
-									<div className="flex flex-col gap-y-2">
-										<div className="flex items-center gap-x-5">
-											{field.value ? (
-												<div className="size-[72px] rounded-md relative overflow-hidden">
-													<Image
-														alt="workspace image"
-														fill
-														className="object-cover"
-														src={
-															field.value instanceof File
-																? URL.createObjectURL(field.value)
-																: field.value
-														}
-													/>
-												</div>
-											) : (
-												<Avatar className="size-[72px]">
-													<AvatarFallback className="size-[72px] text-neutral-300">
-														<ImageIcon />
-													</AvatarFallback>
-												</Avatar>
-											)}
-											<div className="flex flex-col gap-2">
-												<article>
-													<p className="text-sm">Workspace Icon</p>
-													<p className="text-sm text-muted-foreground">
-														JPG, PNG, JPEG or SVG, max 1MB
-													</p>
-												</article>
-												<input
-													type="file"
-													accept=".jpg, .jpeg, .svg, .png"
-													ref={inputRef}
-													onChange={handleImageInputChange}
-													disabled={isPending}
-													className="hidden"
+						<ArrowLeftIcon />
+						Back
+					</Button>
+					<CardTitle className="text-2xl font-bold">
+						{initialValues.name}
+					</CardTitle>
+				</CardHeader>
+				<CardContent className="p-2 lg:p-0 lg:w-full">
+					<Form {...form}>
+						<form
+							action="submit"
+							onSubmit={form.handleSubmit(onSubmit)}
+							className="flex flex-col gap-2"
+						>
+							<section
+								id="form-field-container"
+								className=" flex flex-col gap-5"
+							>
+								<FormField
+									name="name"
+									control={form.control}
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className="text-lg">Workspace Name</FormLabel>
+											<FormControl>
+												<Input
+													type="text"
+													placeholder="Enter workspace name"
+													{...field}
 												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									name="image"
+									control={form.control}
+									render={({ field }) => (
+										<div className="flex flex-col gap-y-2">
+											<div className="flex items-center gap-x-5">
 												{field.value ? (
-													<Button
-														type="button"
-														variant="outline"
-														size="sm"
-														onClick={() => {
-															field.onChange("");
-															if (inputRef.current) {
-																inputRef.current.value = "";
+													<div className="size-[72px] rounded-md relative overflow-hidden">
+														<Image
+															alt="workspace image"
+															fill
+															className="object-cover"
+															src={
+																field.value instanceof File
+																	? URL.createObjectURL(field.value)
+																	: field.value
 															}
-														}}
-														className="hover:cursor-pointer max-w-[9rem] mt-2"
-													>
-														Remove Image
-													</Button>
+														/>
+													</div>
 												) : (
-													<Button
-														type="button"
-														variant="outline"
-														size="sm"
-														onClick={() => inputRef.current?.click()}
-														className="hover:cursor-pointer max-w-[9rem] mt-2"
-													>
-														Upload Image
-													</Button>
+													<Avatar className="size-[72px]">
+														<AvatarFallback className="size-[72px] text-neutral-300">
+															<ImageIcon />
+														</AvatarFallback>
+													</Avatar>
 												)}
+												<div className="flex flex-col gap-2">
+													<article>
+														<p className="text-sm">Workspace Icon</p>
+														<p className="text-sm text-muted-foreground">
+															JPG, PNG, JPEG or SVG, max 1MB
+														</p>
+													</article>
+													<input
+														type="file"
+														accept=".jpg, .jpeg, .svg, .png"
+														ref={inputRef}
+														onChange={handleImageInputChange}
+														disabled={isPending}
+														className="hidden"
+													/>
+													{field.value ? (
+														<Button
+															type="button"
+															variant="outline"
+															size="sm"
+															onClick={() => {
+																field.onChange("");
+																if (inputRef.current) {
+																	inputRef.current.value = "";
+																}
+															}}
+															className="hover:cursor-pointer max-w-[9rem] mt-2"
+														>
+															Remove Image
+														</Button>
+													) : (
+														<Button
+															type="button"
+															variant="outline"
+															size="sm"
+															onClick={() => inputRef.current?.click()}
+															className="hover:cursor-pointer max-w-[9rem] mt-2"
+														>
+															Upload Image
+														</Button>
+													)}
+												</div>
 											</div>
 										</div>
-									</div>
-								)}
-							/>
-						</section>
-						<Separator className="my-2" />
-						<section id="buttons-container" className="flex justify-end gap-2">
-							<Button
-								type="button"
-								variant="outline"
-								onClick={onCancel}
-								className={cn(onCancel ?? "invisible hover:cursor-pointer")}
-								disabled={isPending}
+									)}
+								/>
+							</section>
+							<section
+								id="buttons-container"
+								className="flex justify-end gap-2"
 							>
-								Cancel
-							</Button>
-							<Button
-								type="submit"
-								className="hover:cursor-pointer"
-								disabled={isPending}
-							>
-								Save Changes
-							</Button>
-						</section>
-					</form>
-				</Form>
-			</CardContent>
-		</Card>
+								<Button
+									type="button"
+									variant="outline"
+									onClick={onCancel}
+									className={cn(onCancel ?? "invisible hover:cursor-pointer")}
+									disabled={isPending}
+								>
+									Cancel
+								</Button>
+								<Button
+									type="submit"
+									className="hover:cursor-pointer"
+									disabled={isPending || isDeletingWorkspace}
+								>
+									Save Changes
+								</Button>
+							</section>
+							<Separator className="my-2" />
+						</form>
+					</Form>
+				</CardContent>
+			</Card>
+			<Card className="h-full w-full border-none shadow-none">
+				<CardContent className="p-2 lg:p-0 lg:w-full">
+					<div className="flex flex-col">
+						<h2 className="text-lg font-medium">Workspace Deletion Panel</h2>
+						<p className="text-sm text-muted-foreground">
+							Be aware that deleting this workspace is irreversible and will
+							remove all of its associated data.
+						</p>
+
+						<Button
+							className="w-fit ml-auto hover:cursor-pointer max-w-[9rem] my-2"
+							type="button"
+							disabled={isPending || isDeletingWorkspace}
+							onClick={handleDelete}
+						>
+							Delete Workspace
+						</Button>
+					</div>
+					<Separator className="my-2" />
+				</CardContent>
+			</Card>
+		</div>
 	);
 }
