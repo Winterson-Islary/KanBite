@@ -25,7 +25,7 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { useCreateWorkspace } from "../api/useCreateWorkspace";
+import { useCreateWorkspace } from "../api/use-create-workspace";
 import { createWorkspaceSchema } from "../schemas/workspaces-schema";
 
 type TCreateWorkspaceFormProps = {
@@ -69,7 +69,7 @@ export default function CreateWorkspaceForm({
 	return (
 		<Card className="h-full w-full border-none shadow-none">
 			<CardHeader className="p-2 lg:p-0 flex">
-				<CardTitle className="text-xl font-bold">
+				<CardTitle className="text-3xl font-light">
 					Create a new workspace
 				</CardTitle>
 			</CardHeader>
@@ -86,7 +86,9 @@ export default function CreateWorkspaceForm({
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="text-lg">Workspace Name</FormLabel>
+										<FormLabel className="text-lg font-light ">
+											Workspace Name
+										</FormLabel>
 										<FormControl>
 											<Input
 												type="text"
@@ -126,7 +128,7 @@ export default function CreateWorkspaceForm({
 											)}
 											<div className="flex flex-col gap-2">
 												<article>
-													<p className="text-sm">Workspace Icon</p>
+													<p className="text-md font-light ">Workspace Icon</p>
 													<p className="text-sm text-muted-foreground">
 														JPG, PNG, JPEG or SVG, max 1MB
 													</p>
@@ -148,7 +150,7 @@ export default function CreateWorkspaceForm({
 															field.onChange("");
 															if (inputRef.current) inputRef.current.value = "";
 														}}
-														className="hover:cursor-pointer max-w-[9rem] mt-2 "
+														className="hover:cursor-pointer max-w-[9rem] mt-2 uppercase text-sm font-light"
 													>
 														Remove Image
 													</Button>
@@ -158,7 +160,7 @@ export default function CreateWorkspaceForm({
 														variant="outline"
 														size="sm"
 														onClick={() => inputRef.current?.click()}
-														className="hover:cursor-pointer max-w-[9rem] mt-2"
+														className="hover:cursor-pointer max-w-[9rem] mt-2 uppercase text-sm font-light"
 													>
 														Upload Image
 													</Button>
@@ -175,14 +177,17 @@ export default function CreateWorkspaceForm({
 								type="button"
 								variant="outline"
 								onClick={onCancel}
-								className={cn(onCancel ?? "invisible hover:cursor-pointer")}
+								className={cn(
+									"hover:cursor-pointer uppercase text-sm font-light",
+									onCancel ?? "invisible",
+								)}
 								disabled={isPending}
 							>
 								Cancel
 							</Button>
 							<Button
 								type="submit"
-								className="hover:cursor-pointer"
+								className="hover:cursor-pointer uppercase text-sm font-light"
 								disabled={isPending}
 							>
 								Create
