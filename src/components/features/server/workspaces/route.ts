@@ -2,6 +2,7 @@ import { ENV } from "@/lib/config";
 import { generateInviteCode } from "@/lib/inviteCodeGen";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { StatusCodes } from "http-status-codes";
 import { ID, Query } from "node-appwrite";
 import { sessionMiddleware } from "../../middlewares/session-middleware";
 import { MEMBER_ROLE } from "../members/constants/types";
@@ -96,7 +97,7 @@ const app = new Hono()
 				userId: user.$id,
 			});
 			if (!member || member.role !== MEMBER_ROLE.ADMIN) {
-				return c.json({ error: "Unauthorized" }, 401);
+				return c.json({ error: "Unauthorized" }, StatusCodes.UNAUTHORIZED);
 			}
 			let uploadedImageUrl: string | undefined;
 			if (image instanceof File) {
@@ -137,12 +138,33 @@ const app = new Hono()
 			userId: user.$id,
 		});
 		if (!member || member.role !== MEMBER_ROLE.ADMIN)
-			return c.json({ error: "Unauthorized" }, 401);
+			return c.json({ error: "Unauthorized" }, StatusCodes.UNAUTHORIZED);
 		await databases.deleteDocument(
 			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
 			ENV.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID,
 			workspaceId,
 		);
 		return c.json({ data: { $id: workspaceId } });
+	})
+	.post("/:workspaceId/reset-invite-code", sessionMiddleware, async (c) => {
+		const databases = c.get("databases");
+		const user = c.get("user");
+		const { workspaceId } = c.req.param();
+		const member = await getMember({
+			databases,
+			workspaceId,
+			userId: user.$id,
+		});
+		if (!member || member.role !== MEMBER_ROLE.ADMIN)
+			return c.json({ error: "Unauthorized" }, StatusCodes.UNAUTHORIZED);
+		const workspace = await databases.updateDocument(
+			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+			ENV.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID,
+			workspaceId,
+			{
+				inviteCode: generateInviteCode(10),
+			},
+		);
+		return c.json({ data: workspace });
 	});
 export default app;

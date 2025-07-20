@@ -1,12 +1,8 @@
-import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "@/src/styles/globals.css";
 import { QueryProvider } from "@/src/components/providers/queryProvider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Kanbite",
@@ -20,9 +16,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={cn(inter.className, "antialiased")}>
+			<body className="font-inter">
 				<main>
-					<Toaster />
+					<Toaster style={{ fontFamily: "inherit" }} />
 					<QueryProvider>
 						<NuqsAdapter>{children}</NuqsAdapter>
 					</QueryProvider>

@@ -75,7 +75,7 @@ function Navigation() {
 					<Link key={route.href} href={fullHref}>
 						<main
 							className={cn(
-								"flex items-center gap-2.5 p-2 rounded-md font-normal hover:text-primary transition text-neutral-500",
+								"flex items-center gap-2.5 p-2 rounded-none font-normal hover:text-primary transition text-neutral-500",
 								isActive && "bg-white shadow-xs hover:opacity-100 text-primary",
 							)}
 						>
