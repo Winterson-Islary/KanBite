@@ -9,7 +9,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../../ui/select";
-import { useGetWorkspaces } from "../server/workspaces/api/useGetWorkspaces";
+import { useGetWorkspaces } from "../server/workspaces/api/use-get-workspaces";
 import WorkspaceAvatar from "../server/workspaces/components/workspace-avatar";
 import { useCreateWorkspaceModal } from "../server/workspaces/hooks/useCreateWorkspaceModal";
 import { useWorkspaceId } from "../server/workspaces/hooks/useWorkspaceId";
@@ -38,7 +38,7 @@ export default function WorkspaceSwitcher() {
 				<SelectContent>
 					{workspaces?.documents.map((workspace) => (
 						<SelectItem key={workspace.$id} value={workspace.$id}>
-							<article className="flex justify-start items-center gap-3 font-medium">
+							<article className="flex justify-start items-center gap-3 font-medium ">
 								<WorkspaceAvatar
 									name={workspace.name}
 									image={workspace.imageUrl}
