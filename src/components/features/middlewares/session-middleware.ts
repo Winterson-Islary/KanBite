@@ -2,6 +2,7 @@ import "server-only";
 import { ENV } from "@/lib/config";
 import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
+import { StatusCodes } from "http-status-codes";
 import {
 	Account,
 	type Account as AccountType,
@@ -31,9 +32,8 @@ export const sessionMiddleware = createMiddleware<AdditionalContext>(
 			.setProject(ENV.NEXT_PUBLIC_APPWRITE_PROJECT);
 		const session = getCookie(c, AUTH_COOKIE);
 
-		if (!session) {
-			return c.json({ error: "Unauthenticated" }, 401);
-		}
+		if (!session)
+			return c.json({ error: "Unauthenticated" }, StatusCodes.FORBIDDEN);
 		client.setSession(session);
 		const account = new Account(client);
 		const databases = new Databases(client);
