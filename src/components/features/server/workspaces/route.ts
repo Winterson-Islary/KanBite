@@ -4,6 +4,7 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { StatusCodes } from "http-status-codes";
 import { ID, Query } from "node-appwrite";
+import z from "zod";
 import { sessionMiddleware } from "../../middlewares/session-middleware";
 import { MEMBER_ROLE } from "../members/constants/types";
 import { getMember } from "../members/utils/getMember";
@@ -11,6 +12,7 @@ import {
 	createWorkspaceSchema,
 	updateWorkspaceSchema,
 } from "./schemas/workspaces-schema";
+import type { Workspace } from "./types/update-workspace-form";
 
 const app = new Hono()
 	.get("/", sessionMiddleware, async (c) => {
@@ -166,5 +168,48 @@ const app = new Hono()
 			},
 		);
 		return c.json({ data: workspace });
-	});
+	})
+	.post(
+		"/:workspaceId/join",
+		sessionMiddleware,
+		zValidator("json", z.object({ code: z.string() })),
+		async (c) => {
+			const { workspaceId } = c.req.param();
+			const { code } = c.req.valid("json");
+			const databases = c.get("databases");
+			const current_user = c.get("user");
+			const member = await getMember({
+				databases,
+				workspaceId,
+				userId: current_user.$id,
+			});
+			if (member)
+				return c.json(
+					{ error: "You are already a member" },
+					StatusCodes.CONFLICT,
+				);
+			const workspace = await databases.getDocument<Workspace>(
+				ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+				ENV.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID,
+				workspaceId,
+			);
+			if (workspace.inviteCode !== code)
+				return c.json(
+					{ error: "Invalid invite code" },
+					StatusCodes.BAD_REQUEST,
+				);
+			await databases.createDocument(
+				ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+				ENV.NEXT_PUBLIC_APPWRITE_MEMBERS_ID,
+				ID.unique(),
+				{
+					workspaceId,
+					userId: current_user.$id,
+					role: MEMBER_ROLE.MEMBER,
+				},
+			);
+
+			return c.json({ data: workspace });
+		},
+	);
 export default app;
