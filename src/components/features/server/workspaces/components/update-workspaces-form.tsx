@@ -277,7 +277,7 @@ export default function UpdateWorkspaceForm({
 							You can easily invite your friends or colleagues using the code
 							below.
 						</p>
-						<div className="mt-4">
+						<div className="mt-4 mb-2">
 							<div className="flex items-center gap-x-2">
 								<Input disabled value={fullInviteLink} />
 								<Button
@@ -290,7 +290,7 @@ export default function UpdateWorkspaceForm({
 							</div>
 						</div>
 						<Button
-							className="w-fit ml-auto hover:cursor-pointer max-w-[9rem] mt-4 font-light"
+							className="w-fit ml-auto hover:cursor-pointer max-w-[9rem] my-2 font-light"
 							type="button"
 							disabled={isPending || isDeletingWorkspace}
 							onClick={handleReset}
