@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/src/components/features/server/auth/queries";
-import CreateWorkspaceForm from "@/src/components/features/server/workspaces/components/create-workspaces-form";
+import CreateWorkspaceForm from "@/src/components/features/server/workspaces/components/create-workspace-form";
 import { redirect } from "next/navigation";
 
 async function WorkspaceCreatePage() {

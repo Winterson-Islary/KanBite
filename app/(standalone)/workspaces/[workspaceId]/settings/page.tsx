@@ -1,4 +1,4 @@
-import UpdateWorkspaceForm from "@/src/components/features/server/workspaces/components/update-workspaces-form";
+import UpdateWorkspaceForm from "@/src/components/features/server/workspaces/components/update-workspace-form";
 import { getWorkspaceById } from "@/src/components/features/server/workspaces/queries";
 import { redirect } from "next/navigation";
 

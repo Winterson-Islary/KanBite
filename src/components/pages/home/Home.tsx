@@ -1,4 +1,4 @@
-import CreateWorkspaceForm from "../../features/server/workspaces/components/create-workspaces-form";
+import CreateWorkspaceForm from "../../features/server/workspaces/components/create-workspace-form";
 
 async function Home() {
 	return (
