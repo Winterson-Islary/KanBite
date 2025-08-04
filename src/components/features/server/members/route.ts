@@ -52,6 +52,8 @@ const app = new Hono()
 			ENV.NEXT_PUBLIC_APPWRITE_MEMBERS_ID,
 			memberId,
 		);
+		if (!memberToDelete)
+			return c.json({ error: "member not found" }, StatusCodes.NOT_FOUND);
 		const allWorkspaceMembers = await databases.listDocuments(
 			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
 			ENV.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID,
@@ -69,14 +71,62 @@ const app = new Hono()
 			currentUserIsMember.role !== MEMBER_ROLE.ADMIN
 		)
 			return c.json({ error: "Unauthorized" }, StatusCodes.UNAUTHORIZED);
-
+		if (allWorkspaceMembers.total === 1)
+			return c.json(
+				{ error: "cannot delete the only member of a workspace" },
+				StatusCodes.FORBIDDEN,
+			);
 		await databases.deleteDocument(
 			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
 			ENV.NEXT_PUBLIC_APPWRITE_MEMBERS_ID,
 			memberId,
 		);
 
-		return c.json({ data: { $id: memberToDelete.$id } });
-	});
+		return c.json({ data: { $id: memberToDelete.$id } }, StatusCodes.OK);
+	})
+	.patch(
+		"/:memberId",
+		sessionMiddleware,
+		zValidator("json", z.object({ role: z.nativeEnum(MEMBER_ROLE) })),
+		async (c) => {
+			const { memberId } = c.req.param();
+			const { role } = c.req.valid("json");
+			const user = c.get("user");
+			const databases = c.get("databases");
+			const memberToUpdate = await databases.getDocument(
+				ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+				ENV.NEXT_PUBLIC_APPWRITE_MEMBERS_ID,
+				memberId,
+			);
+			if (!memberToUpdate)
+				return c.json({ error: "member not found" }, StatusCodes.NOT_FOUND);
+			const allWorkspaceMembers = await databases.listDocuments(
+				ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+				ENV.NEXT_PUBLIC_APPWRITE_MEMBERS_ID,
+				[Query.equal("workspaceId", memberToUpdate.workspaceId)],
+			);
+			const currentUserIsMember = await getMember({
+				databases,
+				workspaceId: memberToUpdate.workspaceId,
+				userId: user.$id,
+			});
+			if (!currentUserIsMember)
+				return c.json({ error: "Unauthorized" }, StatusCodes.UNAUTHORIZED);
+			if (currentUserIsMember.role !== MEMBER_ROLE.ADMIN)
+				return c.json({ error: "Unauthorized" }, StatusCodes.UNAUTHORIZED);
+			if (allWorkspaceMembers.total === 1)
+				return c.json(
+					{ error: "cannot downgrade the only workspace member" },
+					StatusCodes.FORBIDDEN,
+				);
+			await databases.updateDocument(
+				ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+				ENV.NEXT_PUBLIC_APPWRITE_MEMBERS_ID,
+				memberToUpdate.$id,
+				{ role },
+			);
+			return c.json({ data: { $id: memberToUpdate.$id } }, StatusCodes.OK);
+		},
+	);
 
 export default app;
