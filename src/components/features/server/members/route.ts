@@ -34,9 +34,9 @@ const app = new Hono()
 			);
 
 			const populatedMembers = await Promise.all(
-				members.documents.map(async (member) => {
-					const user = await users.get(member.$id);
-					return { ...member, name: user.name, email: user.email };
+				members.documents.map(async (_member) => {
+					const user = await users.get(_member.userId);
+					return { ..._member, name: user.name, email: user.email };
 				}),
 			);
 
