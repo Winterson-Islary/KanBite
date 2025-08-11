@@ -2,10 +2,7 @@ import { client } from "@/lib/rpc";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { InferRequestType, InferResponseType } from "hono";
 import { toast } from "sonner";
-import {
-	UnauthorizedError,
-	WorkspaceUpdateError,
-} from "../errors/WorkspacesFetchError";
+import { WorkspaceUpdateError } from "../errors/WorkspacesFetchError";
 
 type ResponseType = InferResponseType<
 	(typeof client.api.workspaces)[":workspaceId"]["$patch"],
