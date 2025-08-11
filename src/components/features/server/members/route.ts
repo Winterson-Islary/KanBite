@@ -56,7 +56,7 @@ const app = new Hono()
 			return c.json({ error: "member not found" }, StatusCodes.NOT_FOUND);
 		const allWorkspaceMembers = await databases.listDocuments(
 			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
-			ENV.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID,
+			ENV.NEXT_PUBLIC_APPWRITE_MEMBERS_ID,
 			[Query.equal("workspaceId", memberToDelete.workspaceId)],
 		);
 		const currentUserIsMember = await getMember({
