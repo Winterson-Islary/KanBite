@@ -25,28 +25,32 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useCreateProject } from "../api/use-create-project";
 import { createProjectSchema } from "../schemas/projects-schema";
 
 type TCreateProjectFormProps = {
 	onCancel?: () => void;
 };
+const schemaWithoutWorkspace = createProjectSchema.omit({ workspaceId: true });
 export default function CreateProjectForm({
 	onCancel,
 }: TCreateProjectFormProps) {
+	const workspaceId = useWorkspaceId();
 	const router = useRouter();
 	const { mutate, isPending } = useCreateProject();
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const form = useForm<z.infer<typeof createProjectSchema>>({
-		resolver: zodResolver(createProjectSchema),
+	const form = useForm<z.infer<typeof schemaWithoutWorkspace>>({
+		resolver: zodResolver(schemaWithoutWorkspace),
 		defaultValues: {
 			name: "",
 		},
 	});
-	const onSubmit = (values: z.infer<typeof createProjectSchema>) => {
+	const onSubmit = (values: z.infer<typeof schemaWithoutWorkspace>) => {
 		const finalValues = {
 			...values,
+			workspaceId,
 			image: values.image instanceof File ? values.image : "",
 		};
 		mutate(
@@ -54,7 +58,7 @@ export default function CreateProjectForm({
 			{
 				onSuccess: ({ data }) => {
 					form.reset();
-					router.push(`/workspaces/${data.$id}`);
+					//! Redirect to project screen
 				},
 			},
 		);
@@ -92,7 +96,7 @@ export default function CreateProjectForm({
 										<FormControl>
 											<Input
 												type="text"
-												placeholder="Enter workspace name"
+												placeholder="Enter a project name"
 												{...field}
 											/>
 										</FormControl>
