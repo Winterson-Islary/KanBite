@@ -1,0 +1,201 @@
+"use client";
+import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
+import { Button } from "@/src/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from "@/src/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/src/components/ui/form";
+import { Input } from "@/src/components/ui/input";
+import { Separator } from "@/src/components/ui/separator";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ImageIcon } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { type ChangeEvent, useRef } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
+import { useCreateProject } from "../api/use-create-project";
+import { createProjectSchema } from "../schemas/projects-schema";
+
+type TCreateProjectFormProps = {
+	onCancel?: () => void;
+};
+export default function CreateProjectForm({
+	onCancel,
+}: TCreateProjectFormProps) {
+	const router = useRouter();
+	const { mutate, isPending } = useCreateProject();
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	const form = useForm<z.infer<typeof createProjectSchema>>({
+		resolver: zodResolver(createProjectSchema),
+		defaultValues: {
+			name: "",
+		},
+	});
+	const onSubmit = (values: z.infer<typeof createProjectSchema>) => {
+		const finalValues = {
+			...values,
+			image: values.image instanceof File ? values.image : "",
+		};
+		mutate(
+			{ form: finalValues },
+			{
+				onSuccess: ({ data }) => {
+					form.reset();
+					router.push(`/workspaces/${data.$id}`);
+				},
+			},
+		);
+	};
+	const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			form.setValue("image", file);
+		}
+	};
+
+	return (
+		<Card className="h-full w-full border-none shadow-none">
+			<CardHeader className="p-2 lg:p-0 flex">
+				<CardTitle className="text-3xl font-light">
+					Create a new project
+				</CardTitle>
+			</CardHeader>
+			<CardContent className="p-2 lg:p-0 lg:w-full">
+				<Form {...form}>
+					<form
+						action="submit"
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="flex flex-col gap-2"
+					>
+						<section id="form-field-container" className=" flex flex-col gap-5">
+							<FormField
+								name="name"
+								control={form.control}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className="text-lg font-light ">
+											Project Name
+										</FormLabel>
+										<FormControl>
+											<Input
+												type="text"
+												placeholder="Enter workspace name"
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								name="image"
+								control={form.control}
+								render={({ field }) => (
+									<div className="flex flex-col gap-y-2">
+										<div className="flex items-center gap-x-5">
+											{field.value ? (
+												<div className="size-[72px] rounded-md relative overflow-hidden">
+													<Image
+														alt="workspace image"
+														fill
+														className="object-cover"
+														src={
+															field.value instanceof File
+																? URL.createObjectURL(field.value)
+																: field.value
+														}
+													/>
+												</div>
+											) : (
+												<Avatar className="size-[72px]">
+													<AvatarFallback className="size-[72px] text-neutral-300">
+														<ImageIcon />
+													</AvatarFallback>
+												</Avatar>
+											)}
+											<div className="flex flex-col gap-2">
+												<article>
+													<p className="text-md font-light ">Project Icon</p>
+													<p className="text-sm text-muted-foreground">
+														JPG, PNG, JPEG or SVG, max 1MB
+													</p>
+												</article>
+												<input
+													type="file"
+													accept=".jpg, .jpeg, .svg, .png"
+													ref={inputRef}
+													onChange={handleImageInputChange}
+													disabled={isPending}
+													className="hidden"
+												/>
+												{field.value ? (
+													<Button
+														type="button"
+														variant="outline"
+														size="sm"
+														onClick={() => {
+															field.onChange("");
+															if (inputRef.current) inputRef.current.value = "";
+														}}
+														className="hover:cursor-pointer max-w-[9rem] mt-2 uppercase text-sm font-light"
+													>
+														Remove Image
+													</Button>
+												) : (
+													<Button
+														type="button"
+														variant="outline"
+														size="sm"
+														onClick={() => inputRef.current?.click()}
+														className="hover:cursor-pointer max-w-[9rem] mt-2 uppercase text-sm font-light"
+													>
+														Upload Image
+													</Button>
+												)}
+											</div>
+										</div>
+									</div>
+								)}
+							/>
+						</section>
+						<Separator className="my-2" />
+						<section id="buttons-container" className="flex justify-end gap-2">
+							<Button
+								type="button"
+								variant="outline"
+								onClick={onCancel}
+								className={cn(
+									"hover:cursor-pointer uppercase text-sm font-light",
+									onCancel ?? "invisible",
+								)}
+								disabled={isPending}
+							>
+								Cancel
+							</Button>
+							<Button
+								type="submit"
+								className="hover:cursor-pointer uppercase text-sm font-light"
+								disabled={isPending}
+							>
+								Create
+							</Button>
+						</section>
+					</form>
+				</Form>
+			</CardContent>
+		</Card>
+	);
+}
