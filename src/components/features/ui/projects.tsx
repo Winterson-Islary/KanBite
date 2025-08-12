@@ -4,10 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { RiAddCircleFill } from "react-icons/ri";
 import { useGetProjects } from "../server/projects/api/use-get-projects";
+import { useCreateProjectModal } from "../server/projects/hooks/use-create-project-modal";
 import { useProjectId } from "../server/projects/hooks/use-project-id";
 import { useWorkspaceId } from "../server/workspaces/hooks/useWorkspaceId";
 function Projects() {
 	const projectId = useProjectId();
+	const { open } = useCreateProjectModal();
 	const pathname = usePathname();
 	const workspaceId = useWorkspaceId();
 	const { data } = useGetProjects({ workspaceId });
@@ -16,7 +18,7 @@ function Projects() {
 			<article className="flex justify-between items-center">
 				<p className="uppercase font-light text-black">Projects</p>
 				<RiAddCircleFill
-					onClick={() => {}}
+					onClick={open}
 					className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
 				/>
 			</article>
