@@ -11,6 +11,7 @@ import {
 } from "react-icons/go";
 import { Separator } from "../../ui/separator";
 import { useWorkspaceId } from "../server/workspaces/hooks/useWorkspaceId";
+import Projects from "./projects";
 import WorkspaceSwitcher from "./workspace-switcher";
 
 export default function Sidebar() {
@@ -26,6 +27,8 @@ export default function Sidebar() {
 					<Separator />
 				</section>
 				<Navigation />
+				<Separator />
+				<Projects />
 			</main>
 		</article>
 	);

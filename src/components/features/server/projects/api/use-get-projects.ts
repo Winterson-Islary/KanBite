@@ -1,6 +1,6 @@
 import { client } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
-import { ProjectsGetError } from "../errors/projects-get-error";
+import { ProjectsGetError } from "../errors/get-projects-error";
 
 type UseGetProjectsProps = {
 	workspaceId: string;
