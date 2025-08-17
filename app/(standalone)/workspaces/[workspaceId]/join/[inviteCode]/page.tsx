@@ -11,7 +11,7 @@ async function WorkspaceIdJoinPage({ params }: WorkspaceIdJoinPageProps) {
 	});
 	if (!initialValues) redirect("/");
 	return (
-		<main className="mx-auto w-full lg:max-w-xl h-full">
+		<main className="mx-auto h-full w-full lg:max-w-xl">
 			<JoinWorkspaceFrom initialValues={initialValues} />
 		</main>
 	);

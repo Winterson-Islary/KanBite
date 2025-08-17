@@ -2,7 +2,7 @@ import MembersList from "@/src/components/features/server/members/components/mem
 
 function WorkspaceIdMembersPage() {
 	return (
-		<main className="w-full lg:max-w-xl mx-auto">
+		<main className="mx-auto w-full lg:max-w-xl">
 			<MembersList />
 		</main>
 	);
