@@ -17,7 +17,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className="font-inter">
-				<main>
+				<main className="min-h-screen">
 					<Toaster style={{ fontFamily: "inherit" }} />
 					<QueryProvider>
 						<NuqsAdapter>{children}</NuqsAdapter>

@@ -11,9 +11,6 @@ type ProjectIdPageProps = {
 async function ProjectIdPage({ params }: ProjectIdPageProps) {
 	const { projectId } = await params;
 	const initialValues = await getUserProject({ projectId });
-	//! Handle condition for missing initial-values
-	if (!initialValues) throw new Error("Project not found"); //? Throwing for now
-
 	return (
 		<main className="flex flex-col gap-y-4">
 			<div className="flex items-center justify-between">
