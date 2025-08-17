@@ -11,8 +11,8 @@ async function StandaloneLayout({ children }: StandaloneLayoutProps) {
 	if (!user) redirect("/sign-in");
 	return (
 		<article>
-			<section className="max-w-screen-2xl mx-auto w-full min-h-screen p-2.5 grid [grid-template-rows:auto_1fr]">
-				<nav className="flex justify-between items-center h-[73px]">
+			<section className="mx-auto grid min-h-screen w-full max-w-screen-2xl p-2.5 [grid-template-rows:auto_1fr]">
+				<nav className="flex h-[73px] items-center justify-between">
 					<Link href="/" className="hover:cursor-pointer">
 						<p className="text-3xl">KANBITE</p>
 					</Link>

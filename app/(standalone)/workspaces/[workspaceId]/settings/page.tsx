@@ -16,8 +16,8 @@ async function WorkspaceIdSettingsPage({
 	if (!initialValues) redirect(`/workspaces/${workspaceId}`);
 
 	return (
-		<main className="w-full flex items-center justify-center">
-			<div className="w-full sm:max-w-xl max-h-[85vh]">
+		<main className="flex w-full items-center justify-center">
+			<div className="max-h-[85vh] w-full sm:max-w-xl">
 				<UpdateWorkspaceForm initialValues={initialValues} />
 			</div>
 		</main>
