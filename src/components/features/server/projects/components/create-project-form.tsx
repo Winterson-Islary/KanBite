@@ -72,12 +72,12 @@ export default function CreateProjectForm({
 
 	return (
 		<Card className="h-full w-full border-none shadow-none">
-			<CardHeader className="p-2 lg:p-0 flex">
-				<CardTitle className="text-3xl font-light">
+			<CardHeader className="flex p-2 lg:p-0">
+				<CardTitle className="font-light text-3xl">
 					Create a new project
 				</CardTitle>
 			</CardHeader>
-			<CardContent className="p-2 lg:p-0 lg:w-full">
+			<CardContent className="p-2 lg:w-full lg:p-0">
 				<Form {...form}>
 					<form
 						action="submit"
@@ -90,7 +90,7 @@ export default function CreateProjectForm({
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="text-lg font-light ">
+										<FormLabel className="font-light text-lg ">
 											Project Name
 										</FormLabel>
 										<FormControl>
@@ -111,7 +111,7 @@ export default function CreateProjectForm({
 									<div className="flex flex-col gap-y-2">
 										<div className="flex items-center gap-x-5">
 											{field.value ? (
-												<div className="size-[72px] rounded-md relative overflow-hidden">
+												<div className="relative size-[72px] overflow-hidden rounded-md">
 													<Image
 														alt="workspace image"
 														fill
@@ -132,8 +132,8 @@ export default function CreateProjectForm({
 											)}
 											<div className="flex flex-col gap-2">
 												<article>
-													<p className="text-md font-light ">Project Icon</p>
-													<p className="text-sm text-muted-foreground">
+													<p className="font-light text-md ">Project Icon</p>
+													<p className="text-muted-foreground text-sm">
 														JPG, PNG, JPEG or SVG, max 1MB
 													</p>
 												</article>
@@ -154,7 +154,7 @@ export default function CreateProjectForm({
 															field.onChange("");
 															if (inputRef.current) inputRef.current.value = "";
 														}}
-														className="hover:cursor-pointer max-w-[9rem] mt-2 uppercase text-sm font-light"
+														className="mt-2 max-w-[9rem] font-light text-sm uppercase hover:cursor-pointer"
 													>
 														Remove Image
 													</Button>
@@ -164,7 +164,7 @@ export default function CreateProjectForm({
 														variant="outline"
 														size="sm"
 														onClick={() => inputRef.current?.click()}
-														className="hover:cursor-pointer max-w-[9rem] mt-2 uppercase text-sm font-light"
+														className="mt-2 max-w-[9rem] font-light text-sm uppercase hover:cursor-pointer"
 													>
 														Upload Image
 													</Button>
@@ -182,7 +182,7 @@ export default function CreateProjectForm({
 								variant="outline"
 								onClick={onCancel}
 								className={cn(
-									"hover:cursor-pointer uppercase text-sm font-light",
+									"font-light text-sm uppercase hover:cursor-pointer",
 									onCancel ?? "invisible",
 								)}
 								disabled={isPending}
@@ -191,7 +191,7 @@ export default function CreateProjectForm({
 							</Button>
 							<Button
 								type="submit"
-								className="hover:cursor-pointer uppercase text-sm font-light"
+								className="font-light text-sm uppercase hover:cursor-pointer"
 								disabled={isPending}
 							>
 								Create

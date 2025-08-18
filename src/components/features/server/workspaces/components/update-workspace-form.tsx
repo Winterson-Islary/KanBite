@@ -70,14 +70,7 @@ export default function UpdateWorkspaceForm({
 	const handleReset = async () => {
 		const ok = await confirmReset();
 		if (!ok) return;
-		resetInviteCode(
-			{ param: { workspaceId: initialValues.$id } },
-			{
-				onSuccess: () => {
-					router.refresh();
-				},
-			},
-		);
+		resetInviteCode({ param: { workspaceId: initialValues.$id } });
 	};
 
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -120,7 +113,7 @@ export default function UpdateWorkspaceForm({
 			<ResetInviteDialog />
 			<DeleteDialog />
 			<Card className="h-full w-full border-none shadow-none">
-				<CardHeader className="flex flex-row gap-x-4 items-center p-0">
+				<CardHeader className="flex flex-row items-center gap-x-4 p-0">
 					<Button
 						variant="secondary"
 						size="sm"
@@ -129,16 +122,16 @@ export default function UpdateWorkspaceForm({
 								? onCancel
 								: () => router.push(`/workspaces/${initialValues.$id}`)
 						}
-						className="hover:cursor-pointer font-light"
+						className="font-light hover:cursor-pointer"
 					>
 						<ArrowLeftIcon />
 						Back
 					</Button>
-					<CardTitle className="text-3xl font-light">
+					<CardTitle className="font-light text-3xl">
 						{initialValues.name}
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="p-2 lg:p-0 lg:w-full">
+				<CardContent className="p-2 lg:w-full lg:p-0">
 					<Form {...form}>
 						<form
 							action="submit"
@@ -154,7 +147,7 @@ export default function UpdateWorkspaceForm({
 									control={form.control}
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel className="text-xl font-light">
+											<FormLabel className="font-light text-xl">
 												Workspace Name
 											</FormLabel>
 											<FormControl>
@@ -175,7 +168,7 @@ export default function UpdateWorkspaceForm({
 										<div className="flex flex-col gap-y-2">
 											<div className="flex items-center gap-x-5">
 												{field.value ? (
-													<div className="size-[72px] rounded-md relative overflow-hidden">
+													<div className="relative size-[72px] overflow-hidden rounded-md">
 														<Image
 															alt="workspace image"
 															fill
@@ -197,7 +190,7 @@ export default function UpdateWorkspaceForm({
 												<div className="flex flex-col gap-2">
 													<article>
 														<p className="text-sm">Workspace Icon</p>
-														<p className="text-sm text-muted-foreground">
+														<p className="text-muted-foreground text-sm">
 															JPG, PNG, JPEG or SVG, max 1MB
 														</p>
 													</article>
@@ -220,7 +213,7 @@ export default function UpdateWorkspaceForm({
 																	inputRef.current.value = "";
 																}
 															}}
-															className="hover:cursor-pointer max-w-[9rem] mt-2 font-medium"
+															className="mt-2 max-w-[9rem] font-medium hover:cursor-pointer"
 														>
 															Remove Image
 														</Button>
@@ -230,7 +223,7 @@ export default function UpdateWorkspaceForm({
 															variant="outline"
 															size="sm"
 															onClick={() => inputRef.current?.click()}
-															className="hover:cursor-pointer max-w-[9rem] mt-2"
+															className="mt-2 max-w-[9rem] hover:cursor-pointer"
 														>
 															Upload Image
 														</Button>
@@ -250,7 +243,7 @@ export default function UpdateWorkspaceForm({
 									variant="outline"
 									onClick={onCancel}
 									className={cn(
-										onCancel ?? "invisible hover:cursor-pointer font-light",
+										onCancel ?? "invisible font-light hover:cursor-pointer",
 									)}
 									disabled={isPending}
 								>
@@ -258,7 +251,7 @@ export default function UpdateWorkspaceForm({
 								</Button>
 								<Button
 									type="submit"
-									className="hover:cursor-pointer font-light"
+									className="font-light hover:cursor-pointer"
 									disabled={isPending || isDeletingWorkspace}
 								>
 									Save Changes
@@ -270,10 +263,10 @@ export default function UpdateWorkspaceForm({
 				</CardContent>
 			</Card>
 			<Card className="h-full w-full border-none shadow-none">
-				<CardContent className="p-2 lg:p-0 lg:w-full">
+				<CardContent className="p-2 lg:w-full lg:p-0">
 					<div className="flex flex-col">
-						<h2 className="text-xl font-light">Invite Members</h2>
-						<p className="text-sm text-muted-foreground">
+						<h2 className="font-light text-xl">Invite Members</h2>
+						<p className="text-muted-foreground text-sm">
 							You can easily invite your friends or colleagues using the code
 							below.
 						</p>
@@ -290,7 +283,7 @@ export default function UpdateWorkspaceForm({
 							</div>
 						</div>
 						<Button
-							className="w-fit ml-auto hover:cursor-pointer max-w-[9rem] my-2 font-light"
+							className="my-2 ml-auto w-fit max-w-[9rem] font-light hover:cursor-pointer"
 							type="button"
 							disabled={isPending || isDeletingWorkspace}
 							onClick={handleReset}
@@ -302,16 +295,16 @@ export default function UpdateWorkspaceForm({
 				</CardContent>
 			</Card>
 			<Card className="h-full w-full border-none shadow-none">
-				<CardContent className="p-2 lg:p-0 lg:w-full">
+				<CardContent className="p-2 lg:w-full lg:p-0">
 					<div className="flex flex-col">
-						<h2 className="text-xl font-light">Workspace Deletion Panel</h2>
-						<p className="text-sm text-muted-foreground">
+						<h2 className="font-light text-xl">Workspace Deletion Panel</h2>
+						<p className="text-muted-foreground text-sm">
 							Be aware that deleting this workspace is irreversible and will
 							remove all of its associated data.
 						</p>
 
 						<Button
-							className="w-fit ml-auto hover:cursor-pointer max-w-[9rem] my-2 font-light"
+							className="my-2 ml-auto w-fit max-w-[9rem] font-light hover:cursor-pointer"
 							type="button"
 							disabled={isPending || isDeletingWorkspace}
 							onClick={handleDelete}

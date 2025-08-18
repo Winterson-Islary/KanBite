@@ -8,8 +8,8 @@
 		"start": "next start",
 		"lint": "next lint",
 		"prepare": "husky",
-		"format:check": "biome check ./app",
-		"format:fix": "biome check --write ./app"
+		"format:check": "biome check ./app ./src",
+		"format:fix": "biome check --write ./app ./src"
 	},
 	"dependencies": {
 		"@hono/zod-validator": "^0.5.0",

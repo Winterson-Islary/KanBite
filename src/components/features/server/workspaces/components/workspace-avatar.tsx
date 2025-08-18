@@ -12,7 +12,7 @@ function WorkspaceAvatar({ image, name, className }: WorkspaceAvatarProps) {
 	if (image) {
 		return (
 			<main
-				className={cn("size-10 relative rounded-md overflow-hidden", className)}
+				className={cn("relative size-10 overflow-hidden rounded-md", className)}
 			>
 				<Image src={image} alt={name} fill className="object-cover" />
 			</main>
@@ -20,8 +20,8 @@ function WorkspaceAvatar({ image, name, className }: WorkspaceAvatarProps) {
 	}
 
 	return (
-		<Avatar className={cn("size-10 rounded-md overflow-hidden", className)}>
-			<AvatarFallback className="text-white bg-blue-600 font-semibold text-lg uppercase rounded-md">
+		<Avatar className={cn("size-10 overflow-hidden rounded-md", className)}>
+			<AvatarFallback className="rounded-md bg-blue-600 font-semibold text-lg text-white uppercase">
 				{name[0]}
 			</AvatarFallback>
 		</Avatar>

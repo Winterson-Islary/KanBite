@@ -18,7 +18,7 @@ export default function ResponsiveModal({
 	if (isDesktop) {
 		return (
 			<Dialog open={open} onOpenChange={onOpenChange}>
-				<DialogContent className="w-full sm:max-w-xl border-none overflow-y-auto hide-scrollbar max-h-[85vh]">
+				<DialogContent className="hide-scrollbar max-h-[85vh] w-full overflow-y-auto border-none sm:max-w-xl">
 					<DialogTitle className="sr-only">Workspace Creator Modal</DialogTitle>
 					{children}
 				</DialogContent>
@@ -29,7 +29,7 @@ export default function ResponsiveModal({
 		<Drawer open={open} onOpenChange={onOpenChange}>
 			<DrawerContent>
 				<DrawerTitle className="sr-only">Workspace Creator Drawer</DrawerTitle>
-				<div className="overflow-y-auto hide-scrollbar max-h-[85vh]">
+				<div className="hide-scrollbar max-h-[85vh] overflow-y-auto">
 					{children}
 				</div>
 			</DrawerContent>

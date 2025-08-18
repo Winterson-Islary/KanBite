@@ -42,10 +42,10 @@ function SignIn() {
 	};
 	return (
 		<main className="h-auto">
-			<section className="grid place-items-center min-h-[90vh]">
+			<section className="grid min-h-[90vh] place-items-center">
 				<Card className="w-[390px] px-3">
 					<CardHeader>
-						<CardTitle className="text-3xl font-medium">Welcome Back</CardTitle>
+						<CardTitle className="font-medium text-3xl">Welcome Back</CardTitle>
 						<CardDescription>
 							Sign in to access your dashboard and keep your work on track.
 						</CardDescription>
@@ -92,14 +92,14 @@ function SignIn() {
 								/>
 
 								<Button
-									className="w-full mt-2 hover:cursor-pointer"
+									className="mt-2 w-full hover:cursor-pointer"
 									disabled={isPending}
 								>
 									{isPending ? <Spinner /> : "Login"}
 								</Button>
 							</form>
 						</Form>
-						<footer className="flex flex-col text-sm items-center">
+						<footer className="flex flex-col items-center text-sm">
 							<span>Or</span>
 							<Link href={"/sign-up"} className="text-blue-700 hover:underline">
 								Sign up
@@ -107,11 +107,11 @@ function SignIn() {
 						</footer>
 					</CardContent>
 					<Separator />
-					<CardFooter className="flex flex-col gap-2 max-w-[250px] mx-auto">
+					<CardFooter className="mx-auto flex max-w-[250px] flex-col gap-2">
 						<Button
 							disabled={isPending}
 							variant="secondary"
-							className="w-full border-slate-300 border-[1px] hover:cursor-pointer"
+							className="w-full border-[1px] border-slate-300 hover:cursor-pointer"
 							size="lg"
 						>
 							<FcGoogle />
@@ -120,7 +120,7 @@ function SignIn() {
 						<Button
 							disabled={isPending}
 							variant="secondary"
-							className="w-full border-slate-300 border-[1px] hover:cursor-pointer"
+							className="w-full border-[1px] border-slate-300 hover:cursor-pointer"
 							size="lg"
 						>
 							<FaGithub />

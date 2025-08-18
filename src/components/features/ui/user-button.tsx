@@ -25,7 +25,7 @@ export default function UserButton() {
 	const { name, email } = user;
 	if (isLoading) {
 		return (
-			<div className="size-10 rounded-full flex items-center justify-center bg-neutral-200 border border-neutral-300">
+			<div className="flex size-10 items-center justify-center rounded-full border border-neutral-300 bg-neutral-200">
 				<Loader className="size-4 animate-spin text-muted-foreground" />
 			</div>
 		);
@@ -36,9 +36,9 @@ export default function UserButton() {
 
 	return (
 		<DropdownMenu modal={false}>
-			<DropdownMenuTrigger className="outline-none relative hover:cursor-pointer">
-				<Avatar className="size-10 hover:opacity-75 transition border border-neutral-300">
-					<AvatarFallback className="bg-neutral-200 font-medium text-neutral-500 flex items-center justify-center">
+			<DropdownMenuTrigger className="relative outline-none hover:cursor-pointer">
+				<Avatar className="size-10 border border-neutral-300 transition hover:opacity-75">
+					<AvatarFallback className="flex items-center justify-center bg-neutral-200 font-medium text-neutral-500">
 						{avatarFallback}
 					</AvatarFallback>
 				</Avatar>
@@ -52,7 +52,7 @@ export default function UserButton() {
 				<article className="flex flex-col items-center justify-center gap-2 px-2.5 py-4">
 					<header>
 						<Avatar className="size-12 border border-neutral-300">
-							<AvatarFallback className="bg-neutral-200 text-xl font-medium text-neutral-500 flex items-center justify-center">
+							<AvatarFallback className="flex items-center justify-center bg-neutral-200 font-medium text-neutral-500 text-xl">
 								{avatarFallback}
 							</AvatarFallback>
 						</Avatar>

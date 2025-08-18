@@ -37,24 +37,24 @@ export const useConfirm = (
 
 	const confirmationDialog = () => (
 		<ResponsiveModal open={promise !== null} onOpenChange={handleClose}>
-			<Card className="w-full h-full shadow-none border-none">
+			<Card className="h-full w-full border-none shadow-none">
 				<CardContent className="pt-8">
 					<CardHeader className="p-0">
-						<CardTitle className="text-2xl font-light">{title}</CardTitle>
+						<CardTitle className="font-light text-2xl">{title}</CardTitle>
 						<CardDescription>{message}</CardDescription>
 					</CardHeader>
-					<div className="pt-4 w-full flex flex-col gapy-y-2 lg:flex-row gap-x-2 items-center justify-end">
+					<div className="gapy-y-2 flex w-full flex-col items-center justify-end gap-x-2 pt-4 lg:flex-row">
 						<Button
 							onClick={handleCancel}
 							variant="outline"
-							className="w-full lg:w-auto hover:cursor-pointer font-light text-sm uppercase"
+							className="w-full font-light text-sm uppercase hover:cursor-pointer lg:w-auto"
 						>
 							Cancel
 						</Button>
 						<Button
 							onClick={handleConfirm}
 							variant={variant}
-							className="w-full lg:w-auto hover:cursor-pointer font-light text-sm uppercase"
+							className="w-full font-light text-sm uppercase hover:cursor-pointer lg:w-auto"
 						>
 							Confirm
 						</Button>

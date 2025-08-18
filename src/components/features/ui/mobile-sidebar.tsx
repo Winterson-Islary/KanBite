@@ -18,7 +18,7 @@ export default function MobileSidebar() {
 	return (
 		<Sheet modal={false} open={isOpen} onOpenChange={setIsOpen}>
 			<SheetTrigger asChild>
-				<Button variant="secondary" className="lg:hidden hover:cursor-pointer">
+				<Button variant="secondary" className="hover:cursor-pointer lg:hidden">
 					<MenuIcon className="size-4 text-neutral-500" />
 				</Button>
 			</SheetTrigger>
