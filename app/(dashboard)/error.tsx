@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function ErrorPage() {
 	return (
-		<main className="grid min-h-screen [grid-template-rows:1fr]">
+		<main className="grid h-full [grid-template-rows:1fr]">
 			<article className="flex h-full flex-col items-center justify-center gap-y-4">
 				<AlertTriangle className="size-7" />
 				<p className="text-md text-muted-foreground">Something went wrong</p>

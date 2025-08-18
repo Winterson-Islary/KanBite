@@ -24,7 +24,9 @@ async function ProjectIdPage({ params }: ProjectIdPageProps) {
 				</div>
 				<div>
 					<Button variant="outline" asChild>
-						<Link href="">
+						<Link
+							href={`/workspaces/${initialValues.workspaceId}/projects/${initialValues.$id}/settings`}
+						>
 							<PencilIcon className=" size-4" />
 							Edit Project
 						</Link>
