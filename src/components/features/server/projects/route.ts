@@ -141,6 +141,29 @@ const app = new Hono()
 
 			return c.json({ data: updatedProject });
 		},
-	);
+	)
+	.delete("/:projectId", sessionMiddleware, async (c) => {
+		const databases = c.get("databases");
+		const user = c.get("user");
+		const { projectId } = c.req.param();
+		const userProject = await databases.getDocument<Project>(
+			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+			ENV.NEXT_PUBLIC_APPWRITE_PROJECTS_ID,
+			projectId,
+		);
+		const member = await getMember({
+			databases,
+			workspaceId: userProject.workspaceId,
+			userId: user.$id,
+		});
+		if (!member)
+			return c.json({ error: "Unauthorized" }, StatusCodes.UNAUTHORIZED);
+		await databases.deleteDocument(
+			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+			ENV.NEXT_PUBLIC_APPWRITE_PROJECTS_ID,
+			projectId,
+		);
+		return c.json({ data: { $id: userProject.$id } });
+	});
 
 export default app;
