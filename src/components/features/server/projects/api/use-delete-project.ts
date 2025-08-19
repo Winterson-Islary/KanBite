@@ -13,7 +13,7 @@ type RequestType = InferRequestType<
 	(typeof client.api.projects)[":projectId"]["$delete"]
 >;
 
-export const useUpdateProject = () => {
+export const useDeleteProject = () => {
 	const router = useRouter();
 	const queryClient = useQueryClient();
 	const mutation = useMutation<ResponseType, Error, RequestType>({
