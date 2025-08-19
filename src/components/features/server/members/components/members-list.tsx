@@ -54,23 +54,23 @@ function MembersList() {
 	return (
 		<Card className="h-full w-full border-none shadow-none">
 			<ConfirmDialog />
-			<CardHeader className="flex flex-row items-center gap-x-4 p-0 space-y-0">
+			<CardHeader className="flex flex-row items-center gap-x-4 space-y-0 p-0">
 				<Button variant="secondary" size="sm" asChild>
 					<Link href={`/workspaces/${workspaceId}`}>
-						<ArrowLeftIcon className="size-4 mr-2" />
+						<ArrowLeftIcon className="mr-2 size-4" />
 						Back
 					</Link>
 				</Button>
-				<CardTitle className="text-3xl font-light">Members list</CardTitle>
+				<CardTitle className="font-light text-3xl">Members list</CardTitle>
 			</CardHeader>
 			<section>
 				<Separator />
 			</section>
-			<CardContent className="flex flex-col gap-4 w-full">
+			<CardContent className="flex w-full flex-col gap-4">
 				{data?.documents.map((member, index) => {
 					return (
 						<Fragment key={member.$id}>
-							<section className="flex items-center gap-2 w-full">
+							<section className="flex w-full items-center gap-2">
 								<MemberAvatar
 									name={member.name}
 									className="size-10"
@@ -78,8 +78,8 @@ function MembersList() {
 								/>
 								<section className="flex w-full">
 									<div className="flex flex-col">
-										<p className="text-sm font-medium">{member.name}</p>
-										<p className="text-xs text-muted-foreground">
+										<p className="font-medium text-sm">{member.name}</p>
+										<p className="text-muted-foreground text-xs">
 											{member.email}
 										</p>
 									</div>

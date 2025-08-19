@@ -15,13 +15,13 @@ function MemberAvatar({
 	return (
 		<Avatar
 			className={cn(
-				"size-5 transition border border-neutral-300 rounded-full overflow-hidden",
+				"size-5 overflow-hidden rounded-full border border-neutral-300 transition",
 				className,
 			)}
 		>
 			<AvatarFallback
 				className={cn(
-					"bg-neutral-200 font-medium text-neutral-500 flex items-center justify-center",
+					"flex items-center justify-center bg-neutral-200 font-medium text-neutral-500",
 					fallbackClassName,
 				)}
 			>

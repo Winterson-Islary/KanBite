@@ -12,14 +12,14 @@ function Navbar() {
 		(item) => item.href === pathname,
 	);
 	return (
-		<main className="py-2 flex items-center justify-between w-full">
+		<main className="flex w-full items-center justify-between py-2">
 			<section className="block lg:hidden">
 				<MobileSidebar />
 			</section>
 			{/* <section>{GetNavLinks(NavbarLinks)}</section> */}
-			<section className="flex items-center justify-end lg:justify-between w-full">
+			<section className="flex w-full items-center justify-end lg:justify-between">
 				<section id="left-side" className="hidden lg:block">
-					<h1 className="text-3xl font-light">{pageDescription?.label}</h1>
+					<h1 className="font-light text-3xl">{pageDescription?.label}</h1>
 					<h2 className="text-muted-foreground">{pageDescription?.desc}</h2>
 				</section>
 				<section id="right-side" className="">

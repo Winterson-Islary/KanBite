@@ -24,21 +24,21 @@ export default function WorkspaceSwitcher() {
 	};
 	return (
 		<main className="flex flex-col gap-y-2">
-			<article className="flex justify-between items-center">
-				<p className="uppercase font-light text-black">Workspaces</p>
+			<article className="flex items-center justify-between">
+				<p className="font-light text-black uppercase">Workspaces</p>
 				<RiAddCircleFill
 					onClick={open}
-					className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
+					className="size-5 cursor-pointer text-neutral-500 transition hover:opacity-75"
 				/>
 			</article>
 			<Select onValueChange={onSelect} value={workspaceId}>
-				<SelectTrigger className="w-full bg-neutral-200 font-medium p-1 hover:cursor-pointer">
+				<SelectTrigger className="w-full bg-neutral-200 p-1 font-medium hover:cursor-pointer">
 					<SelectValue placeholder="No workspace selected" />
 				</SelectTrigger>
 				<SelectContent>
 					{workspaces?.documents.map((workspace) => (
 						<SelectItem key={workspace.$id} value={workspace.$id}>
-							<article className="flex justify-start items-center gap-3 font-medium">
+							<article className="flex items-center justify-start gap-3 font-medium">
 								<WorkspaceAvatar
 									name={workspace.name}
 									image={workspace.imageUrl}

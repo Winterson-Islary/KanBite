@@ -13,7 +13,6 @@ async function WorkspaceIdSettingsPage({
 	const initialValues = await getWorkspaceById({
 		workspaceId,
 	});
-	if (!initialValues) redirect(`/workspaces/${workspaceId}`);
 
 	return (
 		<main className="flex w-full items-center justify-center">

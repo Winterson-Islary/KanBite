@@ -1,6 +1,7 @@
 "use server";
 import { createSessionClient } from "@/lib/appwrite";
 import { ENV } from "@/lib/config";
+import { ReasonPhrases } from "http-status-codes";
 import { Query } from "node-appwrite";
 import { getMember } from "../members/utils/getMember";
 import type { Workspace } from "./types/update-workspace-form";
@@ -36,24 +37,20 @@ type GetWorkspaceProps = {
 	workspaceId: string;
 };
 export const getWorkspaceById = async ({ workspaceId }: GetWorkspaceProps) => {
-	try {
-		const { account, databases } = await createSessionClient();
-		const current_user = await account.get();
+	const { account, databases } = await createSessionClient();
+	const current_user = await account.get();
 
-		const member = getMember({
-			databases: databases,
-			userId: current_user.$id,
-			workspaceId,
-		});
-		if (!member) return null;
+	const member = getMember({
+		databases: databases,
+		userId: current_user.$id,
+		workspaceId,
+	});
+	if (!member) throw new Error(ReasonPhrases.UNAUTHORIZED);
 
-		const workspace = await databases.getDocument<Workspace>(
-			ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
-			ENV.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID,
-			workspaceId,
-		);
-		return workspace;
-	} catch {
-		return null;
-	}
+	const workspace = await databases.getDocument<Workspace>(
+		ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+		ENV.NEXT_PUBLIC_APPWRITE_WORKSPACES_ID,
+		workspaceId,
+	);
+	return workspace;
 };

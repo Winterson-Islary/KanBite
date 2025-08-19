@@ -17,9 +17,9 @@ import WorkspaceSwitcher from "./workspace-switcher";
 export default function Sidebar() {
 	return (
 		<article className="h-full">
-			<main className="h-full p-2.5 flex flex-col gap-3 bg-neutral-100">
+			<main className="flex h-full flex-col gap-3 bg-neutral-100 p-2.5">
 				<header className="pb-3">
-					<h1 className="text-4xl font-extralight">KanBite</h1>
+					<h1 className="font-extralight text-4xl">KanBite</h1>
 				</header>
 				<section className="flex flex-col gap-3">
 					<Separator />
@@ -78,8 +78,8 @@ function Navigation() {
 					<Link key={route.href} href={fullHref}>
 						<main
 							className={cn(
-								"flex items-center gap-2.5 p-2 rounded-sm font-normal hover:text-primary transition text-neutral-500",
-								isActive && "bg-white shadow-xs hover:opacity-100 text-primary",
+								"flex items-center gap-2.5 rounded-sm p-2 font-normal text-neutral-500 transition hover:text-primary",
+								isActive && "bg-white text-primary shadow-xs hover:opacity-100",
 							)}
 						>
 							<Icon className="size-5 text-neutral-500" />
