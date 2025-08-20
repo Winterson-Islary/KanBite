@@ -1,5 +1,6 @@
 import ProjectAvatar from "@/src/components/features/server/projects/components/project-avatar";
 import { getUserProject } from "@/src/components/features/server/projects/queries";
+import TaskViewSwitcher from "@/src/components/features/server/tasks/components/task-view-switcher";
 import { Button } from "@/src/components/ui/button";
 import { PencilIcon } from "lucide-react";
 import Link from "next/link";
@@ -13,7 +14,7 @@ async function ProjectIdPage({ params }: ProjectIdPageProps) {
 	const initialValues = await getUserProject({ projectId });
 	return (
 		<main className="flex flex-col gap-y-4">
-			<div className="flex items-center justify-between">
+			<div className="mb-5 flex items-center justify-between">
 				<div className="flex items-center gap-x-2">
 					<ProjectAvatar
 						name={initialValues.name}
@@ -23,7 +24,7 @@ async function ProjectIdPage({ params }: ProjectIdPageProps) {
 					<p className="font-semibold text-lg">{initialValues.name}</p>
 				</div>
 				<div>
-					<Button variant="outline" asChild>
+					<Button variant="ghost" asChild>
 						<Link
 							href={`/workspaces/${initialValues.workspaceId}/projects/${initialValues.$id}/settings`}
 						>
@@ -32,6 +33,9 @@ async function ProjectIdPage({ params }: ProjectIdPageProps) {
 						</Link>
 					</Button>
 				</div>
+			</div>
+			<div>
+				<TaskViewSwitcher />
 			</div>
 		</main>
 	);
