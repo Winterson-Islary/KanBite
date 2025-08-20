@@ -5,7 +5,6 @@ import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { ID, Query } from "node-appwrite";
 import { z } from "zod";
 import { sessionMiddleware } from "../../middlewares/session-middleware";
-import { MEMBER_ROLE } from "../members/constants/types";
 import { getMember } from "../members/utils/getMember";
 import {
 	createProjectSchema,
