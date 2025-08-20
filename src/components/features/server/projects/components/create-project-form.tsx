@@ -58,7 +58,7 @@ export default function CreateProjectForm({
 			{
 				onSuccess: ({ data }) => {
 					form.reset();
-					//! Redirect to project screen
+					router.push(`/workspaces/${workspaceId}/projects/${data.$id}`);
 				},
 			},
 		);

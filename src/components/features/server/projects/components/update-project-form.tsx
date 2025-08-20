@@ -54,7 +54,7 @@ export default function UpdateProjectForm({
 			{ param: { projectId: initialValues.$id } },
 			{
 				onSuccess: () => {
-					window.location.href = "/";
+					window.location.href = `/workspaces/${initialValues.workspaceId}`;
 				},
 			},
 		);
