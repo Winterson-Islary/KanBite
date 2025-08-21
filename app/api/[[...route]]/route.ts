@@ -2,6 +2,7 @@ import { ENV } from "@/lib/config";
 import auth from "@/src/components/features/server/auth/route";
 import members from "@/src/components/features/server/members/route";
 import projects from "@/src/components/features/server/projects/route";
+import tasks from "@/src/components/features/server/tasks/route";
 import workspaces from "@/src/components/features/server/workspaces/route";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
@@ -28,7 +29,8 @@ const routes = app
 	.route("/auth", auth)
 	.route("/workspaces", workspaces)
 	.route("/members", members)
-	.route("/projects", projects);
+	.route("/projects", projects)
+	.route("/tasks", tasks);
 
 export const GET = handle(app);
 export const POST = handle(app);
