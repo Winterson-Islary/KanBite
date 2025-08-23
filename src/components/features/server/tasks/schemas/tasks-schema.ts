@@ -14,3 +14,14 @@ export const createTaskSchema = z.object({
 
 export type TaskSchema = z.infer<typeof createTaskSchema>;
 export type TaskSchemaDocument = TaskSchema & Models.Document;
+
+export const getTaskSchema = z.object({
+	workspaceId: z.string(),
+	projectId: z.string().nullish(),
+	assigneeId: z.string().nullish(),
+	status: z.nativeEnum(TaskStatus).nullish(),
+	search: z.string().nullish(),
+	dueDate: z.string().nullish(),
+});
+
+export type GetTask = z.infer<typeof getTaskSchema>;
