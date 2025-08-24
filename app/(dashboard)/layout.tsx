@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/src/components/features/server/auth/queries";
 import CreateProjectModal from "@/src/components/features/server/projects/components/create-project-modal";
+import { CreateTaskModal } from "@/src/components/features/server/tasks/components/create-task-modal";
 import CreateWorkspaceModal from "@/src/components/features/server/workspaces/components/create-workspace-modal";
 import Navbar from "@/src/components/features/ui/navbar";
 import Sidebar from "@/src/components/features/ui/sidebar";
@@ -14,6 +15,7 @@ export default async function Dashboardlayout({
 		<article className="grid min-h-screen w-full overflow-hidden [grid-template-rows:1fr_auto] ">
 			<CreateWorkspaceModal />
 			<CreateProjectModal />
+			<CreateTaskModal />
 			<div className=" mx-auto min-h-full w-full">
 				<main className="h-full lg:grid lg:[grid-template-columns:300px_1fr]">
 					<aside className="hidden h-full lg:block">

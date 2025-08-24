@@ -9,8 +9,19 @@ export const createTaskSchema = z.object({
 	status: z.nativeEnum(TaskStatus, { required_error: "Required" }),
 	dueDate: z.coerce.date(),
 	assigneeId: z.string().trim().min(1, "Required"),
-	description: z.string().optional().default(""),
+	description: z.string().optional(),
 });
 
 export type TaskSchema = z.infer<typeof createTaskSchema>;
 export type TaskSchemaDocument = TaskSchema & Models.Document;
+
+export const getTaskSchema = z.object({
+	workspaceId: z.string(),
+	projectId: z.string().nullish(),
+	assigneeId: z.string().nullish(),
+	status: z.nativeEnum(TaskStatus).nullish(),
+	search: z.string().nullish(),
+	dueDate: z.string().nullish(),
+});
+
+export type GetTask = z.infer<typeof getTaskSchema>;
