@@ -9,7 +9,7 @@ export const createTaskSchema = z.object({
 	status: z.nativeEnum(TaskStatus, { required_error: "Required" }),
 	dueDate: z.coerce.date(),
 	assigneeId: z.string().trim().min(1, "Required"),
-	description: z.string().optional().default(""),
+	description: z.string().optional(),
 });
 
 export type TaskSchema = z.infer<typeof createTaskSchema>;
