@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
 import { Button } from "@/src/components/ui/button";
 import {
 	Card,
@@ -17,15 +16,21 @@ import {
 	FormMessage,
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/src/components/ui/select";
 import { Separator } from "@/src/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageIcon } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { DatePicker } from "../../../ui/date-picker";
+import MemberAvatar from "../../members/components/member-avatar";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useCreateTask } from "../api/use-create-task";
 import { createTaskSchema } from "../schemas/tasks-schema";
@@ -106,6 +111,41 @@ export default function CreateTaskForm({
 											<DatePicker {...field} />
 										</FormControl>
 										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								name="assigneeId"
+								control={form.control}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className="font-light text-lg ">
+											Assignee
+										</FormLabel>
+										<Select
+											defaultValue={field.value}
+											onValueChange={field.onChange}
+										>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Select assignee" />
+												</SelectTrigger>
+											</FormControl>
+											<FormMessage />
+											<SelectContent>
+												{memberOptions.map((member) => (
+													<SelectItem key={member.id} value={member.id}>
+														<div className="flex items-center gap-x-2">
+															<MemberAvatar
+																className="size-6"
+																name={member.name}
+															/>
+															{member.name}
+														</div>
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
 									</FormItem>
 								)}
 							/>
