@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
 import { Button } from "@/src/components/ui/button";
 import {
 	Card,
@@ -17,18 +16,26 @@ import {
 	FormMessage,
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/src/components/ui/select";
 import { Separator } from "@/src/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageIcon } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { DatePicker } from "../../../ui/date-picker";
+import MemberAvatar from "../../members/components/member-avatar";
+import ProjectAvatar from "../../projects/components/project-avatar";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useCreateTask } from "../api/use-create-task";
 import { createTaskSchema } from "../schemas/tasks-schema";
+import { TaskStatus } from "../types/task-status";
 
 type TCreateTaskFormProps = {
 	onCancel?: () => void;
@@ -48,6 +55,7 @@ export default function CreateTaskForm({
 	const form = useForm<z.infer<typeof createTaskSchema>>({
 		resolver: zodResolver(createTaskSchema),
 		defaultValues: {
+			name: "",
 			workspaceId,
 		},
 	});
@@ -65,7 +73,9 @@ export default function CreateTaskForm({
 	return (
 		<Card className="h-full w-full border-none shadow-none">
 			<CardHeader className="flex p-2 lg:p-0">
-				<CardTitle className="font-light text-3xl">Create a new task</CardTitle>
+				<CardTitle className="font-normal text-3xl">
+					Create a new task
+				</CardTitle>
 			</CardHeader>
 			<CardContent className="p-2 lg:w-full lg:p-0">
 				<Form {...form}>
@@ -80,15 +90,11 @@ export default function CreateTaskForm({
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="font-light text-lg ">
+										<FormLabel className="font-normal text-md ">
 											Task Name
 										</FormLabel>
 										<FormControl>
-											<Input
-												type="text"
-												placeholder="Enter task name"
-												{...field}
-											/>
+											<Input placeholder="Enter task name" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -99,13 +105,119 @@ export default function CreateTaskForm({
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="font-light text-lg ">
+										<FormLabel className="font-normal text-md ">
 											Due Date
 										</FormLabel>
 										<FormControl>
 											<DatePicker {...field} />
 										</FormControl>
 										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								name="assigneeId"
+								control={form.control}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className="font-normal text-md ">
+											Assignee
+										</FormLabel>
+										<Select
+											defaultValue={field.value}
+											onValueChange={field.onChange}
+										>
+											<FormControl>
+												<SelectTrigger className="w-full rounded-none">
+													<SelectValue placeholder="Select assignee" />
+												</SelectTrigger>
+											</FormControl>
+											<FormMessage />
+											<SelectContent className="rounded-none">
+												{memberOptions.map((member) => (
+													<SelectItem key={member.id} value={member.id}>
+														<div className="flex items-center gap-x-2">
+															<MemberAvatar
+																className="size-6"
+																name={member.name}
+															/>
+															{member.name}
+														</div>
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+									</FormItem>
+								)}
+							/>
+							<FormField
+								name="status"
+								control={form.control}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className="font-normal text-md ">
+											Status
+										</FormLabel>
+										<Select
+											defaultValue={field.value}
+											onValueChange={field.onChange}
+										>
+											<FormControl>
+												<SelectTrigger className="w-full rounded-none">
+													<SelectValue placeholder="Select status" />
+												</SelectTrigger>
+											</FormControl>
+											<FormMessage />
+											<SelectContent className="rounded-none">
+												<SelectItem value={TaskStatus.PENDING}>
+													Pending
+												</SelectItem>
+												<SelectItem value={TaskStatus.DONE}>Done</SelectItem>
+												<SelectItem value={TaskStatus.IN_PROGRESS}>
+													In Progress
+												</SelectItem>
+												<SelectItem value={TaskStatus.IN_REVIEW}>
+													In Review
+												</SelectItem>
+												<SelectItem value={TaskStatus.TODO}>Todo</SelectItem>
+											</SelectContent>
+										</Select>
+									</FormItem>
+								)}
+							/>
+							<FormField
+								name="projectId"
+								control={form.control}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className="font-normal text-md ">
+											Project
+										</FormLabel>
+										<Select
+											defaultValue={field.value}
+											onValueChange={field.onChange}
+										>
+											<FormControl>
+												<SelectTrigger className="w-full rounded-none">
+													<SelectValue placeholder="Select project" />
+												</SelectTrigger>
+											</FormControl>
+											<FormMessage />
+											<SelectContent className="rounded-none">
+												{projectOptions.map((project) => (
+													<SelectItem key={project.id} value={project.id}>
+														<div className="flex items-center gap-x-2">
+															<ProjectAvatar
+																className="size-6"
+																name={project.name}
+																image={project.imageUrl}
+															/>
+															{project.name}
+														</div>
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
 									</FormItem>
 								)}
 							/>
