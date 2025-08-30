@@ -65,6 +65,7 @@ export default function CreateTaskForm({
 			{
 				onSuccess: () => {
 					form.reset();
+					onCancel?.();
 				},
 			},
 		);

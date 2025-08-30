@@ -7,13 +7,21 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@/src/components/ui/tabs";
-import { PlusIcon } from "lucide-react";
+import { Loader, PlusIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
+import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
+import { useGetTasks } from "../api/use-get-tasks";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
 
 function TaskViewSwitcher() {
+	const [view, setView] = useQueryState("task-view", { defaultValue: "table" });
+	const workspaceId = useWorkspaceId();
+	const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({
+		workspaceId,
+	});
 	const { open } = useCreateTaskModal();
 	return (
-		<Tabs className="w-full flex-1">
+		<Tabs defaultValue={view} onValueChange={setView} className="w-full flex-1">
 			<div className="flex h-full flex-col overflow-auto">
 				<div className="flex flex-col items-center justify-between gap-3 border-b pb-2 lg:flex-row">
 					<TabsList className="w-full lg:w-auto">
@@ -39,17 +47,23 @@ function TaskViewSwitcher() {
 				<Separator className="my-4" />
 				<h1>Data Filters</h1>
 				<Separator className="my-4" />
-				<article>
-					<TabsContent value="table" className="mt-0">
-						Data Table
-					</TabsContent>
-					<TabsContent value="kanban" className="mt-0">
-						Data Kanban
-					</TabsContent>
-					<TabsContent value="calendar" className="mt-0">
-						Data Calendar
-					</TabsContent>
-				</article>
+				{isLoadingTasks ? (
+					<article className="flex h-[200px] w-full flex-col items-center justify-center border">
+						<Loader className="size-5 animate-spin text-muted-foreground" />
+					</article>
+				) : (
+					<article>
+						<TabsContent value="table" className="mt-0">
+							{JSON.stringify(tasks)}
+						</TabsContent>
+						<TabsContent value="kanban" className="mt-0">
+							{JSON.stringify(tasks)}
+						</TabsContent>
+						<TabsContent value="calendar" className="mt-0">
+							{JSON.stringify(tasks)}
+						</TabsContent>
+					</article>
+				)}
 			</div>
 		</Tabs>
 	);
