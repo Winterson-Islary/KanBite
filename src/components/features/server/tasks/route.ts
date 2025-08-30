@@ -35,7 +35,7 @@ const app = new Hono()
 				);
 			const queryingList = [
 				// Query.equal("workspaceId", taskQuery.workspaceId),
-				Query.orderDesc("createdAt"),
+				Query.orderDesc("$createdAt"),
 			];
 
 			console.log("Building task query....."); //! Only for initial debugging (to be removed)
