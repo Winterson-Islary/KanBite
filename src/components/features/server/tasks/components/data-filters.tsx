@@ -6,7 +6,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/src/components/ui/select";
-import { ListChecksIcon, UserIcon } from "lucide-react";
+import { FolderIcon, ListChecksIcon, UserIcon } from "lucide-react";
 import { useGetMembers } from "../../members/api/use-get-members";
 import { useGetProjects } from "../../projects/api/use-get-projects";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
@@ -98,7 +98,7 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 			>
 				<SelectTrigger className="h-8 w-full lg:w-auto">
 					<div className="flex items-center pr-2">
-						<UserIcon className="mr-2 size-4" />
+						<FolderIcon className="mr-2 size-4" />
 						<SelectValue placeholder="All projects" />
 					</div>
 				</SelectTrigger>
