@@ -7,6 +7,7 @@ import {
 	SelectValue,
 } from "@/src/components/ui/select";
 import { FolderIcon, ListChecksIcon, UserIcon } from "lucide-react";
+import { DatePicker } from "../../../ui/date-picker";
 import { useGetMembers } from "../../members/api/use-get-members";
 import { useGetProjects } from "../../projects/api/use-get-projects";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
@@ -112,6 +113,14 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 					))}
 				</SelectContent>
 			</Select>
+			<DatePicker
+				placeholder="Due date"
+				className="h-8 w-full lg:w-auto"
+				value={dueDate ? new Date(dueDate) : undefined}
+				onChange={(date) => {
+					setFilters({ dueDate: date ? date.toISOString() : null });
+				}}
+			/>
 		</main>
 	);
 }
