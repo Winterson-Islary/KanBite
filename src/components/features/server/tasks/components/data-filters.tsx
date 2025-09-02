@@ -6,7 +6,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/src/components/ui/select";
-import { ListChecksIcon } from "lucide-react";
+import { ListChecksIcon, UserIcon } from "lucide-react";
 import { useGetMembers } from "../../members/api/use-get-members";
 import { useGetProjects } from "../../projects/api/use-get-projects";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
@@ -40,6 +40,10 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 		if (value === "all") setFilters({ status: null });
 		else setFilters({ status: value as TaskStatus });
 	};
+	const onAssigneeChange = (value: string) => {
+		if (value === "all") setFilters({ status: null });
+		else setFilters({ assigneeId: value as string });
+	};
 	if (isLoadingData) return <article>Loading Data...</article>;
 
 	return (
@@ -55,13 +59,33 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 					</div>
 				</SelectTrigger>
 				<SelectContent>
-					<SelectItem value="all">All Statuses</SelectItem>
+					<SelectItem value="all">All statuses</SelectItem>
 					<SelectSeparator />
 					<SelectItem value={TaskStatus.DONE}>Done</SelectItem>
 					<SelectItem value={TaskStatus.PENDING}>Pending</SelectItem>
 					<SelectItem value={TaskStatus.IN_PROGRESS}>In Progress</SelectItem>
 					<SelectItem value={TaskStatus.IN_REVIEW}>In Review</SelectItem>
 					<SelectItem value={TaskStatus.TODO}>Todo</SelectItem>
+				</SelectContent>
+			</Select>
+			<Select
+				defaultValue={assigneeId || undefined}
+				onValueChange={(value) => onAssigneeChange(value)}
+			>
+				<SelectTrigger className="h-8 w-full lg:w-auto">
+					<div className="flex items-center pr-2">
+						<UserIcon className="mr-2 size-4" />
+						<SelectValue placeholder="All assignees" />
+					</div>
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="all">All assignees</SelectItem>
+					<SelectSeparator />
+					{memberOptions?.map((member) => (
+						<SelectItem key={member.value} value={member.value}>
+							{member.label}
+						</SelectItem>
+					))}
 				</SelectContent>
 			</Select>
 		</main>
