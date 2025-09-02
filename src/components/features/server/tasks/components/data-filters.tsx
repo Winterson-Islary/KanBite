@@ -44,6 +44,10 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 		if (value === "all") setFilters({ status: null });
 		else setFilters({ assigneeId: value as string });
 	};
+	const onProjectChange = (value: string) => {
+		if (value === "all") setFilters({ status: null });
+		else setFilters({ projectId: value as string });
+	};
 	if (isLoadingData) return <article>Loading Data...</article>;
 
 	return (
@@ -84,6 +88,26 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 					{memberOptions?.map((member) => (
 						<SelectItem key={member.value} value={member.value}>
 							{member.label}
+						</SelectItem>
+					))}
+				</SelectContent>
+			</Select>
+			<Select
+				defaultValue={projectId || undefined}
+				onValueChange={(value) => onProjectChange(value)}
+			>
+				<SelectTrigger className="h-8 w-full lg:w-auto">
+					<div className="flex items-center pr-2">
+						<UserIcon className="mr-2 size-4" />
+						<SelectValue placeholder="All projects" />
+					</div>
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="all">All projects</SelectItem>
+					<SelectSeparator />
+					{projectOptions?.map((project) => (
+						<SelectItem key={project.value} value={project.value}>
+							{project.label}
 						</SelectItem>
 					))}
 				</SelectContent>
