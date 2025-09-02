@@ -52,7 +52,7 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 	if (isLoadingData) return <article>Loading Data...</article>;
 
 	return (
-		<main className="flex flex-col gap-2 lg:flex-row">
+		<main className="flex h-8 flex-col gap-2 lg:flex-row">
 			<Select
 				defaultValue={status || undefined}
 				onValueChange={(value) => onStatusChange(value)}
@@ -115,7 +115,7 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 			</Select>
 			<DatePicker
 				placeholder="Due date"
-				className="h-8 w-full lg:w-auto"
+				className="h-full w-full rounded-sm lg:w-auto"
 				value={dueDate ? new Date(dueDate) : undefined}
 				onChange={(date) => {
 					setFilters({ dueDate: date ? date.toISOString() : null });
