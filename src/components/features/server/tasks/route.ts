@@ -7,11 +7,8 @@ import { ID, Query } from "node-appwrite";
 import { sessionMiddleware } from "../../middlewares/session-middleware";
 import { getMember } from "../members/utils/getMember";
 import type { Project } from "../projects/types/project";
-import {
-	type TaskSchemaDocument,
-	createTaskSchema,
-	getTaskSchema,
-} from "./schemas/tasks-schema";
+import { createTaskSchema, getTaskSchema } from "./schemas/tasks-schema";
+import type { Task } from "./types/task";
 
 const app = new Hono()
 	.get(
@@ -47,7 +44,7 @@ const app = new Hono()
 			});
 			console.log("Finishing build....."); //! Only for initial debugging (to be removed)
 
-			const tasks = await databases.listDocuments<TaskSchemaDocument>(
+			const tasks = await databases.listDocuments<Task>(
 				ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
 				ENV.NEXT_PUBLIC_APPWRITE_TASKS_ID,
 				queryingList,
@@ -103,17 +100,16 @@ const app = new Hono()
 					StatusCodes.UNAUTHORIZED,
 				);
 
-			const highestTaskPosition =
-				await databases.listDocuments<TaskSchemaDocument>(
-					ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
-					ENV.NEXT_PUBLIC_APPWRITE_TASKS_ID,
-					[
-						Query.equal("status", taskObject.status),
-						Query.equal("workspaceId", taskObject.workspaceId),
-						Query.orderDesc("position"),
-						Query.limit(1),
-					],
-				);
+			const highestTaskPosition = await databases.listDocuments<Task>(
+				ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+				ENV.NEXT_PUBLIC_APPWRITE_TASKS_ID,
+				[
+					Query.equal("status", taskObject.status),
+					Query.equal("workspaceId", taskObject.workspaceId),
+					Query.orderDesc("position"),
+					Query.limit(1),
+				],
+			);
 			const newAssignablePosition =
 				highestTaskPosition.documents.length > 0
 					? highestTaskPosition.documents[0].position + 1000

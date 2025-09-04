@@ -12,18 +12,28 @@ import { useQueryState } from "nuqs";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useGetTasks } from "../api/use-get-tasks";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
+import { useTaskFilters } from "../hooks/use-task-filters";
+import { columns } from "./data-columns";
+import DataFilters from "./data-filters";
+import { DataTable } from "./data-table";
 
 function TaskViewSwitcher() {
 	const [view, setView] = useQueryState("task-view", { defaultValue: "table" });
+	const [{ status, projectId, dueDate, assigneeId, search }] = useTaskFilters();
 	const workspaceId = useWorkspaceId();
 	const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({
 		workspaceId,
+		search,
+		status,
+		projectId,
+		assigneeId,
+		dueDate,
 	});
 	const { open } = useCreateTaskModal();
 	return (
 		<Tabs defaultValue={view} onValueChange={setView} className="w-full flex-1">
 			<div className="flex h-full flex-col overflow-auto">
-				<div className="flex flex-col items-center justify-between gap-3 border-b pb-2 lg:flex-row">
+				<div className="flex flex-col items-center justify-between gap-3 lg:flex-row">
 					<TabsList className="w-full lg:w-auto">
 						<TabsTrigger value="table" className="h-8 w-full lg:w-auto">
 							Table
@@ -45,7 +55,7 @@ function TaskViewSwitcher() {
 					</Button>
 				</div>
 				<Separator className="my-4" />
-				<h1>Data Filters</h1>
+				<DataFilters />
 				<Separator className="my-4" />
 				{isLoadingTasks ? (
 					<article className="flex h-[200px] w-full flex-col items-center justify-center border">
@@ -54,7 +64,7 @@ function TaskViewSwitcher() {
 				) : (
 					<article>
 						<TabsContent value="table" className="mt-0">
-							{JSON.stringify(tasks)}
+							<DataTable columns={columns} data={tasks?.documents ?? []} />
 						</TabsContent>
 						<TabsContent value="kanban" className="mt-0">
 							{JSON.stringify(tasks)}
