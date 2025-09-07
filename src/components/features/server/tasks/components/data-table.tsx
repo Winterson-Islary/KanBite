@@ -51,18 +51,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			{" "}
-			<div className="flex items-center py-4">
-				<Input
-					placeholder="Filter emails..."
-					value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-					onChange={(event) =>
-						table.getColumn("email")?.setFilterValue(event.target.value)
-					}
-					className="max-w-sm"
-				/>
-			</div>
-			<div className="overflow-hidden rounded-md border">
+			<div className="my-4 overflow-hidden rounded-md border">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -112,7 +101,7 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			<div className="flex items-center justify-end space-x-2 py-4">
+			<div className="flex items-center justify-end space-x-2">
 				<Button
 					variant="outline"
 					size="sm"
