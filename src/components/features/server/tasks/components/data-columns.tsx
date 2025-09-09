@@ -1,11 +1,14 @@
 "use client";
 
+import { snakeCaseToTitleCase } from "@/lib/utils";
+import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import MemberAvatar from "../../members/components/member-avatar";
 import ProjectAvatar from "../../projects/components/project-avatar";
 import type { Task } from "../types/task";
+import TaskDate from "./task-date";
 
 export const columns: ColumnDef<Task>[] = [
 	{
@@ -81,6 +84,44 @@ export const columns: ColumnDef<Task>[] = [
 					<p className="line-clamp-1">{assignee.name}</p>
 				</div>
 			);
+		},
+	},
+	{
+		accessorKey: "dueDate",
+		header: ({ column }) => {
+			return (
+				<Button
+					variant="ghost"
+					className="hover:cursor-pointer"
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+				>
+					Due Date
+					<ArrowUpDown className="ml-2 h-4 w-4" />
+				</Button>
+			);
+		},
+		cell: ({ row }) => {
+			const dueDate = row.original.dueDate;
+			return <TaskDate value={dueDate} />;
+		},
+	},
+	{
+		accessorKey: "status",
+		header: ({ column }) => {
+			return (
+				<Button
+					variant="ghost"
+					className="hover:cursor-pointer"
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+				>
+					Status
+					<ArrowUpDown className="ml-2 h-4 w-4" />
+				</Button>
+			);
+		},
+		cell: ({ row }) => {
+			const status = row.original.status;
+			return <Badge>{snakeCaseToTitleCase(status)}</Badge>;
 		},
 	},
 ];
