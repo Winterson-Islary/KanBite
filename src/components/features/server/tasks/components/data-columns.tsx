@@ -132,7 +132,7 @@ export const columns: ColumnDef<Task>[] = [
 			const projectId = row.original.projectId;
 			return (
 				<TaskActions id={id} projectId={projectId}>
-					<Button variant="ghost" className="size-8 p-0">
+					<Button variant="ghost" className="size-8 p-0 hover:cursor-pointer">
 						<MoreVertical className="size-4" />
 					</Button>
 				</TaskActions>
