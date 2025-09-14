@@ -1,3 +1,4 @@
+import { config } from "@/lib/app-config";
 import { createAdminClient } from "@/lib/appwrite";
 import { ENV } from "@/lib/config";
 import { zValidator } from "@hono/zod-validator";
@@ -122,6 +123,33 @@ const app = new Hono()
 			);
 			return c.json({ data: newTask });
 		},
-	);
+	)
+	.delete("/:taskId", sessionMiddleware, async (c) => {
+		const user = c.get("user");
+		const databases = c.get("databases");
+		const { taskId } = c.req.param();
+		const task = await databases.getDocument<Task>(
+			config.appwrite.databaseId,
+			config.appwrite.tasksId,
+			taskId,
+		);
+		const member = await getMember({
+			databases,
+			workspaceId: task.workspaceId,
+			userId: user.$id,
+		});
+		if (!member)
+			return c.json(
+				{ error: ReasonPhrases.UNAUTHORIZED },
+				StatusCodes.UNAUTHORIZED,
+			);
+		await databases.deleteDocument(
+			config.appwrite.databaseId,
+			config.appwrite.tasksId,
+			taskId,
+		);
+
+		return c.json({ data: { $id: task.$id } });
+	});
 
 export default app;
