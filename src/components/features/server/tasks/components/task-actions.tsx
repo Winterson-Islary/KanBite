@@ -6,6 +6,8 @@ import {
 } from "@/src/components/ui/dropdown-menu";
 import { useConfirm } from "@/src/hooks/useConfirm";
 import { ExternalLinkIcon, PencilIcon, TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useDeleteTask } from "../api/use-delete-task";
 
 interface TaskActionsProps {
@@ -15,6 +17,8 @@ interface TaskActionsProps {
 }
 
 function TaskActions({ id, projectId, children }: TaskActionsProps) {
+	const router = useRouter();
+	const workspaceId = useWorkspaceId();
 	const { mutate: deleteTask, isPending: deleteTaskPending } = useDeleteTask();
 	const [ConfirmDialog, confirm] = useConfirm(
 		"Delete task",
@@ -25,7 +29,12 @@ function TaskActions({ id, projectId, children }: TaskActionsProps) {
 		if (!ok) return;
 		deleteTask({ param: { taskId: id } });
 	};
-
+	const onOpenTask = () => {
+		router.push(`/workspaces/${workspaceId}/tasks/${id}`);
+	};
+	const onOpenProject = () => {
+		router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
+	};
 	return (
 		<div className="flex justify-end">
 			<ConfirmDialog />
@@ -33,14 +42,14 @@ function TaskActions({ id, projectId, children }: TaskActionsProps) {
 				<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" className="w-40">
 					<DropdownMenuItem
-						onClick={() => {}}
+						onClick={onOpenTask}
 						className="p-[10px] font-medium hover:cursor-pointer"
 					>
 						<ExternalLinkIcon className="mr-2 size-4 stroke-2" />
 						Task Details
 					</DropdownMenuItem>
 					<DropdownMenuItem
-						onClick={() => {}}
+						onClick={onOpenProject}
 						className="p-[10px] font-medium hover:cursor-pointer"
 					>
 						<ExternalLinkIcon className="mr-2 size-4 stroke-2" />
