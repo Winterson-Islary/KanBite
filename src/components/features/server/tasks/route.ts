@@ -8,10 +8,35 @@ import { ID, Query } from "node-appwrite";
 import { sessionMiddleware } from "../../middlewares/session-middleware";
 import { getMember } from "../members/utils/getMember";
 import type { Project } from "../projects/types/project";
-import { createTaskSchema, getTaskSchema } from "./schemas/tasks-schema";
+import {
+	createTaskSchema,
+	getTaskSchema,
+	updateTaskSchema,
+} from "./schemas/tasks-schema";
 import type { Task } from "./types/task";
 
 const app = new Hono()
+	.get("/:taskId", sessionMiddleware, async (c) => {
+		const currentUser = c.get("user");
+		const databases = c.get("databases");
+		const { taskId } = c.req.param();
+		const { users } = await createAdminClient();
+		const taskDetails = await databases.getDocument<Task>(
+			config.appwrite.databaseId,
+			config.appwrite.tasksId,
+			taskId,
+		);
+		const currentMemberDetails = await getMember({
+			databases,
+			workspaceId: taskDetails.workspaceId,
+			userId: currentUser.$id,
+		});
+		if (!currentMemberDetails)
+			return c.json(
+				{ error: ReasonPhrases.UNAUTHORIZED },
+				StatusCodes.UNAUTHORIZED,
+			);
+	})
 	.get(
 		"/",
 		sessionMiddleware,
@@ -150,6 +175,40 @@ const app = new Hono()
 		);
 
 		return c.json({ data: { $id: task.$id } });
-	});
+	})
+	.patch(
+		"/:taskId",
+		sessionMiddleware,
+		zValidator("json", updateTaskSchema),
+		async (c) => {
+			const user = c.get("user");
+			const databases = c.get("databases");
+			const newTaskDetails = c.req.valid("json");
+			const { taskId } = c.req.param();
+			const oldTaskDetails = await databases.getDocument<Task>(
+				config.appwrite.databaseId,
+				config.appwrite.tasksId,
+				taskId,
+			);
+			const isMember = await getMember({
+				databases,
+				workspaceId: oldTaskDetails.workspaceId,
+				userId: user.$id,
+			});
+			if (!isMember)
+				return c.json(
+					{ error: ReasonPhrases.UNAUTHORIZED },
+					StatusCodes.UNAUTHORIZED,
+				);
+
+			const newTask = await databases.updateDocument<Task>(
+				config.appwrite.databaseId,
+				config.appwrite.tasksId,
+				ID.unique(),
+				{ ...newTaskDetails },
+			);
+			return c.json({ data: newTask });
+		},
+	);
 
 export default app;
