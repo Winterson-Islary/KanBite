@@ -36,6 +36,19 @@ const app = new Hono()
 				{ error: ReasonPhrases.UNAUTHORIZED },
 				StatusCodes.UNAUTHORIZED,
 			);
+		const project = await databases.getDocument<Project>(
+			config.appwrite.databaseId,
+			config.appwrite.projectsId,
+			taskDetails.projectId,
+		);
+		const member = await databases.getDocument(
+			config.appwrite.databaseId,
+			config.appwrite.membersId,
+			taskDetails.assigneeId,
+		);
+		const user = await users.get(member.userId);
+		const assignee = { ...member, name: user.name, email: user.email };
+		return c.json({ data: { ...taskDetails, project, assignee } });
 	})
 	.get(
 		"/",
@@ -204,7 +217,7 @@ const app = new Hono()
 			const newTask = await databases.updateDocument<Task>(
 				config.appwrite.databaseId,
 				config.appwrite.tasksId,
-				ID.unique(),
+				oldTaskDetails.$id,
 				{ ...newTaskDetails },
 			);
 			return c.json({ data: newTask });
