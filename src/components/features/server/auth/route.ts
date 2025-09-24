@@ -3,7 +3,8 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { deleteCookie, setCookie } from "hono/cookie";
 import { ID } from "node-appwrite";
-import { sessionMiddleware } from "../../middlewares/session-middleware";
+import { ApiResponse } from "../../http/helpers/api-response";
+import { sessionMiddleware } from "../../http/middlewares/session-middleware";
 import { AUTH_COOKIE, SESSION_DURATION } from "./constants";
 import { signInSchema } from "./schemas/sign-in-schema";
 import { signUpSchema } from "./schemas/sign-up-schema";
@@ -24,7 +25,7 @@ const app = new Hono()
 			sameSite: "strict",
 			maxAge: SESSION_DURATION,
 		});
-		return c.json({ success: "ok" });
+		return ApiResponse.success(c, null);
 	})
 	.post("/register", zValidator("json", signUpSchema), async (c) => {
 		const { username, email, password } = c.req.valid("json");
@@ -38,13 +39,13 @@ const app = new Hono()
 			sameSite: "strict",
 			maxAge: SESSION_DURATION,
 		});
-		return c.json({ success: "ok" });
+		return ApiResponse.success(c, null);
 	})
 	.post("/logout", sessionMiddleware, async (c) => {
 		deleteCookie(c, AUTH_COOKIE);
 		const account = c.get("account");
 		await account.deleteSession("current");
-		return c.json({ success: "ok" });
+		return ApiResponse.success(c, null);
 	});
 
 export default app;

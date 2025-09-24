@@ -14,7 +14,7 @@ import {
 	type Storage as StorageType,
 	type Users as UsersType,
 } from "node-appwrite";
-import { AUTH_COOKIE } from "../server/auth/constants";
+import { AUTH_COOKIE } from "../../server/auth/constants";
 
 interface AdditionalContext {
 	Variables: {
