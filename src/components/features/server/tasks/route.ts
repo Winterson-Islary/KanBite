@@ -5,7 +5,7 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { ID, Query } from "node-appwrite";
-import { sessionMiddleware } from "../../middlewares/session-middleware";
+import { sessionMiddleware } from "../../http/middlewares/session-middleware";
 import { getMember } from "../members/utils/getMember";
 import type { Project } from "../projects/types/project";
 import {
