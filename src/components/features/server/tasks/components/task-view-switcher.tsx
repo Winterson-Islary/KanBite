@@ -9,10 +9,12 @@ import {
 } from "@/src/components/ui/tabs";
 import { Loader, PlusIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
+import { useCallback } from "react";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useGetTasks } from "../api/use-get-tasks";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
 import { useTaskFilters } from "../hooks/use-task-filters";
+import type { TaskStatus } from "../types/task-status";
 import { columns } from "./data-columns";
 import DataFilters from "./data-filters";
 import { DataKanban } from "./data-kanban";
@@ -30,6 +32,12 @@ function TaskViewSwitcher() {
 		assigneeId,
 		dueDate,
 	});
+	const onKanbanChange = useCallback(
+		(tasks: { $id: string; status: TaskStatus; position: number }[]) => {
+			console.log(tasks);
+		},
+		[],
+	);
 	const { open } = useCreateTaskModal();
 	return (
 		<Tabs defaultValue={view} onValueChange={setView} className="w-full flex-1">
@@ -68,7 +76,10 @@ function TaskViewSwitcher() {
 							<DataTable columns={columns} data={tasks?.documents ?? []} />
 						</TabsContent>
 						<TabsContent value="kanban" className="mt-0">
-							<DataKanban data={tasks?.documents ?? []} />
+							<DataKanban
+								onChange={onKanbanChange}
+								data={tasks?.documents ?? []}
+							/>
 						</TabsContent>
 						<TabsContent value="calendar" className="mt-0">
 							{JSON.stringify(tasks)}
