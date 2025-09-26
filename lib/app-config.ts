@@ -29,8 +29,12 @@ const configSchema = z.object({
 			.min(1, { message: "NEXT_PUBLIC_APPWRITE_TASKS_ID is required" }),
 	}),
 	server: z.object({
+		env: z.string().default("development"),
 		appwriteKey: z.string().min(1, {
 			message: "NEXT_APPWRITE_KEY is a required server-side secret",
+		}),
+		logger: z.object({
+			logLevel: z.string().default("info"),
 		}),
 	}),
 });
@@ -50,6 +54,10 @@ const loadConfig = () => {
 		},
 		server: {
 			appwriteKey: process.env.NEXT_APPWRITE_KEY,
+			env: process.env.NODE_ENV,
+			logger: {
+				logLevel: process.env.LOG_LEVEL,
+			},
 		},
 	};
 
