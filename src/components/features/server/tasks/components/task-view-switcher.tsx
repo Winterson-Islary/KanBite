@@ -7,6 +7,7 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@/src/components/ui/tabs";
+import logger from "@/src/shared/logger";
 import { Loader, PlusIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useCallback } from "react";
