@@ -1,6 +1,7 @@
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 
 export const ErrorCodes = {
+	workspaceError: "WORKSPACE_ERROR",
 	userNotFound: "USER_NOT_FOUND",
 	userAlreadyExists: "USER_ALREADY_EXISTS",
 	expiredToken: "EXPIRED_TOKEN",

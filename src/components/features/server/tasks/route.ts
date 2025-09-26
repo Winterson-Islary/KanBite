@@ -1,10 +1,12 @@
 import { config } from "@/lib/app-config";
 import { createAdminClient } from "@/lib/appwrite";
 import { ENV } from "@/lib/config";
+import { ErrorCodes } from "@/src/shared/errors";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { ID, Query } from "node-appwrite";
+import { ApiResponse } from "../../http/helpers/api-response";
 import { sessionMiddleware } from "../../http/middlewares/session-middleware";
 import { getMember } from "../members/utils/getMember";
 import type { Project } from "../projects/types/project";
@@ -13,6 +15,7 @@ import {
 	getTaskSchema,
 	updateTaskSchema,
 } from "./schemas/tasks-schema";
+import { BulkTaskUpdate } from "./types/bulk-update-task";
 import type { Task } from "./types/task";
 
 const app = new Hono()
@@ -221,6 +224,66 @@ const app = new Hono()
 				{ ...newTaskDetails },
 			);
 			return c.json({ data: newTask });
+		},
+	)
+	.post(
+		"/bulk-update",
+		sessionMiddleware,
+		zValidator("json", BulkTaskUpdate),
+		async (c) => {
+			const databases = c.get("databases");
+			const user = c.get("user");
+			const { tasks } = c.req.valid("json");
+			const tasksToUpdate = await databases.listDocuments<Task>(
+				config.appwrite.databaseId,
+				config.appwrite.tasksId,
+				[
+					Query.contains(
+						"$id",
+						tasks.map((task) => task.$id),
+					),
+				],
+			);
+			const workspaceIds = new Set(
+				tasksToUpdate.documents.map((task) => task.workspaceId),
+			);
+			if (workspaceIds.size !== 1)
+				return ApiResponse.error(c, {
+					code: ErrorCodes.workspaceError,
+					message: "All tasks must belong to the same workspace.",
+					statusCode: StatusCodes.BAD_REQUEST,
+				});
+			const workspaceId = workspaceIds.values().next().value;
+			if (!workspaceId)
+				return ApiResponse.error(c, {
+					code: ErrorCodes.workspaceError,
+					message: "No workspace id could be obtained.",
+					statusCode: StatusCodes.BAD_REQUEST,
+				});
+			const member = await getMember({
+				databases,
+				workspaceId,
+				userId: user.$id,
+			});
+			if (!member)
+				return ApiResponse.error(c, {
+					code: ErrorCodes.unauthorized,
+					message:
+						"User is not a member of the workspace it is trying to update.",
+					statusCode: StatusCodes.UNAUTHORIZED,
+				});
+			const updatedTasks = await Promise.all(
+				tasks.map(async (task) => {
+					const { $id, status, position } = task;
+					return databases.updateDocument<Task>(
+						config.appwrite.databaseId,
+						config.appwrite.tasksId,
+						$id,
+						{ status, position },
+					);
+				}),
+			);
+			return ApiResponse.success(c, updatedTasks);
 		},
 	);
 
