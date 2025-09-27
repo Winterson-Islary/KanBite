@@ -1,6 +1,4 @@
 import { AppError, type ErrorCode } from "@/src/shared/errors";
-import type { Context } from "hono";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
 
 export interface ApiErrorPayload {
 	code: ErrorCode;
@@ -9,18 +7,14 @@ export interface ApiErrorPayload {
 }
 
 export const ApiResponse = {
-	success<T>(c: Context, data: T, statusCode: ContentfulStatusCode = 200) {
-		return c.json({ success: true as const, data }, statusCode);
+	success<T>(data: T) {
+		return { success: true as const, data };
 	},
-	error(
-		c: Context,
-		payload: AppError | ApiErrorPayload,
-		statusCode: ContentfulStatusCode = 500,
-	) {
+	error(payload: AppError | ApiErrorPayload) {
 		if (payload instanceof AppError) {
-			return c.json(payload.toJSON(), payload.statusCode); // Already well-structured
+			return payload.toJSON(); // Already well-structured
 		}
-		return c.json({ success: false as const, error: payload }, statusCode);
+		return { success: false as const, error: payload };
 	},
 };
 
