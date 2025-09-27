@@ -7,11 +7,11 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@/src/components/ui/tabs";
-import logger from "@/src/shared/logger";
 import { Loader, PlusIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useCallback } from "react";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
+import { useBulkUpdateTask } from "../api/use-bulk-update-task";
 import { useGetTasks } from "../api/use-get-tasks";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
 import { useTaskFilters } from "../hooks/use-task-filters";
@@ -33,11 +33,12 @@ function TaskViewSwitcher() {
 		assigneeId,
 		dueDate,
 	});
+	const { mutate: bulkUpdate } = useBulkUpdateTask();
 	const onKanbanChange = useCallback(
 		(tasks: { $id: string; status: TaskStatus; position: number }[]) => {
-			console.log(tasks);
+			bulkUpdate({ json: { tasks } });
 		},
-		[],
+		[bulkUpdate],
 	);
 	const { open } = useCreateTaskModal();
 	return (

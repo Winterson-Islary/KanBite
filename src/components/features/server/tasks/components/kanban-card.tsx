@@ -22,7 +22,7 @@ function KanbanCard({ task }: KanbanCardProps) {
 					/>
 					<span className="font-medium text-xs">{task.project.name}</span>
 				</div>
-				<TaskActions id={task.id} projectId={task.projectId}>
+				<TaskActions id={task.$id} projectId={task.projectId}>
 					<MoreHorizontal className="size[18px] shrink-0 stroke-1 text-neutral-700 transition hover:opacity-75" />
 				</TaskActions>
 			</div>

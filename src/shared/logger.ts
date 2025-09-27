@@ -31,7 +31,7 @@ const developmentFormat = winston.format.combine(
 	winston.format.errors({ stack: true }),
 	winston.format.printf((info) => {
 		// We manually construct the log message to include the stack trace if it exists.
-		const message = `${info.timestamp} ${info.level}: ${info.message}`;
+		const message = `${info.timestamp} [${info.level}]: ${info.message}`;
 		return info.stack ? `${message}\n${info.stack}` : message;
 	}),
 );
