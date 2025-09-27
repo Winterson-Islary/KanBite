@@ -2,6 +2,7 @@ import { config } from "@/lib/app-config";
 import { createAdminClient } from "@/lib/appwrite";
 import { ENV } from "@/lib/config";
 import { ErrorCodes } from "@/src/shared/errors";
+import logger from "@/src/shared/logger";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
@@ -77,14 +78,14 @@ const app = new Hono()
 				Query.orderDesc("$createdAt"),
 			];
 
-			console.log("Building task query....."); //! Only for initial debugging (to be removed)
+			logger.info("Building task query....."); //! Only for initial debugging (to be removed)
 			// biome-ignore lint/complexity/noForEach: <>
 			Object.keys(taskQuery).forEach((key) => {
 				const value = taskQuery[key as keyof typeof taskQuery];
-				console.log("key: ", key, "Value: ", value); //! Only for initial debugging (to be removed)
+				logger.info(`key: ${key}, Value: ${value}`); //! Only for initial debugging (to be removed)
 				if (value) queryingList.push(Query.equal(`${key}`, value));
 			});
-			console.log("Finishing build....."); //! Only for initial debugging (to be removed)
+			logger.info("Finishing build....."); //! Only for initial debugging (to be removed)
 
 			const tasks = await databases.listDocuments<Task>(
 				ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
@@ -248,30 +249,36 @@ const app = new Hono()
 				tasksToUpdate.documents.map((task) => task.workspaceId),
 			);
 			if (workspaceIds.size !== 1)
-				return ApiResponse.error(c, {
-					code: ErrorCodes.workspaceError,
-					message: "All tasks must belong to the same workspace.",
-					statusCode: StatusCodes.BAD_REQUEST,
-				});
+				return c.json(
+					ApiResponse.error({
+						code: ErrorCodes.workspaceError,
+						message: "All tasks must belong to the same workspace.",
+					}),
+					StatusCodes.BAD_REQUEST,
+				);
 			const workspaceId = workspaceIds.values().next().value;
 			if (!workspaceId)
-				return ApiResponse.error(c, {
-					code: ErrorCodes.workspaceError,
-					message: "No workspace id could be obtained.",
-					statusCode: StatusCodes.BAD_REQUEST,
-				});
+				return c.json(
+					ApiResponse.error({
+						code: ErrorCodes.workspaceError,
+						message: "No workspace id could be obtained.",
+					}),
+					StatusCodes.BAD_REQUEST,
+				);
 			const member = await getMember({
 				databases,
 				workspaceId,
 				userId: user.$id,
 			});
 			if (!member)
-				return ApiResponse.error(c, {
-					code: ErrorCodes.unauthorized,
-					message:
-						"User is not a member of the workspace it is trying to update.",
-					statusCode: StatusCodes.UNAUTHORIZED,
-				});
+				return c.json(
+					ApiResponse.error({
+						code: ErrorCodes.unauthorized,
+						message:
+							"User is not a member of the workspace it is trying to update.",
+					}),
+					StatusCodes.UNAUTHORIZED,
+				);
 			const updatedTasks = await Promise.all(
 				tasks.map(async (task) => {
 					const { $id, status, position } = task;
@@ -283,7 +290,7 @@ const app = new Hono()
 					);
 				}),
 			);
-			return ApiResponse.success(c, updatedTasks);
+			return c.json(ApiResponse.success(updatedTasks), StatusCodes.OK);
 		},
 	);
 
