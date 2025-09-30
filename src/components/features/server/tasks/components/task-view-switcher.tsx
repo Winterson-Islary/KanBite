@@ -16,6 +16,7 @@ import { useGetTasks } from "../api/use-get-tasks";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
 import { useTaskFilters } from "../hooks/use-task-filters";
 import type { TaskStatus } from "../types/task-status";
+import DataCalendar from "./data-calendar";
 import { columns } from "./data-columns";
 import DataFilters from "./data-filters";
 import { DataKanban } from "./data-kanban";
@@ -43,7 +44,7 @@ function TaskViewSwitcher() {
 	const { open } = useCreateTaskModal();
 	return (
 		<Tabs defaultValue={view} onValueChange={setView} className="w-full flex-1">
-			<div className="flex h-full flex-col overflow-auto">
+			<div className="flex h-full flex-col overflow-auto pb-5">
 				<div className="flex flex-col items-center justify-between gap-3 lg:flex-row">
 					<TabsList className="w-full lg:w-auto">
 						<TabsTrigger value="table" className="h-8 w-full lg:w-auto">
@@ -84,7 +85,7 @@ function TaskViewSwitcher() {
 							/>
 						</TabsContent>
 						<TabsContent value="calendar" className="mt-0">
-							{JSON.stringify(tasks)}
+							<DataCalendar data={tasks?.documents ?? []} />
 						</TabsContent>
 					</article>
 				)}
