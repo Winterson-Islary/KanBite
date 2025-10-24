@@ -1,4 +1,7 @@
 "use client";
+import { Loader, PlusIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
+import { useCallback } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Separator } from "@/src/components/ui/separator";
 import {
@@ -7,9 +10,6 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@/src/components/ui/tabs";
-import { Loader, PlusIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { useCallback } from "react";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useBulkUpdateTask } from "../api/use-bulk-update-task";
 import { useGetTasks } from "../api/use-get-tasks";
@@ -46,7 +46,7 @@ function TaskViewSwitcher() {
 		<Tabs defaultValue={view} onValueChange={setView} className="w-full flex-1">
 			<div className="flex h-full flex-col overflow-auto pb-5">
 				<div className="flex flex-col items-center justify-between gap-3 lg:flex-row">
-					<TabsList className="w-full lg:w-auto">
+					<TabsList className="w-full gap-2 lg:w-auto">
 						<TabsTrigger value="table" className="h-8 w-full lg:w-auto">
 							Table
 						</TabsTrigger>
@@ -69,26 +69,28 @@ function TaskViewSwitcher() {
 				<Separator className="my-4" />
 				<DataFilters />
 				<Separator className="my-4" />
-				{isLoadingTasks ? (
-					<article className="flex h-[200px] w-full flex-col items-center justify-center border">
-						<Loader className="size-5 animate-spin text-muted-foreground" />
-					</article>
-				) : (
-					<article>
-						<TabsContent value="table" className="mt-0">
-							<DataTable columns={columns} data={tasks?.documents ?? []} />
-						</TabsContent>
-						<TabsContent value="kanban" className="mt-0">
-							<DataKanban
-								onChange={onKanbanChange}
-								data={tasks?.documents ?? []}
-							/>
-						</TabsContent>
-						<TabsContent value="calendar" className="mt-0">
-							<DataCalendar data={tasks?.documents ?? []} />
-						</TabsContent>
-					</article>
-				)}
+				<div className="h-full">
+					{isLoadingTasks ? (
+						<article className="flex w-full flex-col items-center justify-center border">
+							<Loader className="size-5 animate-spin text-muted-foreground" />
+						</article>
+					) : (
+						<article>
+							<TabsContent value="table" className="mt-0">
+								<DataTable columns={columns} data={tasks?.documents ?? []} />
+							</TabsContent>
+							<TabsContent value="kanban" className="mt-0">
+								<DataKanban
+									onChange={onKanbanChange}
+									data={tasks?.documents ?? []}
+								/>
+							</TabsContent>
+							<TabsContent value="calendar" className="mt-0">
+								<DataCalendar data={tasks?.documents ?? []} />
+							</TabsContent>
+						</article>
+					)}
+				</div>
 			</div>
 		</Tabs>
 	);

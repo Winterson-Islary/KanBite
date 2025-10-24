@@ -1,7 +1,7 @@
 "use client";
-import { Button } from "@/src/components/ui/button";
 import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/src/components/ui/button";
 
 function ErrorPage() {
 	return (
