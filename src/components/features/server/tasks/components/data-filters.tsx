@@ -1,3 +1,5 @@
+import { FolderIcon, ListChecksIcon, UserIcon } from "lucide-react";
+import { Button } from "@/src/components/ui/button";
 import {
 	Select,
 	SelectContent,
@@ -6,8 +8,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/src/components/ui/select";
-import { FolderIcon, ListChecksIcon, UserIcon } from "lucide-react";
 import { DatePicker } from "../../../ui/date-picker";
+import Spinner from "../../../ui/spinner";
 import { useGetMembers } from "../../members/api/use-get-members";
 import { useGetProjects } from "../../projects/api/use-get-projects";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
@@ -49,10 +51,15 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 		if (value === "all") setFilters({ status: null });
 		else setFilters({ projectId: value as string });
 	};
-	if (isLoadingData) return <article>Loading Data...</article>;
+	if (isLoadingData)
+		return (
+			<article className="flex items-center justify-center">
+				<Spinner />
+			</article>
+		);
 
 	return (
-		<main className="flex h-8 flex-col gap-2 lg:flex-row">
+		<main className="flex h-full flex-col gap-2 lg:flex-row">
 			<Select
 				defaultValue={status || undefined}
 				onValueChange={(value) => onStatusChange(value)}
@@ -113,14 +120,16 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 					))}
 				</SelectContent>
 			</Select>
-			<DatePicker
-				placeholder="Due date"
-				className="h-full w-full rounded-sm lg:w-auto"
-				value={dueDate ? new Date(dueDate) : undefined}
-				onChange={(date) => {
-					setFilters({ dueDate: date ? date.toISOString() : null });
-				}}
-			/>
+			<div className="flex h-10 items-center justify-start p-0">
+				<DatePicker
+					placeholder="Due date"
+					className="h-full w-full rounded-sm lg:w-auto"
+					value={dueDate ? new Date(dueDate) : undefined}
+					onChange={(date) => {
+						setFilters({ dueDate: date ? date.toISOString() : null });
+					}}
+				/>
+			</div>
 		</main>
 	);
 }

@@ -18,18 +18,18 @@ function ProjectAvatar({
 	if (image) {
 		return (
 			<main
-				className={cn("relative size-7 overflow-hidden rounded-md", className)}
+				className={cn("relative size-7 overflow-hidden rounded-xl", className)}
 			>
-				<Image src={image} alt={name} fill className="object-cover" />
+				<Image src={image} alt={name} fill className="object-cover rounded-xl" />
 			</main>
 		);
 	}
 
 	return (
-		<Avatar className={cn("size-7 overflow-hidden rounded-sm", className)}>
+		<Avatar className={cn("size-7 overflow-hidden rounded-xl", className)}>
 			<AvatarFallback
 				className={cn(
-					"rounded-sm bg-blue-600 font-semibold text-sm text-white uppercase",
+					"rounded-xl bg-blue-600 font-semibold text-sm text-white uppercase",
 					fallbackClassname,
 				)}
 			>

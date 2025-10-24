@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "@/src/styles/globals.css";
-import { QueryProvider } from "@/src/components/providers/queryProvider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
+import { QueryProvider } from "@/src/components/providers/queryProvider";
 
 export const metadata: Metadata = {
 	title: "Kanbite",
