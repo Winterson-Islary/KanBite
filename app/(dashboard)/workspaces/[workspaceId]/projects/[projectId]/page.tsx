@@ -35,7 +35,7 @@ async function ProjectIdPage({ params }: ProjectIdPageProps) {
 				</div>
 			</div>
 			<div>
-				<TaskViewSwitcher />
+				<TaskViewSwitcher hideProjectFilter initialProjectIdValue={projectId} />
 			</div>
 		</main>
 	);

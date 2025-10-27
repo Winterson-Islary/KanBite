@@ -22,7 +22,12 @@ import DataFilters from "./data-filters";
 import { DataKanban } from "./data-kanban";
 import { DataTable } from "./data-table";
 
-function TaskViewSwitcher() {
+interface TaskViewSwitcherProps {
+	hideProjectFilter?: boolean;
+	initialProjectIdValue?: string;
+}
+
+function TaskViewSwitcher({hideProjectFilter, initialProjectIdValue}: TaskViewSwitcherProps) {
 	const [view, setView] = useQueryState("task-view", { defaultValue: "table" });
 	const [{ status, projectId, dueDate, assigneeId, search }] = useTaskFilters();
 	const workspaceId = useWorkspaceId();
@@ -30,7 +35,7 @@ function TaskViewSwitcher() {
 		workspaceId,
 		search,
 		status,
-		projectId,
+		projectId : initialProjectIdValue ?? projectId,
 		assigneeId,
 		dueDate,
 	});
@@ -44,7 +49,7 @@ function TaskViewSwitcher() {
 	const { open } = useCreateTaskModal();
 	return (
 		<Tabs defaultValue={view} onValueChange={setView} className="w-full flex-1">
-			<div className="flex h-full flex-col overflow-auto pb-5">
+			<div className="flex h-auto flex-col overflow-auto pb-5">
 				<div className="flex flex-col items-center justify-between gap-3 lg:flex-row">
 					<TabsList className="w-full gap-2 lg:w-auto">
 						<TabsTrigger value="table" className="h-8 w-full lg:w-auto">
@@ -67,11 +72,11 @@ function TaskViewSwitcher() {
 					</Button>
 				</div>
 				<Separator className="my-4" />
-				<DataFilters />
+				<DataFilters hideProjectFilter={hideProjectFilter} />
 				<Separator className="my-4" />
 				<div className="h-full">
 					{isLoadingTasks ? (
-						<article className="flex w-full flex-col items-center justify-center border">
+						<article className="flex w-full py-5 flex-col items-center justify-center border">
 							<Loader className="size-5 animate-spin text-muted-foreground" />
 						</article>
 					) : (

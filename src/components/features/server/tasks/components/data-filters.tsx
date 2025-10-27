@@ -44,11 +44,11 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 		else setFilters({ status: value as TaskStatus });
 	};
 	const onAssigneeChange = (value: string) => {
-		if (value === "all") setFilters({ status: null });
+		if (value === "all") setFilters({ assigneeId: null });
 		else setFilters({ assigneeId: value as string });
 	};
 	const onProjectChange = (value: string) => {
-		if (value === "all") setFilters({ status: null });
+		if (value === "all") setFilters({ projectId: null });
 		else setFilters({ projectId: value as string });
 	};
 	if (isLoadingData)
@@ -100,7 +100,8 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 					))}
 				</SelectContent>
 			</Select>
-			<Select
+			{ !hideProjectFilter &&
+			(<Select
 				defaultValue={projectId || undefined}
 				onValueChange={(value) => onProjectChange(value)}
 			>
@@ -119,7 +120,8 @@ function DataFilters({ hideProjectFilter }: DataFilterProps) {
 						</SelectItem>
 					))}
 				</SelectContent>
-			</Select>
+			</Select>)
+}
 			<div className="flex h-10 items-center justify-start p-0">
 				<DatePicker
 					placeholder="Due date"
