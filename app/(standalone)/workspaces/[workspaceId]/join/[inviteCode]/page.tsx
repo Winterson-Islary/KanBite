@@ -1,6 +1,6 @@
+import { redirect } from "next/navigation";
 import JoinWorkspaceFrom from "@/src/components/features/server/workspaces/components/join-workspace-form";
 import { getWorkspaceById } from "@/src/components/features/server/workspaces/queries";
-import { redirect } from "next/navigation";
 
 type WorkspaceIdJoinPageProps = {
 	params: { workspaceId: string };

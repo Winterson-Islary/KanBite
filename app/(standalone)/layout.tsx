@@ -1,7 +1,7 @@
-import { getCurrentUser } from "@/src/components/features/server/auth/queries";
-import UserButton from "@/src/components/features/ui/user-button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/src/components/features/server/auth/queries";
+import UserButton from "@/src/components/features/ui/user-button";
 
 type StandaloneLayoutProps = {
 	children: React.ReactNode;

@@ -1,6 +1,6 @@
+import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/src/components/features/server/auth/queries";
 import SignIn from "@/src/components/pages/auth/SignIn";
-import { redirect } from "next/navigation";
 
 async function SignInPage() {
 	const user = await getCurrentUser();

@@ -8,7 +8,7 @@
 	"files": {
 		"ignoreUnknown": true,
 		"includes": [
-			"./app/*",
+			"./app/**/*",
 			"./src/*",
 			"!dist",
 			"!src/components/ui",

@@ -1,13 +1,11 @@
 "use client";
-import { Button } from "@/src/components/ui/button";
-import { AlertTriangle, Loader } from "lucide-react";
-import Link from "next/link";
+import { Loader } from "lucide-react";
 
 function LoadingPage() {
 	return (
 		<main className="grid h-full [grid-template-rows:1fr]">
 			<article className="flex h-full items-center justify-center">
-				<Loader className="size-7 animate-spin text-muted-foreground" />
+				<Loader className="size-6 animate-spin text-muted-foreground" />
 			</article>
 		</main>
 	);

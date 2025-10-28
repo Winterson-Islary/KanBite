@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/src/components/features/server/auth/queries";
 import CreateProjectModal from "@/src/components/features/server/projects/components/create-project-modal";
 import { CreateTaskModal } from "@/src/components/features/server/tasks/components/create-task-modal";
@@ -5,7 +6,6 @@ import { UpdateTaskModal } from "@/src/components/features/server/tasks/componen
 import CreateWorkspaceModal from "@/src/components/features/server/workspaces/components/create-workspace-modal";
 import Navbar from "@/src/components/features/ui/navbar";
 import Sidebar from "@/src/components/features/ui/sidebar";
-import { redirect } from "next/navigation";
 
 export default async function Dashboardlayout({
 	children,
@@ -13,24 +13,24 @@ export default async function Dashboardlayout({
 	const user = await getCurrentUser();
 	if (!user) redirect("/sign-in");
 	return (
-		<article className="grid min-h-screen w-full overflow-hidden [grid-template-rows:1fr_auto] ">
+		<article className="grid min-h-screen w-full grid-rows-[1fr_auto] overflow-hidden">
 			<CreateWorkspaceModal />
 			<CreateProjectModal />
 			<CreateTaskModal />
 			<UpdateTaskModal />
-			<div className=" mx-auto min-h-full w-full">
-				<main className="h-full lg:grid lg:[grid-template-columns:300px_1fr]">
+			<div className="mx-auto min-h-full w-full">
+				<main className="h-full lg:grid lg:grid-cols-[300px_1fr]">
 					<aside className="hidden h-full lg:block">
 						<Sidebar />
 					</aside>
 					<section
 						id="content"
-						className="mx-auto h-full w-full max-w-screen-2xl p-2.5"
+						className="mx-auto grid min-h-screen w-full max-w-screen-2xl grid-rows-[auto_1fr] p-2.5"
 					>
 						<nav className="h-[73px]">
 							<Navbar />
 						</nav>
-						<main className="h-full">{children}</main>
+						<main className="h-full overflow-x-scroll">{children}</main>
 					</section>
 				</main>
 			</div>
