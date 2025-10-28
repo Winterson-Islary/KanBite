@@ -1,6 +1,6 @@
+import React from "react";
 import UpdateProjectForm from "@/src/components/features/server/projects/components/update-project-form";
 import { getUserProject } from "@/src/components/features/server/projects/queries";
-import React from "react";
 
 interface ProjectIdSettingsPageProps {
 	params: {
