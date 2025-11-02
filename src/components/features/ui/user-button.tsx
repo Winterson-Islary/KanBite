@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader, LogOut } from "lucide-react";
 import {
 	Avatar,
 	AvatarFallback,
@@ -11,7 +12,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
-import { Loader, LogOut } from "lucide-react";
 import { Separator } from "../../ui/separator";
 import { useCurrent } from "../server/auth/api/auth/useCurrent";
 import { useLogout } from "../server/auth/api/auth/useLogout";

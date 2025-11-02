@@ -1,10 +1,10 @@
 "use client";
 
+import type { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown, MoreVertical } from "lucide-react";
 import { snakeCaseToTitleCase } from "@/lib/utils";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
-import type { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreVertical } from "lucide-react";
 import MemberAvatar from "../../members/components/member-avatar";
 import ProjectAvatar from "../../projects/components/project-avatar";
 import type { Task } from "../types/task";
@@ -122,7 +122,11 @@ export const columns: ColumnDef<Task>[] = [
 		},
 		cell: ({ row }) => {
 			const status = row.original.status;
-			return <Badge variant={status} className="rounded-xl">{snakeCaseToTitleCase(status)}</Badge>;
+			return (
+				<Badge variant={status} className="rounded-xl">
+					{snakeCaseToTitleCase(status)}
+				</Badge>
+			);
 		},
 	},
 	{

@@ -10,7 +10,7 @@ export default function MobileSidebar() {
 	const pathname = usePathname();
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	// biome-ignore lint/correctness/useExhaustiveDependencies:
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <>
 	useEffect(() => {
 		setIsOpen(false);
 	}, [pathname]);

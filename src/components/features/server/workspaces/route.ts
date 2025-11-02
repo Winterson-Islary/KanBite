@@ -1,10 +1,13 @@
-import { ENV } from "@/lib/config";
-import { generateInviteCode } from "@/lib/inviteCodeGen";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { StatusCodes } from "http-status-codes";
 import { ID, Query } from "node-appwrite";
 import z from "zod";
+import { config } from "@/lib/app-config";
+import { ENV } from "@/lib/config";
+import { generateInviteCode } from "@/lib/inviteCodeGen";
+import { ErrorCodes } from "@/src/shared/errors";
+import { ApiResponse } from "../../http/helpers/api-response";
 import { sessionMiddleware } from "../../http/middlewares/session-middleware";
 import { MEMBER_ROLE } from "../members/constants/types";
 import { getMember } from "../members/utils/getMember";
@@ -36,6 +39,34 @@ const app = new Hono()
 			[Query.orderDesc("$createdAt"), Query.contains("$id", workspaceIds)],
 		);
 		return c.json({ data: workspaces });
+	})
+	.get("/:workspaceId", sessionMiddleware, async (c) => {
+		const user = c.get("user");
+		const databases = c.get("databases");
+		const { workspaceId } = c.req.param();
+		const maybeWorkspaceMember = await getMember({
+			databases,
+			workspaceId,
+			userId: user.$id,
+		});
+		if (
+			!maybeWorkspaceMember ||
+			maybeWorkspaceMember.role !== MEMBER_ROLE.ADMIN
+		) {
+			return c.json(
+				ApiResponse.error({
+					code: ErrorCodes.unauthorized,
+					message: "You are not authorized",
+				}),
+				StatusCodes.UNAUTHORIZED,
+			);
+		}
+		const workspace = await databases.getDocument<Workspace>(
+			config.appwrite.databaseId,
+			config.appwrite.workspacesId,
+			workspaceId,
+		);
+		return c.json(ApiResponse.success(workspace));
 	})
 	.post(
 		"/",

@@ -1,9 +1,12 @@
-import { ENV } from "@/lib/config";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { ID, Query } from "node-appwrite";
 import { z } from "zod";
+import { config } from "@/lib/app-config";
+import { ENV } from "@/lib/config";
+import { ErrorCodes } from "@/src/shared/errors";
+import { ApiResponse } from "../../http/helpers/api-response";
 import { sessionMiddleware } from "../../http/middlewares/session-middleware";
 import { getMember } from "../members/utils/getMember";
 import {
@@ -43,6 +46,30 @@ const app = new Hono()
 			return c.json({ data: projectsList });
 		},
 	)
+	.get("/:projectId", sessionMiddleware, async (c) => {
+		const databases = c.get("databases");
+		const user = c.get("user");
+		const { projectId } = c.req.param();
+		const project = await databases.getDocument<Project>(
+			config.appwrite.databaseId,
+			config.appwrite.projectsId,
+			projectId,
+		);
+		const maybeProjectMember = await getMember({
+			databases,
+			workspaceId: project.workspaceId,
+			userId: user.$id,
+		});
+		if (!maybeProjectMember)
+			return c.json(
+				ApiResponse.error({
+					code: ErrorCodes.unauthorized,
+					message: "unauthorized access",
+				}),
+				StatusCodes.UNAUTHORIZED,
+			);
+		return c.json(ApiResponse.success(project));
+	})
 	.post(
 		"/",
 		sessionMiddleware,

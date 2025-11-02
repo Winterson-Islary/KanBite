@@ -1,5 +1,4 @@
 "use client";
-import { cn } from "@/lib/utils";
 import { SettingsIcon, UsersIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,6 +8,7 @@ import {
 	GoHome,
 	GoHomeFill,
 } from "react-icons/go";
+import { cn } from "@/lib/utils";
 import { Separator } from "../../ui/separator";
 import { useWorkspaceId } from "../server/workspaces/hooks/useWorkspaceId";
 import Projects from "./projects";

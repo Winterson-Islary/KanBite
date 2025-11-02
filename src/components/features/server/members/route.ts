@@ -1,10 +1,10 @@
-import { createAdminClient } from "@/lib/appwrite";
-import { ENV } from "@/lib/config";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { StatusCodes } from "http-status-codes";
 import { Query } from "node-appwrite";
 import z from "zod";
+import { createAdminClient } from "@/lib/appwrite";
+import { ENV } from "@/lib/config";
 import { sessionMiddleware } from "../../http/middlewares/session-middleware";
 import { MEMBER_ROLE } from "./constants/types";
 import { getMember } from "./utils/getMember";

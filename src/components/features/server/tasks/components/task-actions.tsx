@@ -1,3 +1,5 @@
+import { ExternalLinkIcon, PencilIcon, TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -5,8 +7,6 @@ import {
 	DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
 import { useConfirm } from "@/src/hooks/useConfirm";
-import { ExternalLinkIcon, PencilIcon, TrashIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useDeleteTask } from "../api/use-delete-task";
 import { useUpdateTaskModal } from "../hooks/use-update-task-modal";

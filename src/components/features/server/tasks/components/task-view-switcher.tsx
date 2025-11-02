@@ -27,7 +27,10 @@ interface TaskViewSwitcherProps {
 	initialProjectIdValue?: string;
 }
 
-function TaskViewSwitcher({hideProjectFilter, initialProjectIdValue}: TaskViewSwitcherProps) {
+function TaskViewSwitcher({
+	hideProjectFilter,
+	initialProjectIdValue,
+}: TaskViewSwitcherProps) {
 	const [view, setView] = useQueryState("task-view", { defaultValue: "table" });
 	const [{ status, projectId, dueDate, assigneeId, search }] = useTaskFilters();
 	const workspaceId = useWorkspaceId();
@@ -35,7 +38,7 @@ function TaskViewSwitcher({hideProjectFilter, initialProjectIdValue}: TaskViewSw
 		workspaceId,
 		search,
 		status,
-		projectId : initialProjectIdValue ?? projectId,
+		projectId: initialProjectIdValue ?? projectId,
 		assigneeId,
 		dueDate,
 	});
@@ -76,7 +79,7 @@ function TaskViewSwitcher({hideProjectFilter, initialProjectIdValue}: TaskViewSw
 				<Separator className="my-4" />
 				<div className="h-full">
 					{isLoadingTasks ? (
-						<article className="flex w-full py-5 flex-col items-center justify-center border">
+						<article className="flex w-full flex-col items-center justify-center border py-5">
 							<Loader className="size-5 animate-spin text-muted-foreground" />
 						</article>
 					) : (

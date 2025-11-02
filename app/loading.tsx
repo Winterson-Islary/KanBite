@@ -3,10 +3,9 @@ import { Loader } from "lucide-react";
 
 function LoadingPage() {
 	return (
-		<main className="grid min-h-screen [grid-template-rows:1fr]">
+		<main className="grid min-h-screen grid-rows-[1fr]">
 			<article className="flex h-full flex-col items-center justify-center gap-y-2">
-				<Loader className="size-7 animate-spin" />
-				<p>Loading</p>
+				<Loader className="size-5 animate-spin text-muted-foreground" />
 			</article>
 		</main>
 	);

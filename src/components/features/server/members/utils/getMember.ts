@@ -1,5 +1,5 @@
-import { ENV } from "@/lib/config";
 import { type Databases, Query } from "node-appwrite";
+import { ENV } from "@/lib/config";
 
 type GetMemberProps = {
 	databases: Databases;

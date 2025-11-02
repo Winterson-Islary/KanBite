@@ -1,7 +1,7 @@
-import { client } from "@/lib/rpc";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { InferRequestType, InferResponseType } from "hono";
 import { toast } from "sonner";
+import { client } from "@/lib/rpc";
 import { TaskUpdateError } from "../errors/update-task-error";
 
 type ResponseType = InferResponseType<
