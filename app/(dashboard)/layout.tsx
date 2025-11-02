@@ -30,7 +30,7 @@ export default async function Dashboardlayout({
 						<nav className="h-[73px]">
 							<Navbar />
 						</nav>
-						<main className="h-full overflow-x-scroll">{children}</main>
+						<main className="h-full">{children}</main>
 					</section>
 				</main>
 			</div>

@@ -1,11 +1,9 @@
-import { redirect } from "next/navigation";
-import { getUserWorkspaces } from "@/src/components/features/server/workspaces/queries";
+import DashboardClient from "./client";
 
-export default async function HomePage() {
-	const workspaces = await getUserWorkspaces();
-	if (workspaces.total === 0) {
-		redirect("/workspaces/create");
-	} else {
-		redirect(`/workspaces/${workspaces.documents[0].$id}`);
-	}
+export default function HomePage() {
+	return (
+		<div className="h-full w-full">
+			<DashboardClient />
+		</div>
+	);
 }
