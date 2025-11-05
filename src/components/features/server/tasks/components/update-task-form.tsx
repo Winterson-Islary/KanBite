@@ -1,4 +1,9 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -24,11 +29,6 @@ import {
 	SelectValue,
 } from "@/src/components/ui/select";
 import { Separator } from "@/src/components/ui/separator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useRef } from "react";
-import { useForm } from "react-hook-form";
-import type { z } from "zod";
 import { DatePicker } from "../../../ui/date-picker";
 import MemberAvatar from "../../members/components/member-avatar";
 import ProjectAvatar from "../../projects/components/project-avatar";
@@ -96,13 +96,13 @@ export default function UpdateTaskForm({
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="flex flex-col gap-2"
 					>
-						<section id="form-field-container" className=" flex flex-col gap-5">
+						<section id="form-field-container" className="flex flex-col gap-5">
 							<FormField
 								name="name"
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="font-normal text-md ">
+										<FormLabel className="font-normal text-md">
 											Task Name
 										</FormLabel>
 										<FormControl>
@@ -117,7 +117,7 @@ export default function UpdateTaskForm({
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="font-normal text-md ">
+										<FormLabel className="font-normal text-md">
 											Due Date
 										</FormLabel>
 										<FormControl>
@@ -132,7 +132,7 @@ export default function UpdateTaskForm({
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="font-normal text-md ">
+										<FormLabel className="font-normal text-md">
 											Assignee
 										</FormLabel>
 										<Select
@@ -167,7 +167,7 @@ export default function UpdateTaskForm({
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="font-normal text-md ">
+										<FormLabel className="font-normal text-md">
 											Status
 										</FormLabel>
 										<Select
@@ -202,7 +202,7 @@ export default function UpdateTaskForm({
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="font-normal text-md ">
+										<FormLabel className="font-normal text-md">
 											Project
 										</FormLabel>
 										<Select

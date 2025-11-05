@@ -1,5 +1,3 @@
-import { snakeCaseToTitleCase } from "@/lib/utils";
-import { Button } from "@/src/components/ui/button";
 import {
 	CircleCheckIcon,
 	CircleDashedIcon,
@@ -8,6 +6,8 @@ import {
 	CircleIcon,
 	PlusIcon,
 } from "lucide-react";
+import { snakeCaseToTitleCase } from "@/lib/utils";
+import { Button } from "@/src/components/ui/button";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
 import { TaskStatus } from "../types/task-status";
 

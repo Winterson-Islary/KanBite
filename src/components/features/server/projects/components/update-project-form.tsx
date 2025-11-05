@@ -1,4 +1,11 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeftIcon, ImageIcon } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { type ChangeEvent, useRef } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
 import { Button } from "@/src/components/ui/button";
@@ -19,13 +26,6 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
 import { useConfirm } from "@/src/hooks/useConfirm";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftIcon, ImageIcon } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { type ChangeEvent, useRef } from "react";
-import { useForm } from "react-hook-form";
-import type { z } from "zod";
 import { useDeleteProject } from "../api/use-delete-project";
 import { useUpdateProject } from "../api/use-update-project";
 import { updateProjectSchema } from "../schemas/projects-schema";
@@ -73,14 +73,7 @@ export default function UpdateProjectForm({
 			...values,
 			image: values.image instanceof File ? values.image : "",
 		};
-		mutate(
-			{ form: finalValues, param: { projectId: initialValues.$id } },
-			{
-				onSuccess: () => {
-					form.reset();
-				},
-			},
-		);
+		mutate({ form: finalValues, param: { projectId: initialValues.$id } });
 	};
 	const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -123,7 +116,7 @@ export default function UpdateProjectForm({
 						>
 							<section
 								id="form-field-container"
-								className=" flex flex-col gap-5"
+								className="flex flex-col gap-5"
 							>
 								<FormField
 									name="name"

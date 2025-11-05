@@ -1,4 +1,10 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import type { z } from "zod";
 import { Button } from "@/src/components/ui/button";
 import {
 	Card,
@@ -17,12 +23,6 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { FaGithub } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import type { z } from "zod";
 import { useLogin } from "../../features/server/auth/api/auth/useLogin";
 import { signInSchema } from "../../features/server/auth/schemas/sign-in-schema";
 import Spinner from "../../features/ui/spinner";

@@ -1,3 +1,4 @@
+import { type JSX, useState } from "react";
 import ResponsiveModal from "@/src/components/features/ui/responsive-modal";
 import {
 	Card,
@@ -6,7 +7,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/src/components/ui/card";
-import { type JSX, useState } from "react";
 import { Button } from "../components/ui/button";
 
 type ButtonProps = React.ComponentProps<typeof Button>;

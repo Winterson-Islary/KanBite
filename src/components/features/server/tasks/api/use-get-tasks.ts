@@ -1,5 +1,6 @@
-import { client } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
+import type { InferResponseType } from "hono";
+import { client } from "@/lib/rpc";
 import { TaskGetError } from "../errors/get-tasks-error";
 import type { TaskStatus } from "../types/task-status";
 
@@ -11,6 +12,12 @@ type UseGetTasksProps = {
 	dueDate?: string | null;
 	search?: string | null;
 };
+
+export type GetTasksReturnType = InferResponseType<
+	(typeof client.api.tasks)["$get"],
+	200
+>;
+
 export const useGetTasks = ({
 	workspaceId,
 	projectId,

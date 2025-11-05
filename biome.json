@@ -7,16 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"includes": [
-			"./app/**/*",
-			"./src/*",
-			"!dist",
-			"!src/components/ui",
-			"!src/styles/*",
-			"!**/node_modules/**/*",
-			"!out",
-			"!**/.next/**/*"
-		]
+		"includes": ["./app/**/*", "./src/**/*", "!src/styles/globals.css"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -37,13 +28,19 @@
 				}
 			},
 			"a11y": {
-				"noStaticElementInteractions": "off"
+				"noStaticElementInteractions": "off",
+				"useSemanticElements": "info"
 			}
 		}
 	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
 		}
 	},
 	"assist": {

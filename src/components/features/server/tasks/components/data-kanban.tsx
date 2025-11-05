@@ -1,8 +1,8 @@
 import {
 	DragDropContext,
 	Draggable,
-	type DropResult,
 	Droppable,
+	type DropResult,
 } from "@hello-pangea/dnd";
 import React, { useCallback, useEffect, useState } from "react";
 import type { Task } from "../types/task";

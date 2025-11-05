@@ -1,5 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
 import { client } from "@/lib/rpc";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { WorkspacesFetchError } from "../errors/WorkspacesFetchError";
 
 export const useGetWorkspaces = () => {

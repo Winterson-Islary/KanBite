@@ -1,5 +1,5 @@
-import { client } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
+import { client } from "@/lib/rpc";
 import { TaskGetError } from "../errors/get-tasks-error";
 
 type UseGetTasksProps = {

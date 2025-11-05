@@ -1,5 +1,5 @@
-import { Separator } from "@/src/components/ui/separator";
 import { MoreHorizontal } from "lucide-react";
+import { Separator } from "@/src/components/ui/separator";
 import MemberAvatar from "../../members/components/member-avatar";
 import ProjectAvatar from "../../projects/components/project-avatar";
 import type { Task } from "../types/task";

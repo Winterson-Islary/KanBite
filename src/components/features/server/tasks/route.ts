@@ -1,12 +1,12 @@
+import { zValidator } from "@hono/zod-validator";
+import { Hono } from "hono";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
+import { ID, Query } from "node-appwrite";
 import { config } from "@/lib/app-config";
 import { createAdminClient } from "@/lib/appwrite";
 import { ENV } from "@/lib/config";
 import { ErrorCodes } from "@/src/shared/errors";
 import logger from "@/src/shared/logger";
-import { zValidator } from "@hono/zod-validator";
-import { Hono } from "hono";
-import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { ID, Query } from "node-appwrite";
 import { ApiResponse } from "../../http/helpers/api-response";
 import { sessionMiddleware } from "../../http/middlewares/session-middleware";
 import { getMember } from "../members/utils/getMember";
@@ -79,7 +79,6 @@ const app = new Hono()
 			];
 
 			logger.info("Building task query....."); //! Only for initial debugging (to be removed)
-			// biome-ignore lint/complexity/noForEach: <>
 			Object.keys(taskQuery).forEach((key) => {
 				const value = taskQuery[key as keyof typeof taskQuery];
 				logger.info(`key: ${key}, Value: ${value}`); //! Only for initial debugging (to be removed)

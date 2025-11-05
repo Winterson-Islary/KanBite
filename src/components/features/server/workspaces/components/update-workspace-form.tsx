@@ -1,4 +1,12 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { type ChangeEvent, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
 import { Button } from "@/src/components/ui/button";
@@ -19,14 +27,6 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
 import { useConfirm } from "@/src/hooks/useConfirm";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { type ChangeEvent, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
 import { useDeleteWorkspace } from "../api/use-delete-workspace";
 import { useResetInviteCode } from "../api/use-reset-invite-code";
 import { useUpdateWorkspace } from "../api/use-update-workspace";
@@ -86,14 +86,7 @@ export default function UpdateWorkspaceForm({
 			...values,
 			image: values.image instanceof File ? values.image : "",
 		};
-		mutate(
-			{ form: finalValues, param: { workspaceId: initialValues.$id } },
-			{
-				onSuccess: () => {
-					form.reset();
-				},
-			},
-		);
+		mutate({ form: finalValues, param: { workspaceId: initialValues.$id } });
 	};
 	const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -139,7 +132,7 @@ export default function UpdateWorkspaceForm({
 						>
 							<section
 								id="form-field-container"
-								className=" flex flex-col gap-5"
+								className="flex flex-col gap-5"
 							>
 								<FormField
 									name="name"

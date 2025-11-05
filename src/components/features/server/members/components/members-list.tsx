@@ -1,5 +1,8 @@
 "use client";
 
+import { ArrowLeftIcon, MoreVerticalIcon } from "lucide-react";
+import Link from "next/link";
+import { Fragment } from "react";
 import { Button } from "@/src/components/ui/button";
 import {
 	Card,
@@ -15,9 +18,6 @@ import {
 } from "@/src/components/ui/dropdown-menu";
 import { Separator } from "@/src/components/ui/separator";
 import { useConfirm } from "@/src/hooks/useConfirm";
-import { ArrowLeftIcon, MoreVerticalIcon } from "lucide-react";
-import Link from "next/link";
-import { Fragment } from "react";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useDeleteMember } from "../api/use-delete-member";
 import { useGetMembers } from "../api/use-get-members";

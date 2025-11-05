@@ -1,5 +1,4 @@
 import "server-only";
-import { ENV } from "@/lib/config";
 import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 import { StatusCodes } from "http-status-codes";
@@ -14,6 +13,7 @@ import {
 	type Storage as StorageType,
 	type Users as UsersType,
 } from "node-appwrite";
+import { ENV } from "@/lib/config";
 import { AUTH_COOKIE } from "../../server/auth/constants";
 
 interface AdditionalContext {

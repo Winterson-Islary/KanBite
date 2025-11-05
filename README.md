@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Small Task Management App
 
-## Getting Started
+A lightweight task management app (in the style of JIRA) with a focused set of features for creating, tracking, and organizing tasks.
 
-First, run the development server:
+## Key features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Create, edit, and delete tasks
+- Task boards (basic columns/statuses)
+- Assign tasks and add comments
+- Minimal role/permission model (owner, member)
+- Responsive UI optimized for quick workflows
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Bun
+- Next.js
+- TypeScript
+- Tailwindcss
+- Shadcn
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Basic Config files
 
-## Learn More
+- App configuration in [lib/app-config.ts](lib/app-config.ts)
+- Project configuration in [next.config.ts](next.config.ts)
+- Package & scripts in [package.json](package.json)
 
-To learn more about Next.js, take a look at the following resources:
+## Important files
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- App entry/layouts:
+  - [app/layout.tsx](app/layout.tsx)
+  - [app/error.tsx](app/error.tsx)
+  - [app/loading.tsx](app/loading.tsx)
+- Configuration & metadata:
+  - [package.json](package.json)
+  - [next.config.ts](next.config.ts)
+  - [tsconfig.json](tsconfig.json)
+  - [.env.local](.env.local) (local environment variables)
+- App code & helpers:
+  - [lib/app-config.ts](lib/app-config.ts)
+  - Source folder: [src/](src/)
+- Public assets: [public/](public/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Getting started (development)
 
-## Deploy on Vercel
+1. Install dependencies
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ``` npm install ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Set environment variables in .env.local (copy from any example or documented vars in repo).
+
+3. Run the dev server
+
+   ```npm run dev```
+
+4. Open <http://localhost:3000> (See package.json for available scripts.)
+
+Notes
+This README is a starting point. Add detailed developer notes, API docs, and architecture diagrams as the project grows.
+Check lib/app-config.ts for runtime configuration and any feature flags.

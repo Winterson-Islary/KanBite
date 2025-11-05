@@ -7,7 +7,11 @@ export type Task = Models.Document & {
 	assigneeId: string;
 	projectId: string;
 	position: number;
-	dueDate: string;
+	dueDate: Date;
 	description?: string;
 	workspaceId: string;
+	// biome-ignore lint/suspicious/noExplicitAny: <>
+	assignee: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <>
+	project: any;
 };

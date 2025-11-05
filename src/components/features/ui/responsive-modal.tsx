@@ -1,7 +1,7 @@
 "use client";
+import { useMedia } from "react-use";
 import { Dialog, DialogContent, DialogTitle } from "@/src/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerTitle } from "@/src/components/ui/drawer";
-import { useMedia } from "react-use";
 
 type ResponsiveModalProps = {
 	children: React.ReactNode;

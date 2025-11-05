@@ -1,12 +1,13 @@
-import { createAdminClient } from "@/lib/appwrite";
-import { ENV } from "@/lib/config";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { StatusCodes } from "http-status-codes";
 import { Query } from "node-appwrite";
 import z from "zod";
+import { createAdminClient } from "@/lib/appwrite";
+import { ENV } from "@/lib/config";
 import { sessionMiddleware } from "../../http/middlewares/session-middleware";
 import { MEMBER_ROLE } from "./constants/types";
+import type { Member } from "./types/member";
 import { getMember } from "./utils/getMember";
 
 const app = new Hono()
@@ -27,7 +28,7 @@ const app = new Hono()
 			});
 			if (!member)
 				return c.json({ error: "Unauthorized" }, StatusCodes.UNAUTHORIZED);
-			const members = await databases.listDocuments(
+			const members = await databases.listDocuments<Member>(
 				ENV.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
 				ENV.NEXT_PUBLIC_APPWRITE_MEMBERS_ID,
 				[Query.equal("workspaceId", workspaceId)],
@@ -40,7 +41,9 @@ const app = new Hono()
 				}),
 			);
 
-			return c.json({ data: { ...members, documents: populatedMembers } });
+			return c.json({
+				data: { ...members, documents: populatedMembers },
+			});
 		},
 	)
 	.delete("/:memberId", sessionMiddleware, async (c) => {

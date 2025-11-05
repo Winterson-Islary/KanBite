@@ -1,4 +1,11 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ImageIcon } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { type ChangeEvent, useRef } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
 import { Button } from "@/src/components/ui/button";
@@ -18,13 +25,6 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageIcon } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { type ChangeEvent, useRef } from "react";
-import { useForm } from "react-hook-form";
-import type { z } from "zod";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 import { createWorkspaceSchema } from "../schemas/workspaces-schema";
 
@@ -80,13 +80,13 @@ export default function CreateWorkspaceForm({
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="flex flex-col gap-2"
 					>
-						<section id="form-field-container" className=" flex flex-col gap-5">
+						<section id="form-field-container" className="flex flex-col gap-5">
 							<FormField
 								name="name"
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="font-light text-lg ">
+										<FormLabel className="font-light text-lg">
 											Workspace Name
 										</FormLabel>
 										<FormControl>
@@ -128,7 +128,7 @@ export default function CreateWorkspaceForm({
 											)}
 											<div className="flex flex-col gap-2">
 												<article>
-													<p className="font-light text-md ">Workspace Icon</p>
+													<p className="font-light text-md">Workspace Icon</p>
 													<p className="text-muted-foreground text-sm">
 														JPG, PNG, JPEG or SVG, max 1MB
 													</p>

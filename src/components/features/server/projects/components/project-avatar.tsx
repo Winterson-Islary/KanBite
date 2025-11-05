@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
-import Image from "next/image";
 
 type ProjectAvatarProps = {
 	name: string;
@@ -20,7 +20,12 @@ function ProjectAvatar({
 			<main
 				className={cn("relative size-7 overflow-hidden rounded-xl", className)}
 			>
-				<Image src={image} alt={name} fill className="object-cover rounded-xl" />
+				<Image
+					src={image}
+					alt={name}
+					fill
+					className="rounded-xl object-cover"
+				/>
 			</main>
 		);
 	}
