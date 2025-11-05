@@ -13,7 +13,7 @@ export default async function Dashboardlayout({
 	const user = await getCurrentUser();
 	if (!user) redirect("/sign-in");
 	return (
-		<article className="grid min-h-screen w-full grid-rows-[1fr_auto] overflow-hidden">
+		<article className="grid h-full w-full grid-rows-[1fr_auto]">
 			<CreateWorkspaceModal />
 			<CreateProjectModal />
 			<CreateTaskModal />
@@ -25,7 +25,7 @@ export default async function Dashboardlayout({
 					</aside>
 					<section
 						id="content"
-						className="mx-auto grid min-h-screen w-full max-w-screen-2xl grid-rows-[auto_1fr] p-2.5"
+						className="mx-auto grid h-full min-h-screen w-full max-w-screen-2xl grid-rows-[auto_1fr] p-2.5"
 					>
 						<nav className="h-[73px]">
 							<Navbar />

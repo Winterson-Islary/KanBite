@@ -12,7 +12,7 @@ import {
 } from "@/src/components/ui/tabs";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useBulkUpdateTask } from "../api/use-bulk-update-task";
-import { useGetTasks } from "../api/use-get-tasks";
+import { type GetTasksReturnType, useGetTasks } from "../api/use-get-tasks";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
 import { useTaskFilters } from "../hooks/use-task-filters";
 import type { TaskStatus } from "../types/task-status";
@@ -31,7 +31,9 @@ function TaskViewSwitcher({
 	hideProjectFilter,
 	initialProjectIdValue,
 }: TaskViewSwitcherProps) {
-	const [view, setView] = useQueryState("task-view", { defaultValue: "table" });
+	const [view, setView] = useQueryState("task-view", {
+		defaultValue: "table",
+	});
 	const [{ status, projectId, dueDate, assigneeId, search }] = useTaskFilters();
 	const workspaceId = useWorkspaceId();
 	const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({
