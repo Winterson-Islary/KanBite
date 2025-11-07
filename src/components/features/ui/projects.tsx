@@ -16,7 +16,7 @@ function Projects() {
 	return (
 		<main className="flex flex-col gap-y-2">
 			<article className="flex items-center justify-between">
-				<p className="font-light text-black uppercase">Projects</p>
+				<p className="font-normal text-lg">Projects</p>
 				<RiAddCircleFill
 					onClick={open}
 					className="size-5 cursor-pointer text-neutral-500 transition hover:opacity-75"
@@ -29,7 +29,7 @@ function Projects() {
 					<Link href={href} key={project.$id}>
 						<div
 							className={cn(
-								"flex cursor-pointer items-center gap-2.5 rounded-md p-2.5 text-neutral-500 transition hover:opacity-75",
+								"flex cursor-pointer items-center gap-2.5 rounded-md p-2.5 text-black transition hover:opacity-80",
 								isActive && "bg-white text-black shadow-sm hover:opacity-100",
 							)}
 						>
