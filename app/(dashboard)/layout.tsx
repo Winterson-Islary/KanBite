@@ -20,8 +20,10 @@ export default async function Dashboardlayout({
 			<UpdateTaskModal />
 			<div className="mx-auto min-h-full w-full">
 				<main className="h-full lg:grid lg:grid-cols-[300px_1fr]">
-					<aside className="hidden h-full lg:block">
-						<Sidebar />
+					<aside className="hidden lg:block">
+						<div className="sticky top-0 h-screen">
+							<Sidebar />
+						</div>
 					</aside>
 					<section
 						id="content"
@@ -34,8 +36,8 @@ export default async function Dashboardlayout({
 					</section>
 				</main>
 			</div>
-			{/* <footer className="bg-black min-h-[200px]">
-				<main className="max-w-screen-2xl w-full mx-auto px-[2rem] md:px[5rem] lg:px-[10rem] text-white">
+			{/* <footer className="min-h-[200px] bg-black">
+				<main className="md:px[5rem] mx-auto w-full max-w-screen-2xl px-[2rem] text-white lg:px-[10rem]">
 					<h1>FOOTER</h1>
 				</main>
 			</footer> */}

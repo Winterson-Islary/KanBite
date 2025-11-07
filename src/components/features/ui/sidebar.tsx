@@ -16,18 +16,20 @@ import WorkspaceSwitcher from "./workspace-switcher";
 
 export default function Sidebar() {
 	return (
-		<article className="h-full">
+		<article className="sticky h-full w-full">
 			<main className="flex h-full flex-col gap-3 bg-neutral-100 p-2.5">
-				<header className="pb-3">
-					<h1 className="font-extralight text-4xl">KanBite</h1>
+				<header className="flex items-center justify-center">
+					<Link href="/" className="font-normal text-5xl">
+						KanBite
+					</Link>
 				</header>
 				<section className="flex flex-col gap-3">
-					<Separator />
+					<Separator className="my-2" />
 					<WorkspaceSwitcher />
-					<Separator />
+					<Separator className="my-2" />
 				</section>
 				<Navigation />
-				<Separator />
+				<Separator className="my-2" />
 				<Projects />
 			</main>
 		</article>
