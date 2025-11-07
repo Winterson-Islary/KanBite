@@ -11,10 +11,10 @@ async function StandaloneLayout({ children }: StandaloneLayoutProps) {
 	if (!user) redirect("/sign-in");
 	return (
 		<article>
-			<section className="mx-auto grid min-h-screen w-full max-w-screen-2xl p-2.5 [grid-template-rows:auto_1fr]">
+			<section className="mx-auto grid min-h-screen w-full max-w-screen-2xl grid-rows-[auto_1fr] p-2.5">
 				<nav className="flex h-[73px] items-center justify-between">
 					<Link href="/" className="hover:cursor-pointer">
-						<p className="text-3xl">KANBITE</p>
+						<p className="text-center text-3xl">KANBITE</p>
 					</Link>
 					<UserButton />
 				</nav>
